@@ -1,0 +1,150 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.cardhtml {
+  overflow: auto;
+  text-overflow: ellipsis;
+  margin-bottom: 5px;
+}
+
+
+html{
+  --primaryBackgroundColor: white !important;
+  --primaryTextColor: black !important;
+  --secondaryBackgroundColor: white;
+  --titleColor: white;
+  --completeColor: #fff;
+  --filter: invert(0);
+  --primary-border-color: grey;
+  --secondary-border-color: grey;
+}
+html.dark{
+  --primaryBackgroundColor: black !important;
+  --primaryTextColor: white !important;
+  --secondaryBackgroundColor: rgba(0, 0, 0, 0.900) !important;
+  --filter: invert(1) hue-rotate(180deg);
+  --titleColor: rgba(0, 0, 0, 0.000) !important;
+  --completeColor: #191919;
+  --primary-border-color: lightgrey;
+  --secondary-border-color: black
+}
+
+.page-item.active .page-link {
+  background: var(--completeColor);
+  border-color: #007BFF;
+  color: #007BFF;
+}
+.page-item.disabled .page-link {
+  background: var(--completeColor);
+  border-color: var(--completeColor);
+}
+.pagination.page-link {
+  background:var(--completeColor);
+  border-color: var(--completeColor);
+  border-color: var(--completeColor);
+}
+
+.card {
+  background: var(--primaryBackgroundColor);
+  color: var(--primaryTextColor);
+}
+body {
+  background: var(--primaryBackgroundColor);
+  color: var(--primaryTextColor);
+}
+.luckybutton{
+  filter: var(--filter);
+}
+.form-control{
+  background: var(--primaryBackgroundColor);
+  color: var(--primaryTextColor);
+  border-color: var(--primary-border-color);
+}
+.form-control:focus{
+  background: var(--primaryBackgroundColor);
+  color: var(--primaryTextColor);
+  border-color: var(--primary-border-color);
+}
+.searchBox{
+  background: var(--primaryBackgroundColor);
+  color: var(--primaryTextColor);
+}
+.optionListContainer{
+  background: var(--primaryBackgroundColor);
+  color: var(--primaryTextColor);
+}
+.loadinggif{
+  filter: var(--filter);
+}
+.dropdown-menu{
+  filter: var(--filter);
+}
+.modal-header{
+  border-bottom-color: var(--secondary-border-color);
+  background: var(--secondaryBackgroundColor);
+}
+.filename{
+  background: var(--titleColor) !important;
+  color: var(--primaryTextColor) !important;
+}
+.modal-body{
+    background: var(--primaryBackgroundColor);
+    color: var(--primaryTextColor);
+}
+.modal-footer{
+  border-top-color: var(--secondary-border-color);
+  background: var(--secondaryBackgroundColor);
+}
+.css-1ps6pg7-MuiPaper-root{
+  background-color: var(--completeColor) !important;
+  color: var(--primaryTextColor) !important;
+}
+._3vLmCG3bB3CM2hhAiQX1tN {
+  background: var(--completeColor) !important;
+}
+.MuiAutocomplete-listbox {
+  background: var(--completeColor) !important;
+}
+.MuiAutocomplete-option {
+  color: var(--primaryTextColor) !important;
+}
+.MuiAutocomplete-option[data-focus="true"] {
+    background-color: #0096fb !important;
+    color: var(--primaryBackgroundColor) !important;
+}
