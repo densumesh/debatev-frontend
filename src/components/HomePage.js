@@ -470,7 +470,7 @@ class HomePage extends Component {
                   <div ref={params.InputProps.ref}>
                     <FormControl
                       ref={this.search}
-                      placeholder="Search for a card                 "
+                      placeholder="Search for a card                "
                       y="basic-addon2"
                       style={{ borderRightWidth: 0 }}
 
