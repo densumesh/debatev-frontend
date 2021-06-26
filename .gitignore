@@ -2,3 +2,5 @@ node_modules
 .replit
 .eslintcache
 .expo
+.DS_Store
+.vscode
