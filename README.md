@@ -2,7 +2,7 @@
 
 A simple website that indexes and stores debate cards for easy searchibilty and use.
 
-This is the code for the front end website. [Here is the back end.](https://github.com/AkaashKolluri/debate-evidence-backend)
+This is the code for the front end website. [Here is the back end.](https://github.com/densumesh/debatev-backend)
 
 Check out our website at [debatev.com](http://www.debatev.com/)
 
