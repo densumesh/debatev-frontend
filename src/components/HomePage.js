@@ -207,95 +207,108 @@ class HomePage extends Component {
     this.setState({ bannerHtml: data });
   }
 
-  onSelect = (selectedValues, selectedItem) => {
-    if (selectedItem.name == '2014') {
-      this.setState({ a14: true });
-    }
+  onSelect = (selectedList, selectedItem) => {
+    switch (selectedItem.name){ 
+      case '2014':
+        this.setState({ a14: true });
+        break;
+    
+      case '2015':
+        this.setState({ a15: true });
+        break;
 
-    if (selectedItem.name == '2015') {
-      this.setState({ a15: true });
-    }
+      case '2016':
+        this.setState({ a16: true });
+        break;
 
-    if (selectedItem.name == '2016') {
-      this.setState({ a16: true });
-    }
+      case '2017':
+        this.setState({ a17: true });
+        break;
 
-    if (selectedItem.name == '2017') {
-      this.setState({ a17: true });
-    }
+      case '2018':
+        this.setState({ a18: true });
+        break;
 
-    if (selectedItem.name == '2018') {
-      this.setState({ a18: true });
-    }
+      case '2019':
+        this.setState({ a19: true });
+        break;
+    
+      case '2020':
+        this.setState({ a20: true });
+        break;
 
-    if (selectedItem.name == '2019') {
-      this.setState({ a19: true });
-    }
-    if (selectedItem.name == '2020') {
-      this.setState({ a20: true });
-    }
-    if (selectedItem.name == 'College Policy') {
-      this.setState({ college: true });
-    }
+      case 'College Policy':
+        this.setState({ college: true });
+        break;
 
-    if (selectedItem.name == 'High School LD') {
-      this.setState({ ld: true });
-    }
+      case 'High School LD':
+        this.setState({ ld: true });
+        break;
 
-    if (selectedItem.name == 'High School Policy') {
-      this.setState({ hspolicy: true });
-    }
-    if (selectedItem.name == 'OpenEv') {
-      this.setState({ openev: true });
-    }
-    if (selectedItem.name == 'PF (Beta)') {
-      this.setState({ pf: true });
-    }
+      case 'High School Policy':
+        this.setState({ hspolicy: true });
+        break;
+
+      case 'OpenEv':
+        this.setState({ openev: true });
+        break;
+
+      case 'PF (Beta)' :
+        this.setState({ pf: true });
+        break;
+    
+  }
   };
 
-  onRemove = (selectedList, selectedItem) => {
-    if (selectedItem.name == '2014') {
-      this.setState({ a14: false });
-    }
+  onRemove = (_selectedList, selectedItem) => {
+    switch (selectedItem.name){ 
+      case '2014':
+        this.setState({ a14: false });
+        break;
+    
+      case '2015':
+        this.setState({ a15: false });
+        break;
 
-    if (selectedItem.name == '2015') {
-      this.setState({ a15: false });
-    }
+      case '2016':
+        this.setState({ a16: false });
+        break;
 
-    if (selectedItem.name == '2016') {
-      this.setState({ a16: false });
-    }
+      case '2017':
+        this.setState({ a17: false });
+        break;
 
-    if (selectedItem.name == '2017') {
-      this.setState({ a17: false });
-    }
+      case '2018':
+        this.setState({ a18: false });
+        break;
 
-    if (selectedItem.name == '2018') {
-      this.setState({ a18: false });
-    }
+      case '2019':
+        this.setState({ a19: false });
+        break;
+    
+      case '2020':
+        this.setState({ a20: false });
+        break;
 
-    if (selectedItem.name == '2019') {
-      this.setState({ a19: false });
-    }
-    if (selectedItem.name == '2020') {
-      this.setState({ a20: false });
-    }
-    if (selectedItem.name == 'College Policy') {
-      this.setState({ college: false });
-    }
+      case 'College Policy':
+        this.setState({ college: false });
+        break;
 
-    if (selectedItem.name == 'High School LD') {
-      this.setState({ ld: false });
-    }
+      case 'High School LD':
+        this.setState({ ld: false });
+        break;
 
-    if (selectedItem.name == 'High School Policy') {
-      this.setState({ hspolicy: false });
-    }
-    if (selectedItem.name == 'OpenEv') {
-      this.setState({ openev: false });
-    }
-    if (selectedItem.name == 'PF (Beta)') {
-      this.setState({ pf: false });
+      case 'High School Policy':
+        this.setState({ hspolicy: false });
+        break;
+
+      case 'OpenEv':
+        this.setState({ openev: false });
+        break;
+
+      case 'PF (Beta)' :
+        this.setState({ pf: false });
+        break;
     }
   };
 
