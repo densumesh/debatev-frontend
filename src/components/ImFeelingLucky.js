@@ -18,7 +18,7 @@ class ImFeelingLucky extends Component {
     // let url =
     // "http://debatebackend-env.eba-tk2pwnim.us-west-1.elasticbeanstalk.com/api/v1/search?q=kljsdhfaskjdgfkasjddgfaskjdgfhjdgfasgfhjs&p=0";
     let url = "https://api.debatev.com/api/v1/cards/imfeelinglucky";
-    document.addEventListener("keydown", this.enterFunction, false);
+    document.addEventListener("keydown", this.escFunction, false);
     console.log(url);
     this.getData(url).then((data) => {
       let object = data;
@@ -50,7 +50,7 @@ class ImFeelingLucky extends Component {
   };
   
   escFunction(event){
-    if(event.keyCode === 13) {
+    if(event.keyCode === 13) {      
        window.location.href = "/imfeelinglucky";
     }
   }
