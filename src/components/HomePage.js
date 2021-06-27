@@ -584,7 +584,7 @@ class HomePage extends Component {
          textAlign: "center",
           width: "100%"
         }}>
-        <a href="https://github.com/densumesh/debatev-frontend">Debate Evidence</a> | Dens Sumesh, Aakash Kolluri, Rohan Agrawal
+        <a href="https://github.com/densumesh/debatev-frontend">Debate Evidence</a> | Dens Sumesh, Akaash Kolluri, Rohan Agrawal
         </div>
         
         </div>
