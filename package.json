@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@google-cloud/debug-agent": "^5.2.5",
     "@material-ui/core": "^4.11.3",
     "@material-ui/lab": "^4.0.0-alpha.57",
     "@testing-library/jest-dom": "^4.2.4",
@@ -13,6 +14,7 @@
     "debounce": "^1.2.1",
     "faker": "^5.1.0",
     "history": "^5.0.0",
+    "inspector": "^0.5.0",
     "multiselect-react-dropdown": "^1.6.1",
     "popper": "^1.0.1",
     "react": "^17.0.2",

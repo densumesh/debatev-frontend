@@ -103,7 +103,7 @@ class DisplayResults extends Component {
 
     return url;
   };
-  
+
   onSelect = (selectedList, selectedItem) => {
     switch (selectedItem.name){ 
       case '2014':
@@ -229,6 +229,7 @@ class DisplayResults extends Component {
       this.setState({ cards: array });
       this.setState({ isLoading: 0 });
     });
+    
     function years1(currElm) {
       console.log(currElm)
       return currElm.includes("year")
@@ -331,7 +332,7 @@ class DisplayResults extends Component {
 
   async getText(text) {
     this.setState({ searchtext: text })
-    let data = await axios.get('https://api.debatev.com/api/v1/autocomplete?q=' + text).then((data) => {
+    let data = await axios.get('https://api.debatev.com/api/v1/autocomplete?q=' + text + this.getUrl()).then((data) => {
       let object = data.data;
       let array = Object.keys(object).map(function (k) {
         let str = object[k][1].toString();
