@@ -54,83 +54,56 @@ class DisplayResults extends Component {
   };
 
   getUrl = () => {
-    let go = false;
     let years = '';
     let url = '';
-    let count = 0;
     if (this.state.a14 === true) {
-      go = true;
       years = years + '2014' + ',';
-      count++;
     }
     if (this.state.a15 === true) {
-      go = true;
       years = years + '2015' + ',';
-      count++;
     }
     if (this.state.a16 === true) {
-      go = true;
       years = years + '2016' + ',';
-      count++;
     }
     if (this.state.a17 === true) {
-      go = true;
       years = years + '2017' + ',';
-      count++;
     }
     if (this.state.a18 === true) {
-      go = true;
       years = years + '2018' + ',';
-      count++;
     }
     if (this.state.a19 === true) {
-      go = true;
       years = years + '2019' + ',';
-      count++;
     }
     if (this.state.a20 === true) {
-      go = true;
       years = years + '2020' + ',';
-      count++;
     }
 
-    if (go) url = url + '&year=' + years.substring(0, years.length - 1);
+    if (years.length > 0) url = url + '&year=' + years.substring(0, years.length - 1);
 
-    go = false;
     let dtypes = '';
     if (this.state.ld == true) {
       dtypes = dtypes + 'ld' + ',';
-      go = true;
-      count++;
     }
 
     if (this.state.hspolicy == true) {
       dtypes = dtypes + 'hspolicy' + ',';
-      go = true;
-      count++;
     }
 
     if (this.state.college == true) {
       dtypes = dtypes + 'college' + ',';
-      go = true;
-      count++;
     }
     if (this.state.openev == true) {
       dtypes = dtypes + 'openev' + ',';
-      go = true;
-      count++;
     }
     if (this.state.pf == true) {
       dtypes = dtypes + 'pf' + ',';
-      go = true;
-      count++;
     }
 
-    if (go) url = url + '&dtype=' + dtypes.substring(0, dtypes.length - 1);
+    if (dtypes.length > 0) url = url + '&dtype=' + dtypes.substring(0, dtypes.length - 1);
 
-    if (count === 11 || count === 0) return '';
-    else return url + '';
+    return url;
   };
+  
   onSelect = (selectedList, selectedItem) => {
     switch (selectedItem.name){ 
       case '2014':

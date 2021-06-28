@@ -15,8 +15,6 @@ if (JSON.parse(localStorage.getItem('isDark'))) {
 class ImFeelingLucky extends Component {
   state = { ref: "", page: 0, cards: [], search: "", isLoading: -1 };
   componentDidMount = () => {
-    // let url =
-    // "http://debatebackend-env.eba-tk2pwnim.us-west-1.elasticbeanstalk.com/api/v1/search?q=kljsdhfaskjdgfkasjddgfaskjdgfhjdgfasgfhjs&p=0";
     let url = "https://api.debatev.com/api/v1/cards/imfeelinglucky";
     document.addEventListener("keydown", this.escFunction, false);
     console.log(url);
@@ -54,7 +52,7 @@ class ImFeelingLucky extends Component {
        window.location.href = "/imfeelinglucky";
     }
   }
-
+    
   async getData(url) {
     let data = await axios.get(url);
     console.log(data.data);
