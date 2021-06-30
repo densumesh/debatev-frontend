@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/alt-text */
 import axios from "axios";
 import React, { Component } from "react";
 import {

@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/alt-text */
 import axios from "axios";
 import React, { Component } from "react";
 import {
@@ -30,7 +31,7 @@ class ImFeelingLucky extends Component {
   };
 
   goToPage = (page) => {
-    let m = window.location.href.substring(
+    window.location.href.substring(
       window.location.href.lastIndexOf("/") + 1
     );
 

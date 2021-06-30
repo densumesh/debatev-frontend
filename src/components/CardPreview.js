@@ -71,6 +71,9 @@ class CardPreview extends Component {
             dangerouslySetInnerHTML={{
               __html: this.parseHtml(this.props.cardData[1].cardHtml),
             }}
+            onClick={() =>
+              this.openModal()
+            }
           />
         </Card>
         <Button onClick={this.openModal}>Open this card</Button>

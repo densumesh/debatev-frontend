@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/alt-text */
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import axios from "axios";
 import { Multiselect } from "multiselect-react-dropdown";
@@ -57,46 +58,46 @@ class DisplayResults extends Component {
     let years = '';
     let url = '';
     if (this.state.a14 === true) {
-      years = years + '2014' + ',';
+      years = years + '2014,';
     }
     if (this.state.a15 === true) {
-      years = years + '2015' + ',';
+      years = years + '2015,';
     }
     if (this.state.a16 === true) {
-      years = years + '2016' + ',';
+      years = years + '2016,';
     }
     if (this.state.a17 === true) {
-      years = years + '2017' + ',';
+      years = years + '2017,';
     }
     if (this.state.a18 === true) {
-      years = years + '2018' + ',';
+      years = years + '2018,';
     }
     if (this.state.a19 === true) {
-      years = years + '2019' + ',';
+      years = years + '2019,';
     }
     if (this.state.a20 === true) {
-      years = years + '2020' + ',';
+      years = years + '2020,';
     }
 
     if (years.length > 0) url = url + '&year=' + years.substring(0, years.length - 1);
 
     let dtypes = '';
-    if (this.state.ld == true) {
-      dtypes = dtypes + 'ld' + ',';
+    if (this.state.ld === true) {
+      dtypes = dtypes + 'ld,';
     }
 
-    if (this.state.hspolicy == true) {
-      dtypes = dtypes + 'hspolicy' + ',';
+    if (this.state.hspolicy === true) {
+      dtypes = dtypes + 'hspolicy,';
     }
 
-    if (this.state.college == true) {
-      dtypes = dtypes + 'college' + ',';
+    if (this.state.college === true) {
+      dtypes = dtypes + 'college,';
     }
-    if (this.state.openev == true) {
-      dtypes = dtypes + 'openev' + ',';
+    if (this.state.openev === true) {
+      dtypes = dtypes + 'openev,';
     }
-    if (this.state.pf == true) {
-      dtypes = dtypes + 'pf' + ',';
+    if (this.state.pf === true) {
+      dtypes = dtypes + 'pf,';
     }
 
     if (dtypes.length > 0) url = url + '&dtype=' + dtypes.substring(0, dtypes.length - 1);
@@ -153,7 +154,9 @@ class DisplayResults extends Component {
       case 'PF (Beta)' :
         this.setState({ pf: true });
         break;
-    
+
+      default:
+        break;
   }
   };
 
@@ -206,6 +209,9 @@ class DisplayResults extends Component {
       case 'PF (Beta)' :
         this.setState({ pf: false });
         break;
+      
+      default:
+        break;
     }
   };
 
@@ -249,23 +255,23 @@ class DisplayResults extends Component {
       }
 
       if (sessionStorage.getItem('filters').substring(1).split('&').find(dtypes1)?.substring(6).split(',')) for (let dtype1 of sessionStorage.getItem('filters').substring(1).split('&').find(dtypes1)?.substring(6).split(',')) {
-        if (dtype1 == 'college') {
+        if (dtype1 === 'college') {
           selectedValues.push({ "name": 'College Policy' })
           this.onSelect(this.state.selectedList, { "name": 'College Policy' })
         }
-        else if (dtype1 == 'ld') {
+        else if (dtype1 === 'ld') {
           selectedValues.push({ "name": 'High School LD' })
           this.onSelect(this.state.selectedList, { "name": 'High School LD' })
         }
-        else if (dtype1 == "hspolicy") {
+        else if (dtype1 === "hspolicy") {
           selectedValues.push({ "name": 'High School Policy' })
           this.onSelect(this.state.selectedList, { "name": 'High School Policy' })
         }
-        else if (dtype1 == "openev") {
+        else if (dtype1 === "openev") {
           selectedValues.push({ "name": 'OpenEv' })
           this.onSelect(this.state.selectedList, { "name": 'OpenEv' })
         }
-        else if (dtype1 == "pf") {
+        else if (dtype1 === "pf") {
           selectedValues.push({ "name": 'PF (Beta)' })
           this.onSelect(this.state.selectedList, { "name": 'PF (Beta)' })
         }
@@ -277,7 +283,7 @@ class DisplayResults extends Component {
   cardamt = (amt) => {
     let url = this.state.search.split('&amt')[0];
     url += "&amt=" + amt;
-    this.state.amt = amt;
+    this.setState({amt: amt});
     return url;
   }
 
@@ -332,7 +338,7 @@ class DisplayResults extends Component {
 
   async getText(text) {
     this.setState({ searchtext: text })
-    let data = await axios.get('https://api.debatev.com/api/v1/autocomplete?q=' + text + this.getUrl()).then((data) => {
+    await axios.get('https://api.debatev.com/api/v1/autocomplete?q=' + text + this.getUrl()).then((data) => {
       let object = data.data;
       let array = Object.keys(object).map(function (k) {
         let str = object[k][1].toString();
