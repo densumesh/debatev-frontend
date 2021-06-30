@@ -508,7 +508,7 @@ class DisplayResults extends Component {
           <Card style={{ flex: 1, borderWidth: 0 }} />
           <Card style={{ flexDirection: "column", flex: 15, borderWidth: 0 }}>
             {this.state.cards.map((card) => (
-              <CardPreview cardData={card} />
+              <CardPreview cardData={card} history={this.props.history}/>
             ))}
             {this.state.isLoading === -1 ? (
               <img className="loadinggif" style={{ width: 150, height: 150, marginLeft: "auto", marginRight: "auto" }} src="https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif">

@@ -2,17 +2,22 @@ import React, { Component } from "react";
 import {
   Modal,
   Button,
-  Card
+  Card,
+  DropdownButton,
+  Dropdown
 } from "react-bootstrap";
-
 
 class CardPreview extends Component {
   state = { visible: false, cardName: "", saved: false };
   openModal = () => {
     this.setState({ visible: true });
+    let location = window.location.href.substring(window.location.href.lastIndexOf("/") + 1);
+    let destination = location === "imfeelinglucky" || location === "saved" ? location : this.props.cardData[0]
+    this.props.history.push(destination)
   };
   closeModal = () => {
     this.setState({ visible: false });
+    this.props.history.goBack()
   };
   componentDidMount = () => {
     let x = this.props.cardData[1].filepath;
@@ -22,17 +27,28 @@ class CardPreview extends Component {
     x = x.substring(0, x.lastIndexOf("doc") - 1);
     this.setState({ cardName: x });
     this.setState({saved: localStorage.getItem('saved')?.split(',').includes(this.props.cardData[0])})
+    console.log(this.props.cardData[2])
+    if (this.props.cardData[2].replace('dtype: ', '') === 'college') {
+      this.setState({dtype: "College Policy"})
+    }
+    else if (this.props.cardData[2].replace('dtype: ', '') === 'ld') {
+      this.setState({dtype: "High School LD"})
+    }
+    else if (this.props.cardData[2].replace('dtype: ', '') === "hspolicy") {
+      this.setState({dtype: "High School Policy"})
+    }
+    else if (this.props.cardData[2].replace('dtype: ', '') === "openev") {
+      this.setState({dtype: "OpenEv"})
+    }
+    else if (this.props.cardData[2].replace('dtype: ', '') === "pf") {
+      this.setState({dtype: "PF"})
+    }
   };
 
-  parseHtml = (htm) => {
-    return htm;
-  };
- 
-  copyLink = () => {
-    let link = 'https://www.debatev.com/search/' + this.props.cardData[0];
-    navigator.clipboard.writeText(link);
+
+  showInfo = () => {
+
   }
-
   unsaveCard = (cardID) => {
     this.setState({saved: false})
     let saved = []
@@ -69,7 +85,7 @@ class CardPreview extends Component {
                 maxHeight: 297,
               }}
             dangerouslySetInnerHTML={{
-              __html: this.parseHtml(this.props.cardData[1].cardHtml),
+              __html: this.props.cardData[1].cardHtml,
             }}
             onClick={() =>
               this.openModal()
@@ -106,7 +122,13 @@ class CardPreview extends Component {
               </Button>
               {""}
             </Modal.Title>
-            <Button className="copyButton" variant="primary" onClick={() => {this.copyLink()}}>Copy Link</Button>
+            <DropdownButton id="dropdown-basic-button" title="More Info"           
+              onMouseEnter = {() => this.setState({open: true}) }
+              onMouseLeave = {() => this.setState({open: false})}
+              show={this.state.open}>
+              <Dropdown.Item>{"Year: " + this.props.cardData[1].year}</Dropdown.Item>
+              <Dropdown.Item>{"From: " + this.state.dtype}</Dropdown.Item>
+            </DropdownButton>
           </Modal.Header>
           <Modal.Body>
             <div
