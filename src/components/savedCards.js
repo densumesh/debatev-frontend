@@ -89,8 +89,28 @@ class SavedCards extends Component {
               onClick={e => {
                 window.location.href = "https://api.debatev.com/api/v1/download?q=" + localStorage.getItem('saved')
               }}
+              disabled= {localStorage.getItem('saved') === null}
             >
               Download Cards
+            </Button>
+            <Button
+              style={{
+                backgroundColor: '#1C86EE',
+                color: '#FFF',
+                borderWidth: 0,
+                position: "absolute",
+                top: 15,
+                right: 280,
+                marginRight: 10,
+                
+              }}
+              onClick={e => {
+                localStorage.removeItem('saved')
+                window.location.reload()
+              }}
+              disabled= {localStorage.getItem('saved') === null}
+            >
+              Clear Cards
             </Button>
         <Card
           style={{
