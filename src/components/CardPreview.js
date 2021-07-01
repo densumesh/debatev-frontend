@@ -125,6 +125,7 @@ class CardPreview extends Component {
               show={this.state.open}>
               <Dropdown.Item>{"Year: " + this.props.cardData[1].year}</Dropdown.Item>
               <Dropdown.Item>{"From: " + this.state.dtype}</Dropdown.Item>
+              <Dropdown.Item href={this.props.cardData[1].filepath}>Download Case</Dropdown.Item>
             </DropdownButton>
           </Modal.Header>
           <Modal.Body>

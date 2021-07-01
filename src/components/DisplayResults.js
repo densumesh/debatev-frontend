@@ -20,7 +20,7 @@ class DisplayResults extends Component {
   state = {
     ref: "", page: 1, cards: [], search: "", isLoading: -1, amt: "20",
     options: [
-      { name: "2014", id: 1, group: "Year" },
+      { name: "2014", id: 1, group: "Year"},
       { name: "2015", id: 2, group: "Year" },
       { name: "2016", id: 3, group: "Year" },
       { name: "2017", id: 4, group: "Year" },
@@ -106,11 +106,11 @@ class DisplayResults extends Component {
   };
 
   onSelect = (selectedList, selectedItem) => {
-    switch (selectedItem.name) {
+    switch (selectedItem.name){ 
       case '2014':
         this.setState({ a14: true });
         break;
-
+    
       case '2015':
         this.setState({ a15: true });
         break;
@@ -130,7 +130,7 @@ class DisplayResults extends Component {
       case '2019':
         this.setState({ a19: true });
         break;
-
+    
       case '2020':
         this.setState({ a20: true });
         break;
@@ -151,21 +151,21 @@ class DisplayResults extends Component {
         this.setState({ openev: true });
         break;
 
-      case 'PF (Beta)':
+      case 'PF (Beta)' :
         this.setState({ pf: true });
         break;
 
       default:
         break;
-    }
+  }
   };
 
   onRemove = (_selectedList, selectedItem) => {
-    switch (selectedItem.name) {
+    switch (selectedItem.name){ 
       case '2014':
         this.setState({ a14: false });
         break;
-
+    
       case '2015':
         this.setState({ a15: false });
         break;
@@ -185,7 +185,7 @@ class DisplayResults extends Component {
       case '2019':
         this.setState({ a19: false });
         break;
-
+    
       case '2020':
         this.setState({ a20: false });
         break;
@@ -206,10 +206,10 @@ class DisplayResults extends Component {
         this.setState({ openev: false });
         break;
 
-      case 'PF (Beta)':
+      case 'PF (Beta)' :
         this.setState({ pf: false });
         break;
-
+      
       default:
         break;
     }
@@ -235,7 +235,7 @@ class DisplayResults extends Component {
       this.setState({ cards: array });
       this.setState({ isLoading: 0 });
     });
-
+    
     function years1(currElm) {
       console.log(currElm)
       return currElm.includes("year")
@@ -283,7 +283,7 @@ class DisplayResults extends Component {
   cardamt = (amt) => {
     let url = this.state.search.split('&amt')[0];
     url += "&amt=" + amt;
-    this.setState({ amt: amt });
+    this.setState({amt: amt});
     return url;
   }
 
@@ -508,7 +508,7 @@ class DisplayResults extends Component {
           <Card style={{ flex: 1, borderWidth: 0 }} />
           <Card style={{ flexDirection: "column", flex: 15, borderWidth: 0 }}>
             {this.state.cards.map((card) => (
-              <CardPreview cardData={card} history={this.props.history} />
+              <CardPreview cardData={card} history={this.props.history}/>
             ))}
             {this.state.isLoading === -1 ? (
               <img className="loadinggif" style={{ width: 150, height: 150, marginLeft: "auto", marginRight: "auto" }} src="https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif">
