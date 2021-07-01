@@ -180,12 +180,12 @@ class HomePage extends Component {
     this.setState({ bannerHtml: data });
   }
 
-  onSelect = (selectedList, selectedItem) => {
-    switch (selectedItem.name){ 
+  onSelect = (_selectedList, selectedItem) => {
+    switch (selectedItem.name) {
       case '2014':
         this.setState({ a14: true });
         break;
-    
+
       case '2015':
         this.setState({ a15: true });
         break;
@@ -205,7 +205,7 @@ class HomePage extends Component {
       case '2019':
         this.setState({ a19: true });
         break;
-    
+
       case '2020':
         this.setState({ a20: true });
         break;
@@ -226,20 +226,20 @@ class HomePage extends Component {
         this.setState({ openev: true });
         break;
 
-      case 'PF (Beta)' :
+      case 'PF (Beta)':
         this.setState({ pf: true });
         break;
       default:
         break;
-  }
+    }
   };
 
   onRemove = (_selectedList, selectedItem) => {
-    switch (selectedItem.name){ 
+    switch (selectedItem.name) {
       case '2014':
         this.setState({ a14: false });
         break;
-    
+
       case '2015':
         this.setState({ a15: false });
         break;
@@ -259,7 +259,7 @@ class HomePage extends Component {
       case '2019':
         this.setState({ a19: false });
         break;
-    
+
       case '2020':
         this.setState({ a20: false });
         break;
@@ -280,7 +280,7 @@ class HomePage extends Component {
         this.setState({ openev: false });
         break;
 
-      case 'PF (Beta)' :
+      case 'PF (Beta)':
         this.setState({ pf: false });
         break;
       default:
@@ -298,7 +298,7 @@ class HomePage extends Component {
 
     if (this.promise === localPromise) {
       let object = result.data;
-      let array = Object.keys(object).map(function(k) {
+      let array = Object.keys(object).map(function (k) {
         let str = object[k][1].toString();
         return str.replace(/(<([^>]+)>)/ig, '');
       })
@@ -347,7 +347,7 @@ class HomePage extends Component {
                 style={{
                   backgroundColor: 'yellow'
                 }}
-                onClick={e => {
+                onClick={_e => {
                   this.setState({ banner: false })
                 }}
               >
@@ -373,51 +373,51 @@ class HomePage extends Component {
                 right: 130,
                 marginRight: 10
               }}
-              onClick={e => {
+              onClick={_e => {
                 window.location.href = "/saved"
               }}
             >
               Saved Cards
             </Button>
             <InputGroup.Append>
-            <Button
-              style={{
-                backgroundColor: '#1C86EE',
-                color: '#FFF',
-                borderWidth: 0,
-                position: "absolute",
-                top: 5,
-                right: "1%"
-              }}
-              onClick={e => {
-                this.DarkToggle(!JSON.parse(localStorage.getItem('isDark')));
-                this.ButtonTextChange();
-              }}
-            >
-              {this.state.Buttontext}
-            </Button>
+              <Button
+                style={{
+                  backgroundColor: '#1C86EE',
+                  color: '#FFF',
+                  borderWidth: 0,
+                  position: "absolute",
+                  top: 5,
+                  right: "1%"
+                }}
+                onClick={_e => {
+                  this.DarkToggle(!JSON.parse(localStorage.getItem('isDark')));
+                  this.ButtonTextChange();
+                }}
+              >
+                {this.state.Buttontext}
+              </Button>
             </InputGroup.Append>
           </InputGroup>
-            
-      
+
+
           {window.innerWidth >= 760 ? (
             <img
               src={debateEV2}
               style={{
-                
+
                 height: 300,
                 width: 500
               }}
             />
           ) : (
-              <img
-                src={debateEV2}
-                style={{
-                  height: 200,
-                  width: 300
-                }}
-              />
-            )}
+            <img
+              src={debateEV2}
+              style={{
+                height: 200,
+                width: 300
+              }}
+            />
+          )}
 
           <Card
             style={{
@@ -481,13 +481,13 @@ class HomePage extends Component {
                     if (this.getUrl() !== '') sessionStorage.setItem('filters', this.getUrl());
                   }
                 }}
-                onInputChange={(event, newValue) => { debounce(this.getText(newValue), 500) }}
+                onInputChange={(_event, newValue) => { debounce(this.getText(newValue), 500) }}
               />
 
               <InputGroup.Append>
                 <Button
                   variant="outline-primary"
-                  onClick={e => {
+                  onClick={_e => {
                     window.location.href =
                       '/search/' + this.state.searchtext + this.getUrl();
                     if (this.getUrl() !== '') sessionStorage.setItem('filters', this.getUrl());
@@ -503,7 +503,7 @@ class HomePage extends Component {
                 className="luckybutton"
                 variant="outline-primary"
                 style={{ borderWidth: 1, color: '#001040' }}
-                onClick={e => {
+                onClick={_e => {
                   window.location.href = '/imfeelinglucky';
                 }}
               >
@@ -545,7 +545,7 @@ class HomePage extends Component {
               variant="outline-primary"
               className="luckybutton"
               style={{ borderWidth: 1, color: '#001040' }}
-              onClick={e => {
+              onClick={_e => {
                 window.location.href = '/imfeelinglucky';
               }}
             >
@@ -555,15 +555,15 @@ class HomePage extends Component {
           ) : null}
         </Card>{' '}
         <div style={{
-         position: "absolute",
-         bottom: 10,
-         textAlign: "center",
+          position: "absolute",
+          bottom: 10,
+          textAlign: "center",
           width: "100%"
         }}>
-        <a href="https://github.com/densumesh/debatev-frontend">Debate Evidence</a> | Dens Sumesh, Akaash Kolluri, Rohan Agrawal
+          <a href="https://github.com/densumesh/debatev-frontend">Debate Evidence</a> | Dens Sumesh, Akaash Kolluri, Rohan Agrawal
         </div>
-        
-        </div>
+
+      </div>
     );
   }
 }

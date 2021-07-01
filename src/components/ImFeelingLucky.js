@@ -9,9 +9,9 @@ import debateEV from "../Logo/debatevsquarefinal.svg";
 import CardPreview from "./CardPreview";
 
 if (JSON.parse(localStorage.getItem('isDark'))) {
-        document.documentElement.classList.add('dark')
+  document.documentElement.classList.add('dark')
 } else {
-        document.documentElement.classList.remove('dark')
+  document.documentElement.classList.remove('dark')
 }
 class ImFeelingLucky extends Component {
   state = { ref: "", page: 0, cards: [], search: "", isLoading: -1 };
@@ -30,7 +30,7 @@ class ImFeelingLucky extends Component {
     });
   };
 
-  goToPage = (page) => {
+  goToPage = () => {
     window.location.href.substring(
       window.location.href.lastIndexOf("/") + 1
     );
@@ -47,13 +47,13 @@ class ImFeelingLucky extends Component {
       this.setState({ cards: array });
     });
   };
-  
-  escFunction(event){
-    if(event.keyCode === 13) {      
-       window.location.href = "/imfeelinglucky";
+
+  escFunction(event) {
+    if (event.keyCode === 13) {
+      window.location.href = "/imfeelinglucky";
     }
   }
-    
+
   async getData(url) {
     let data = await axios.get(url);
     console.log(data.data);
@@ -64,7 +64,7 @@ class ImFeelingLucky extends Component {
     super();
     this.search = React.createRef();
   }
-  componentWillUnmount(){
+  componentWillUnmount() {
     document.removeEventListener("keydown", this.escFunction, false);
   }
   render() {
@@ -103,7 +103,7 @@ class ImFeelingLucky extends Component {
             className="luckybutton"
             variant="outline-primary"
             style={{ borderWidth: 1, width: "25%", height: "10%", flexGrow: true, color: "#001040", marginTop: 0 }}
-            onClick={(e) => {
+            onClick={() => {
               window.location.href = "/imfeelinglucky";
             }}
           >
@@ -131,16 +131,16 @@ class ImFeelingLucky extends Component {
           }}
         >
           <Card style={{ flex: 1, borderWidth: 0 }} />
-          <Card style={{ flex: 15, borderWidth: 0, marginTop:10 }}>
+          <Card style={{ flex: 15, borderWidth: 0, marginTop: 10 }}>
             {this.state.cards.map((card) => (
-              <CardPreview cardData={card} history={this.props.history}/>
+              <CardPreview cardData={card} history={this.props.history} />
             ))}
             {this.state.isLoading === -1 ? (
-              <img className="loadinggif" style ={{width: 150, height:150, marginLeft: "auto", marginRight: "auto"}}src="https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif">
+              <img className="loadinggif" style={{ width: 150, height: 150, marginLeft: "auto", marginRight: "auto" }} src="https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif">
               </img>
             ) : null}
           </Card>
-          
+
           <Card style={{ flex: 1, borderWidth: 0 }} />
         </Card>{" "}
       </div>

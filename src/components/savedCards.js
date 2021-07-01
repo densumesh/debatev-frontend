@@ -9,13 +9,13 @@ import debateEV from "../Logo/debatevsquarefinal.svg";
 import CardPreview from "./CardPreview";
 
 if (JSON.parse(localStorage.getItem('isDark'))) {
-        document.documentElement.classList.add('dark')
+  document.documentElement.classList.add('dark')
 } else {
-        document.documentElement.classList.remove('dark')
+  document.documentElement.classList.remove('dark')
 }
 class SavedCards extends Component {
   state = { ref: "", page: 1, cards: [], search: "", isLoading: -1, };
-  
+
   componentDidMount = () => {
     let m = localStorage.getItem('saved')
     console.log(m);
@@ -31,9 +31,9 @@ class SavedCards extends Component {
       this.setState({ cards: array });
       this.setState({ isLoading: 0 });
     });
- }
+  }
 
-   async getData(url) {
+  async getData(url) {
     let data = await axios.get(url);
     console.log(data.data);
     return data.data;
@@ -77,41 +77,41 @@ class SavedCards extends Component {
           </a>
         </Card>{" "}
         <Button
-              style={{
-                backgroundColor: '#1C86EE',
-                color: '#FFF',
-                borderWidth: 0,
-                position: "absolute",
-                top: 15,
-                right: 130,
-                marginRight: 10
-              }}
-              onClick={e => {
-                window.location.href = "https://api.debatev.com/api/v1/download?q=" + localStorage.getItem('saved')
-              }}
-              disabled= {localStorage.getItem('saved') === null}
-            >
-              Download Cards
-            </Button>
-            <Button
-              style={{
-                backgroundColor: '#1C86EE',
-                color: '#FFF',
-                borderWidth: 0,
-                position: "absolute",
-                top: 15,
-                right: 280,
-                marginRight: 10,
-                
-              }}
-              onClick={e => {
-                localStorage.removeItem('saved')
-                window.location.reload()
-              }}
-              disabled= {localStorage.getItem('saved') === null}
-            >
-              Clear Cards
-            </Button>
+          style={{
+            backgroundColor: '#1C86EE',
+            color: '#FFF',
+            borderWidth: 0,
+            position: "absolute",
+            top: 15,
+            right: 130,
+            marginRight: 10
+          }}
+          onClick={() => {
+            window.location.href = "https://api.debatev.com/api/v1/download?q=" + localStorage.getItem('saved')
+          }}
+          disabled={localStorage.getItem('saved') === null}
+        >
+          Download Cards
+        </Button>
+        <Button
+          style={{
+            backgroundColor: '#1C86EE',
+            color: '#FFF',
+            borderWidth: 0,
+            position: "absolute",
+            top: 15,
+            right: 280,
+            marginRight: 10,
+
+          }}
+          onClick={() => {
+            localStorage.removeItem('saved')
+            window.location.reload()
+          }}
+          disabled={localStorage.getItem('saved') === null}
+        >
+          Clear Cards
+        </Button>
         <Card
           style={{
             flex: 1,
@@ -125,10 +125,10 @@ class SavedCards extends Component {
           <Card style={{ flex: 1, borderWidth: 0 }} />
           <Card style={{ flexDirection: "column", flex: 15, borderWidth: 0 }}>
             {this.state.cards.map((card) => (
-              <CardPreview cardData={card} history={this.props.history}/>
+              <CardPreview cardData={card} history={this.props.history} />
             ))}
             {this.state.cards.length !== 0 && this.state.isLoading === -1 ? (
-              <img className="loadinggif" style ={{width:150, height:150, marginLeft: "auto", marginRight: "auto"}}src="https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif">
+              <img className="loadinggif" style={{ width: 150, height: 150, marginLeft: "auto", marginRight: "auto" }} src="https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif">
               </img>
             ) : null}
             {this.state.cards.length === 0 && this.state.isLoading === -1 ? (

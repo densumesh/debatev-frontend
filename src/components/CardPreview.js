@@ -46,9 +46,6 @@ class CardPreview extends Component {
   };
 
 
-  showInfo = () => {
-
-  }
   unsaveCard = (cardID) => {
     this.setState({saved: false})
     let saved = []
