@@ -88,7 +88,7 @@ class CardPreview extends Component {
             }
           />
         </Card>
-        <Button onClick={this.openModal} style={{"position": "relative", "left": "85%"}}>Open this card</Button>
+        <Button onClick={this.openModal}>Open this card</Button>
         <Card style={{ height: 100, borderWidth: 0 }} />
 
         <Modal
