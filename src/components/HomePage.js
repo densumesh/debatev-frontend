@@ -498,30 +498,15 @@ class HomePage extends Component {
               </InputGroup.Append>
             </InputGroup>
             <div style={{ width: '9%', color: '#32a852' }} />
-            {window.innerWidth <= 760 ? (
-              <Button
-                className="luckybutton"
-                variant="outline-primary"
-                style={{ borderWidth: 1, color: '#001040' }}
-                onClick={_e => {
-                  window.location.href = '/imfeelinglucky';
-                }}
-              >
-                {' '}
-                I'm Feeling Lucky{' '}
-              </Button>
-            ) : null}
-          </div>
-          <div style={{ width: '25%' }} />
-        </Card>
-        <Card
+          <Card
           style={{
             flex: 1,
-            alignItems: 'center',
-            justifyContent: 'center',
+            alignItems: 'right',
+            justifyContent: 'right',
             flexGrow: true,
             borderWidth: 0,
-            flexDirection: 'row'
+            flexDirection: 'row',
+            marginTop: -2
           }}
         >
           {window.innerWidth >= 760 ? (
@@ -533,18 +518,18 @@ class HomePage extends Component {
               onRemove={this.onRemove}
               displayValue="name"
               groupBy="group"
-              style={{ multiselectContainer: { width: '30%', height: '30%' } }}
+              style={{ multiselectContainer: { width: '60%', height: '30%', marginLeft: "auto"} }}
               showCheckbox={true}
               placeholder={this.getUrl() !== '' ? '' : 'Advanced Filters '}
               closeOnSelect={false}
             />
           ) : null}
           <div style={{ width: '9%', color: '#32a852' }} />
-          {window.innerWidth >= 760 ? (
             <Button
               variant="outline-primary"
               className="luckybutton"
-              style={{ borderWidth: 1, color: '#001040' }}
+              style={{ borderWidth: 1, color: '#001040', marginRight: "auto", marginLeft: "10%",
+              whiteSpace: "nowrap"}}
               onClick={_e => {
                 window.location.href = '/imfeelinglucky';
               }}
@@ -552,8 +537,11 @@ class HomePage extends Component {
               {' '}
               I'm Feeling Lucky{' '}
             </Button>
-          ) : null}
         </Card>{' '}
+          </div>
+          <div style={{ width: '25%' }} />
+        </Card>
+
         <div style={{
           position: "absolute",
           bottom: 10,

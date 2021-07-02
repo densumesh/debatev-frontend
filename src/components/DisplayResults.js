@@ -445,6 +445,47 @@ class DisplayResults extends Component {
                 </Button>
               </InputGroup.Append>
             </InputGroup>
+          <Card
+            style={{
+            flex: 1,
+            alignItems: 'right',
+            justifyContent: 'right',
+            flexGrow: true,
+            borderWidth: 0,
+            flexDirection: 'row',
+            marginTop: -7,
+            marginBottom: 5
+          }}
+        >
+          {window.innerWidth >= 760 ? (
+            <Multiselect
+              className="advanced"
+              options={this.state.options}
+              selectedValues={this.state.selectedValues}
+              onSelect={this.onSelect}
+              onRemove={this.onRemove}
+              displayValue="name"
+              groupBy="group"
+              style={{ multiselectContainer: { width: '60%', height: '30%', marginLeft: "auto"} }}
+              showCheckbox={true}
+              placeholder={this.getUrl() !== '' ? '' : 'Advanced Filters '}
+              closeOnSelect={false}
+            />
+          ) : null}
+          <div style={{ width: '9%', color: '#32a852' }} />
+            <Button
+              variant="outline-primary"
+              className="luckybutton"
+              style={{ borderWidth: 1, color: '#001040', marginRight: "auto", marginLeft: "10%",
+              whiteSpace: "nowrap"}}
+              onClick={_e => {
+                window.location.href = '/imfeelinglucky';
+              }}
+            >
+              {' '}
+              I'm Feeling Lucky{' '}
+            </Button>
+        </Card>{' '}
           </div>
           <div style={{ width: "40%" }} />
         </Card>
@@ -457,43 +498,19 @@ class DisplayResults extends Component {
             borderWidth: 0,
             flexDirection: "row",
             marginLeft: "10%",
-            marginTop: -7
+
           }}
         >
-          {window.innerWidth >= 760 ?
-            <Multiselect
-              options={this.state.options}
-              selectedValues={this.state.selectedValues}
-              onSelect={this.onSelect}
-              onRemove={this.onRemove}
-              displayValue="name"
-              groupBy="group"
-              style={{ multiselectContainer: { width: "30%", height: "30%" } }}
-              showCheckbox={true}
-              placeholder={this.getUrl() !== "" ? "" : "Advanced Filters "}
-              closeOnSelect={false}
-            /> : null}
           <div style={{ width: "9%", color: "#32a852" }} />
           {window.innerWidth >= 760 ?
             <DropdownButton id="dropdown-basic-button" title={(this.state.page === 1 ? 1 : 1 + this.state.amt * (this.state.page - 1)) + " - " + ((this.state.amt * this.state.page > this.state.total) ? this.state.total : (this.state.amt * this.state.page)) + " of " + this.state.total}
-              style={{ marginTop: -7, borderWidth: 0, position: "absolute", right: 15 }}>
+              style={{  borderWidth: 0, position: "absolute", right: 15, top: -50 }}>
               <Dropdown.Item onClick={(_e) => { this.getAmt('10') }}>10</Dropdown.Item>
               <Dropdown.Item onClick={(_e) => { this.getAmt('20') }}>20 (Default)</Dropdown.Item>
               <Dropdown.Item onClick={(_e) => { this.getAmt('30') }}>30</Dropdown.Item>
               <Dropdown.Item onClick={(_e) => { this.getAmt('40') }}>40</Dropdown.Item>
             </DropdownButton> : null}
           <div style={{ width: "5%", color: "#32a852" }} />
-          <Button
-            className="luckybutton"
-            variant="outline-primary"
-            style={{ borderWidth: 1, color: "#001040" }}
-            onClick={(_e) => {
-              window.location.href = "/imfeelinglucky";
-            }}
-          >
-            {" "}
-            I'm Feeling Lucky{" "}
-          </Button>
         </Card>{" "}
         <Card
           style={{
@@ -506,7 +523,7 @@ class DisplayResults extends Component {
           }}
         >
           <Card style={{ flex: 1, borderWidth: 0 }} />
-          <Card style={{ flexDirection: "column", flex: 15, borderWidth: 0 }}>
+          <Card style={{ flexDirection: "column", flex: 15, borderWidth: 0, marginTop:"auto" }}>
             {this.state.cards.map((card) => (
               <CardPreview cardData={card} history={this.props.history}/>
             ))}

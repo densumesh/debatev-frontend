@@ -27,7 +27,6 @@ class CardPreview extends Component {
     x = x.substring(0, x.lastIndexOf("doc") - 1);
     this.setState({ cardName: x });
     this.setState({saved: localStorage.getItem('saved')?.split(',').includes(this.props.cardData[0])})
-    console.log(this.props.cardData[2])
     if (this.props.cardData[2].replace('dtype: ', '') === 'college') {
       this.setState({dtype: "College Policy"})
     }
@@ -89,7 +88,7 @@ class CardPreview extends Component {
             }
           />
         </Card>
-        <Button onClick={this.openModal}>Open this card</Button>
+        <Button onClick={this.openModal} style={{"position": "relative", "left": "85%"}}>Open this card</Button>
         <Card style={{ height: 100, borderWidth: 0 }} />
 
         <Modal
