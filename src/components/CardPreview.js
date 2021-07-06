@@ -1,23 +1,22 @@
 import React, { Component } from "react";
-import {
-  Modal,
-  Button,
-  Card,
-  DropdownButton,
-  Dropdown
-} from "react-bootstrap";
+import { Modal, Button, Card, DropdownButton, Dropdown } from "react-bootstrap";
 
 class CardPreview extends Component {
   state = { visible: false, cardName: "", saved: false };
   openModal = () => {
     this.setState({ visible: true });
-    let location = window.location.href.substring(window.location.href.lastIndexOf("/") + 1);
-    let destination = location === "imfeelinglucky" || location === "saved" ? location : this.props.cardData[0]
-    this.props.history.push(destination)
+    let location = window.location.href.substring(
+      window.location.href.lastIndexOf("/") + 1
+    );
+    let destination =
+      location === "imfeelinglucky" || location === "saved"
+        ? location
+        : this.props.cardData[0];
+    this.props.history.push(destination);
   };
   closeModal = () => {
     this.setState({ visible: false });
-    this.props.history.goBack()
+    this.props.history.goBack();
   };
   componentDidMount = () => {
     let x = this.props.cardData[1].filepath;
@@ -26,66 +25,64 @@ class CardPreview extends Component {
     x = x.replaceAll("-", " ");
     x = x.substring(0, x.lastIndexOf("doc") - 1);
     this.setState({ cardName: x });
-    this.setState({saved: localStorage.getItem('saved')?.split(',').includes(this.props.cardData[0])})
-    if (this.props.cardData[2].replace('dtype: ', '') === 'college') {
-      this.setState({dtype: "College Policy"})
-    }
-    else if (this.props.cardData[2].replace('dtype: ', '') === 'ld') {
-      this.setState({dtype: "High School LD"})
-    }
-    else if (this.props.cardData[2].replace('dtype: ', '') === "hspolicy") {
-      this.setState({dtype: "High School Policy"})
-    }
-    else if (this.props.cardData[2].replace('dtype: ', '') === "openev") {
-      this.setState({dtype: "OpenEv"})
-    }
-    else if (this.props.cardData[2].replace('dtype: ', '') === "pf") {
-      this.setState({dtype: "PF"})
+    this.setState({
+      saved: localStorage
+        .getItem("saved")
+        ?.split(",")
+        .includes(this.props.cardData[0]),
+    });
+    if (this.props.cardData[2].replace("dtype: ", "") === "college") {
+      this.setState({ dtype: "College Policy" });
+    } else if (this.props.cardData[2].replace("dtype: ", "") === "ld") {
+      this.setState({ dtype: "High School LD" });
+    } else if (this.props.cardData[2].replace("dtype: ", "") === "hspolicy") {
+      this.setState({ dtype: "High School Policy" });
+    } else if (this.props.cardData[2].replace("dtype: ", "") === "openev") {
+      this.setState({ dtype: "OpenEv" });
+    } else if (this.props.cardData[2].replace("dtype: ", "") === "pf") {
+      this.setState({ dtype: "PF" });
     }
   };
 
-
   unsaveCard = (cardID) => {
-    this.setState({saved: false})
-    let saved = []
-    if (localStorage.getItem('saved')){
-      saved = localStorage.getItem('saved').split(',')
-      let foundIndex = saved.indexOf(cardID)
-      saved.pop(foundIndex)
-    }
-    
-    if (window.location.href === window.location.origin + '/saved'){
-      window.location.reload()
-    }
-    localStorage.setItem('saved', saved)
-  }
-  saveCard = (cardID) => {
-    this.setState({saved: true})
-    let saved = []
-    if (localStorage.getItem('saved')){
-      saved.push(localStorage.getItem('saved'))
-      saved.push(cardID)
-    } else {
-      saved.push(cardID)
+    this.setState({ saved: false });
+    let saved = [];
+    if (localStorage.getItem("saved")) {
+      saved = localStorage.getItem("saved").split(",");
+      let foundIndex = saved.indexOf(cardID);
+      saved.pop(foundIndex);
     }
 
-    localStorage.setItem('saved', saved)
-  }
+    if (window.location.href === window.location.origin + "/saved") {
+      window.location.reload();
+    }
+    localStorage.setItem("saved", saved);
+  };
+  saveCard = (cardID) => {
+    this.setState({ saved: true });
+    let saved = [];
+    if (localStorage.getItem("saved")) {
+      saved.push(localStorage.getItem("saved"));
+      saved.push(cardID);
+    } else {
+      saved.push(cardID);
+    }
+
+    localStorage.setItem("saved", saved);
+  };
 
   render() {
     return (
       <div>
-        <Card  className = "cardhtml" style={{ borderWidth: 0 }}>
+        <Card className="cardhtml" style={{ borderWidth: 0 }}>
           <div
             style={{
-                maxHeight: 297,
-              }}
+              maxHeight: 297,
+            }}
             dangerouslySetInnerHTML={{
               __html: this.props.cardData[1].cardHtml,
             }}
-            onClick={() =>
-              this.openModal()
-            }
+            onClick={() => this.openModal()}
           />
         </Card>
         <Button onClick={this.openModal}>Open this card</Button>
@@ -98,17 +95,17 @@ class CardPreview extends Component {
           size="lg"
         >
           <Modal.Header>
-            <Modal.Title id="example-modal-sizes-title-sm" style={{ flex: 1 }}>
+            <Modal.Title id="example-modal-sizes-title-sm">
               <Button
-              className="filename"
+                className="filename"
                 style={{
                   height: "30",
                   backgroundColor: "#FFF",
                   color: "#000",
                   borderWidth: 0,
-                  position: "absolute",
+                  position: "relative",
                   left: 0,
-                  fontSize: 18
+                  fontSize: 18,
                 }}
                 onClick={() => {
                   window.location.href = this.props.cardData[1].filepath;
@@ -118,13 +115,20 @@ class CardPreview extends Component {
               </Button>
               {""}
             </Modal.Title>
-            <DropdownButton id="dropdown-basic-button" title="More Info"           
-              onMouseEnter = {() => this.setState({open: true}) }
-              onMouseLeave = {() => this.setState({open: false})}
-              show={this.state.open}>
-              <Dropdown.Item>{"Year: " + this.props.cardData[1].year}</Dropdown.Item>
+            <DropdownButton
+              id="dropdown-basic-button"
+              title="More Info"
+              onMouseEnter={() => this.setState({ open: true })}
+              onMouseLeave={() => this.setState({ open: false })}
+              show={this.state.open}
+            >
+              <Dropdown.Item>
+                {"Year: " + this.props.cardData[1].year}
+              </Dropdown.Item>
               <Dropdown.Item>{"From: " + this.state.dtype}</Dropdown.Item>
-              <Dropdown.Item href={this.props.cardData[1].filepath}>Download Case</Dropdown.Item>
+              <Dropdown.Item href={this.props.cardData[1].filepath}>
+                Download Case
+              </Dropdown.Item>
             </DropdownButton>
           </Modal.Header>
           <Modal.Body>
@@ -145,39 +149,46 @@ class CardPreview extends Component {
                 left: 5,
               }}
               onClick={() => {
-                window.location.href = "https://api.debatev.com/api/v1/download?q=" + this.props.cardData[0]
+                window.location.href =
+                  "https://api.debatev.com/api/v1/download?q=" +
+                  this.props.cardData[0];
               }}
             >
               Download
             </Button>
-            {this.state.saved ? <Button
-              variant="danger"
-              style={{
-                borderWidth: 0,
-                width : '100px'
-              }}
-              onClick={() => {
-                this.unsaveCard(this.props.cardData[0])
-                }
-              }
-            >
-              Unsave
-            </Button>:
+            {this.state.saved ? (
+              <Button
+                variant="danger"
+                style={{
+                  borderWidth: 0,
+                  width: "100px",
+                }}
+                onClick={() => {
+                  this.unsaveCard(this.props.cardData[0]);
+                }}
+              >
+                Unsave
+              </Button>
+            ) : (
+              <Button
+                style={{
+                  backgroundColor: "#1C86EE",
+                  color: "#FFF",
+                  borderWidth: 0,
+                  width: "100px",
+                }}
+                onClick={() => {
+                  this.saveCard(this.props.cardData[0]);
+                }}
+              >
+                Save
+              </Button>
+            )}
             <Button
-              style={{
-                backgroundColor: "#1C86EE",
-                color: "#FFF",
-                borderWidth: 0,
-                width : '100px'
-              }}
-              onClick={() => {
-                this.saveCard(this.props.cardData[0])
-                }
-              }
+              variant="danger"
+              style={{ width: "100px" }}
+              onClick={this.closeModal}
             >
-              Save
-            </Button>}
-            <Button variant="danger" style={{width : '100px'}} onClick={this.closeModal}>
               Close
             </Button>
           </Modal.Footer>
