@@ -4,9 +4,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import DisplayResults from "./components/DisplayResults";
 import ImFeelingLucky from "./components/ImFeelingLucky";
-import SavedCards from "./components/savedCards"
+import SavedCards from "./components/savedCards";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-
 
 class App extends Component {
   state = {};
@@ -37,7 +36,7 @@ class App extends Component {
                 <SavedCards yearFilters={props.yearFilters} {...props} />
               )}
             ></Route>
-            <Route path="/" render={(props) => <HomePage {...props}/>}></Route>
+            <Route path="/" render={(props) => <HomePage {...props} />}></Route>
           </Switch>
         </div>
       </Router>

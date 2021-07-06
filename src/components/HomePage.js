@@ -1,32 +1,17 @@
 /* eslint-disable jsx-a11y/alt-text */
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import axios from 'axios';
-import debounce from 'debounce';
-import { Multiselect } from 'multiselect-react-dropdown';
-import React, { Component } from 'react';
-import {
-  Button, Card, FormControl, InputGroup
-} from 'react-bootstrap';
-import * as Icon from 'react-bootstrap-icons';
-import debateEV2 from '../Logo/debatevlargefinal.svg';
+import Autocomplete from "@material-ui/lab/Autocomplete";
+import axios from "axios";
+import { Multiselect } from "multiselect-react-dropdown";
+import React, { Component } from "react";
+import { Button, Card, FormControl, InputGroup } from "react-bootstrap";
+import * as Icon from "react-bootstrap-icons";
+import debateEV2 from "../Logo/debatevlargefinal.svg";
 
 class HomePage extends Component {
   state = {
-    options: [
-      { name: '2014', id: 1, group: 'Year' },
-      { name: '2015', id: 2, group: 'Year' },
-      { name: '2016', id: 3, group: 'Year' },
-      { name: '2017', id: 4, group: 'Year' },
-      { name: '2018', id: 5, group: 'Year' },
-      { name: '2019', id: 6, group: 'Year' },
-      { name: '2020', id: 7, group: 'Year' },
-      { name: 'College Policy', id: 8, group: 'Data Set' },
-      { name: 'High School LD', id: 9, group: 'Data Set' },
-      { name: 'High School Policy', id: 10, group: 'Data Set' },
-      { name: 'OpenEv', id: 11, group: 'Data Set' },
-      { name: 'PF (Beta)', id: 12, group: 'Data Set' }
-    ],
-    Buttontext: JSON.parse(localStorage.getItem('isDark')) ? 'Light Theme' : 'Dark Theme',
+    Buttontext: JSON.parse(localStorage.getItem("isDark"))
+      ? "Light Theme"
+      : "Dark Theme",
     searchtext: "",
     selectedList: null,
     selectedValues: [],
@@ -44,135 +29,164 @@ class HomePage extends Component {
     pf: false,
     banner: true,
     name: null,
-    bannerHtml: '<p></p>',
-    array: []
+    bannerHtml: "<p></p>",
+    array: [],
   };
 
-  DarkToggle = event => {
-    const DARK_CLASS = 'dark';
-    window.localStorage.setItem('isDark', JSON.stringify(event));
-    if (JSON.parse(window.localStorage.getItem('isDark'))) {
+  DarkToggle = (event) => {
+    const DARK_CLASS = "dark";
+    window.localStorage.setItem("isDark", JSON.stringify(event));
+    if (JSON.parse(window.localStorage.getItem("isDark"))) {
       document.documentElement.classList.add(DARK_CLASS);
     } else {
       document.documentElement.classList.remove(DARK_CLASS);
     }
   };
   ButtonTextChange = () => {
-    if (JSON.parse(localStorage.getItem('isDark'))) {
-      this.setState({ Buttontext: 'Light Theme' });
+    if (JSON.parse(localStorage.getItem("isDark"))) {
+      this.setState({ Buttontext: "Light Theme" });
     } else {
-      this.setState({ Buttontext: 'Dark Theme' });
+      this.setState({ Buttontext: "Dark Theme" });
     }
   };
   getUrl = () => {
-    let years = '';
-    let url = '';
+    let years = "";
+    let url = "";
     if (this.state.a14 === true) {
-      years = years + '2014,';
+      years = years + "2014,";
     }
     if (this.state.a15 === true) {
-      years = years + '2015,';
+      years = years + "2015,";
     }
     if (this.state.a16 === true) {
-      years = years + '2016,';
+      years = years + "2016,";
     }
     if (this.state.a17 === true) {
-      years = years + '2017,';
+      years = years + "2017,";
     }
     if (this.state.a18 === true) {
-      years = years + '2018,';
+      years = years + "2018,";
     }
     if (this.state.a19 === true) {
-      years = years + '2019,';
+      years = years + "2019,";
     }
     if (this.state.a20 === true) {
-      years = years + '2020,';
+      years = years + "2020,";
     }
 
-    if (years.length > 0) url = url + '&year=' + years.substring(0, years.length - 1);
+    if (years.length > 0)
+      url = url + "&year=" + years.substring(0, years.length - 1);
 
-    let dtypes = '';
+    let dtypes = "";
     if (this.state.ld === true) {
-      dtypes = dtypes + 'ld,';
+      dtypes = dtypes + "ld,";
     }
 
     if (this.state.hspolicy === true) {
-      dtypes = dtypes + 'hspolicy,';
+      dtypes = dtypes + "hspolicy,";
     }
 
     if (this.state.college === true) {
-      dtypes = dtypes + 'college,';
+      dtypes = dtypes + "college,";
     }
     if (this.state.openev === true) {
-      dtypes = dtypes + 'openev,';
+      dtypes = dtypes + "openev,";
     }
     if (this.state.pf === true) {
-      dtypes = dtypes + 'pf,';
+      dtypes = dtypes + "pf,";
     }
 
-    if (dtypes.length > 0) url = url + '&dtype=' + dtypes.substring(0, dtypes.length - 1);
+    if (dtypes.length > 0)
+      url = url + "&dtype=" + dtypes.substring(0, dtypes.length - 1);
 
     return url;
   };
   constructor() {
     super();
     this.search = React.createRef();
-    this.getText = this.getText.bind(this)
+    this.getText = this.getText.bind(this);
   }
-  componentDidUpdate = () => { };
+  componentDidUpdate = () => {};
 
   componentDidMount = () => {
-    if (JSON.parse(localStorage.getItem('isDark')) === undefined) {
-      localStorage.setItem('isDark', 'false');
+    if (JSON.parse(localStorage.getItem("isDark")) === undefined) {
+      localStorage.setItem("isDark", "false");
     }
-    if (JSON.parse(localStorage.getItem('isDark'))) {
-      document.documentElement.classList.add('dark')
+    if (JSON.parse(localStorage.getItem("isDark"))) {
+      document.documentElement.classList.add("dark");
     } else {
-      document.documentElement.classList.remove('dark')
+      document.documentElement.classList.remove("dark");
     }
     function years1(currElm) {
-      console.log(currElm)
-      return currElm.includes("year")
+      console.log(currElm);
+      return currElm.includes("year");
     }
     function dtypes1(currElm) {
-      console.log(currElm)
-      return currElm.includes("dtype")
+      console.log(currElm);
+      return currElm.includes("dtype");
     }
-    if (sessionStorage.getItem('filters') === null) {
+    if (sessionStorage.getItem("filters") === null) {
     } else {
+      var selectedValues = [];
+      let years = [];
+      if (
+        sessionStorage
+          .getItem("filters")
+          .substring(1)
+          .split("&")
+          .find(years1)
+          ?.substring(5)
+          .split(",")
+      )
+        for (let year1 of sessionStorage
+          .getItem("filters")
+          .substring(1)
+          .split("&")
+          .find(years1)
+          ?.substring(5)
+          .split(",")) {
+          years.push({ name: year1 });
+          this.onSelect(this.state.selectedList, { name: year1 });
+        }
 
-      var selectedValues = []
-      let years = []
-      if (sessionStorage.getItem('filters').substring(1).split('&').find(years1)?.substring(5).split(',')) for (let year1 of sessionStorage.getItem('filters').substring(1).split('&').find(years1)?.substring(5).split(',')) {
-        years.push({ "name": year1 })
-        this.onSelect(this.state.selectedList, { "name": year1 })
-      }
-
-      if (sessionStorage.getItem('filters').substring(1).split('&').find(dtypes1)?.substring(6).split(',')) for (let dtype1 of sessionStorage.getItem('filters').substring(1).split('&').find(dtypes1)?.substring(6).split(',')) {
-        if (dtype1 === 'college') {
-          selectedValues.push({ "name": 'College Policy' })
-          this.onSelect(this.state.selectedList, { "name": 'College Policy' })
+      if (
+        sessionStorage
+          .getItem("filters")
+          .substring(1)
+          .split("&")
+          .find(dtypes1)
+          ?.substring(6)
+          .split(",")
+      )
+        for (let dtype1 of sessionStorage
+          .getItem("filters")
+          .substring(1)
+          .split("&")
+          .find(dtypes1)
+          ?.substring(6)
+          .split(",")) {
+          if (dtype1 === "college") {
+            selectedValues.push({ name: "College Policy" });
+            this.onSelect(this.state.selectedList, { name: "College Policy" });
+          } else if (dtype1 === "ld") {
+            selectedValues.push({ name: "High School LD" });
+            this.onSelect(this.state.selectedList, { name: "High School LD" });
+          } else if (dtype1 === "hspolicy") {
+            selectedValues.push({ name: "High School Policy" });
+            this.onSelect(this.state.selectedList, {
+              name: "High School Policy",
+            });
+          } else if (dtype1 === "openev") {
+            selectedValues.push({ name: "OpenEv" });
+            this.onSelect(this.state.selectedList, { name: "OpenEv" });
+          } else if (dtype1 === "pf") {
+            selectedValues.push({ name: "PF (Beta)" });
+            this.onSelect(this.state.selectedList, { name: "PF (Beta)" });
+          }
         }
-        else if (dtype1 === 'ld') {
-          selectedValues.push({ "name": 'High School LD' })
-          this.onSelect(this.state.selectedList, { "name": 'High School LD' })
-        }
-        else if (dtype1 === "hspolicy") {
-          selectedValues.push({ "name": 'High School Policy' })
-          this.onSelect(this.state.selectedList, { "name": 'High School Policy' })
-        }
-        else if (dtype1 === "openev") {
-          selectedValues.push({ "name": 'OpenEv' })
-          this.onSelect(this.state.selectedList, { "name": 'OpenEv' })
-        }
-        else if (dtype1 === "pf") {
-          selectedValues.push({ "name": 'PF (Beta)' })
-          this.onSelect(this.state.selectedList, { "name": 'PF (Beta)' })
-        }
-      }
-      this.setState({ selectedValues: selectedValues.concat(years) })
+      this.setState({ selectedValues: selectedValues.concat(years) });
     }
-    this.getData('https://api.debatev.com/api/v1/getBanner');
+    this.getData("https://api.debatev.com/api/v1/getBanner");
   };
 
   async getData(url) {
@@ -182,51 +196,51 @@ class HomePage extends Component {
 
   onSelect = (_selectedList, selectedItem) => {
     switch (selectedItem.name) {
-      case '2014':
+      case "2014":
         this.setState({ a14: true });
         break;
 
-      case '2015':
+      case "2015":
         this.setState({ a15: true });
         break;
 
-      case '2016':
+      case "2016":
         this.setState({ a16: true });
         break;
 
-      case '2017':
+      case "2017":
         this.setState({ a17: true });
         break;
 
-      case '2018':
+      case "2018":
         this.setState({ a18: true });
         break;
 
-      case '2019':
+      case "2019":
         this.setState({ a19: true });
         break;
 
-      case '2020':
+      case "2020":
         this.setState({ a20: true });
         break;
 
-      case 'College Policy':
+      case "College Policy":
         this.setState({ college: true });
         break;
 
-      case 'High School LD':
+      case "High School LD":
         this.setState({ ld: true });
         break;
 
-      case 'High School Policy':
+      case "High School Policy":
         this.setState({ hspolicy: true });
         break;
 
-      case 'OpenEv':
+      case "OpenEv":
         this.setState({ openev: true });
         break;
 
-      case 'PF (Beta)':
+      case "PF (Beta)":
         this.setState({ pf: true });
         break;
       default:
@@ -236,51 +250,51 @@ class HomePage extends Component {
 
   onRemove = (_selectedList, selectedItem) => {
     switch (selectedItem.name) {
-      case '2014':
+      case "2014":
         this.setState({ a14: false });
         break;
 
-      case '2015':
+      case "2015":
         this.setState({ a15: false });
         break;
 
-      case '2016':
+      case "2016":
         this.setState({ a16: false });
         break;
 
-      case '2017':
+      case "2017":
         this.setState({ a17: false });
         break;
 
-      case '2018':
+      case "2018":
         this.setState({ a18: false });
         break;
 
-      case '2019':
+      case "2019":
         this.setState({ a19: false });
         break;
 
-      case '2020':
+      case "2020":
         this.setState({ a20: false });
         break;
 
-      case 'College Policy':
+      case "College Policy":
         this.setState({ college: false });
         break;
 
-      case 'High School LD':
+      case "High School LD":
         this.setState({ ld: false });
         break;
 
-      case 'High School Policy':
+      case "High School Policy":
         this.setState({ hspolicy: false });
         break;
 
-      case 'OpenEv':
+      case "OpenEv":
         this.setState({ openev: false });
         break;
 
-      case 'PF (Beta)':
+      case "PF (Beta)":
         this.setState({ pf: false });
         break;
       default:
@@ -289,9 +303,11 @@ class HomePage extends Component {
   };
 
   async getText(text) {
-    this.setState({ searchtext: text })
+    this.setState({ searchtext: text });
 
-    this.promise = await axios.get('https://api.debatev.com/api/v1/autocomplete?q=' + text + this.getUrl())
+    this.promise = await axios.get(
+      "https://api.debatev.com/api/v1/autocomplete?q=" + text + this.getUrl()
+    );
 
     const localPromise = this.promise;
     const result = await this.promise;
@@ -300,9 +316,9 @@ class HomePage extends Component {
       let object = result.data;
       let array = Object.keys(object).map(function (k) {
         let str = object[k][1].toString();
-        return str.replace(/(<([^>]+)>)/ig, '');
-      })
-      this.setState({ array: array })
+        return str.replace(/(<([^>]+)>)/gi, "");
+      });
+      this.setState({ array: array });
     }
   }
 
@@ -313,68 +329,69 @@ class HomePage extends Component {
           style={{
             height: 300,
             borderWidth: 0,
-            alignItems: 'center'
+            alignItems: "center",
           }}
         >
-          {window.innerWidth >= 760 && this.state.banner ? (<InputGroup
-            className="mb-3"
-            style={{ flex: 1, borderRadius: '30' }}>
-            <Card
-              style={{
-                margin: 0,
-                flexGrow: true,
-                width: '100%',
-                color: 'blue',
-                backgroundColor: 'yellow',
-                allignItems: 'center',
-                justifyContent: 'center',
-                textAlign: 'center',
-                fontSize: 20,
-                flex: 1
-              }}
-
+          {window.innerWidth >= 760 && this.state.banner ? (
+            <InputGroup
+              className="mb-3"
+              style={{ flex: 1, borderRadius: "30" }}
             >
-
-              <div
-                dangerouslySetInnerHTML={{
-                  __html: this.state.bannerHtml.data
-                }}
-              />
-            </Card>
-            <InputGroup.Append>
-              <Button
-                variant="light"
+              <Card
                 style={{
-                  backgroundColor: 'yellow'
-                }}
-                onClick={_e => {
-                  this.setState({ banner: false })
+                  margin: 0,
+                  flexGrow: true,
+                  width: "100%",
+                  color: "blue",
+                  backgroundColor: "yellow",
+                  allignItems: "center",
+                  justifyContent: "center",
+                  textAlign: "center",
+                  fontSize: 20,
+                  flex: 1,
                 }}
               >
-                <Icon.X />
-              </Button>
-            </InputGroup.Append>
-          </InputGroup>) : null}
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: this.state.bannerHtml.data,
+                  }}
+                />
+              </Card>
+              <InputGroup.Append>
+                <Button
+                  variant="light"
+                  style={{
+                    backgroundColor: "yellow",
+                  }}
+                  onClick={(_e) => {
+                    this.setState({ banner: false });
+                  }}
+                >
+                  <Icon.X />
+                </Button>
+              </InputGroup.Append>
+            </InputGroup>
+          ) : null}
           <Card
             style={{
               height: 0,
               borderWidth: 0,
-              alignItems: 'center'
+              alignItems: "center",
             }}
-          />{' '}
+          />{" "}
           <InputGroup>
             <Button
               style={{
-                backgroundColor: '#1C86EE',
-                color: '#FFF',
+                backgroundColor: "#1C86EE",
+                color: "#FFF",
                 borderWidth: 0,
                 position: "absolute",
                 top: 5,
                 right: 130,
-                marginRight: 10
+                marginRight: 10,
               }}
-              onClick={_e => {
-                window.location.href = "/saved"
+              onClick={(_e) => {
+                window.location.href = "/saved";
               }}
             >
               Saved Cards
@@ -382,15 +399,15 @@ class HomePage extends Component {
             <InputGroup.Append>
               <Button
                 style={{
-                  backgroundColor: '#1C86EE',
-                  color: '#FFF',
+                  backgroundColor: "#1C86EE",
+                  color: "#FFF",
                   borderWidth: 0,
                   position: "absolute",
                   top: 5,
-                  right: "1%"
+                  right: "1%",
                 }}
-                onClick={_e => {
-                  this.DarkToggle(!JSON.parse(localStorage.getItem('isDark')));
+                onClick={(_e) => {
+                  this.DarkToggle(!JSON.parse(localStorage.getItem("isDark")));
                   this.ButtonTextChange();
                 }}
               >
@@ -398,15 +415,12 @@ class HomePage extends Component {
               </Button>
             </InputGroup.Append>
           </InputGroup>
-
-
           {window.innerWidth >= 760 ? (
             <img
               src={debateEV2}
               style={{
-
                 height: 300,
-                width: 500
+                width: 500,
               }}
             />
           ) : (
@@ -414,40 +428,39 @@ class HomePage extends Component {
               src={debateEV2}
               style={{
                 height: 200,
-                width: 300
+                width: 300,
               }}
             />
           )}
-
           <Card
             style={{
               height: 25,
 
               borderWidth: 0,
-              alignItems: 'center'
+              alignItems: "center",
             }}
           />
         </Card>
         <Card
           style={{
             flex: 1,
-            alignItems: 'center',
-            justifyContent: 'center',
+            alignItems: "center",
+            justifyContent: "center",
             flexGrow: true,
-            borderWidth: 0
+            borderWidth: 0,
           }}
         >
-          <div style={{ width: '25%' }} />
+          <div style={{ width: "25%" }} />
           <div
             style={{
-              alignItems: 'center',
-              justifyContent: 'center',
-              width: '50%'
+              alignItems: "center",
+              justifyContent: "center",
+              width: "50%",
             }}
           >
             <InputGroup
               className="mb-3"
-              style={{ flex: 1, borderRadius: '30' }}
+              style={{ flex: 1, borderRadius: "30" }}
             >
               <Autocomplete
                 id="search-bar"
@@ -462,95 +475,126 @@ class HomePage extends Component {
                       placeholder="Search for a card                "
                       y="basic-addon2"
                       style={{ borderRightWidth: 0 }}
-
                       onKeyPress={(e) => {
                         if (e.key === "Enter") {
                           window.location.href =
-                            "/search/" + this.search.current.value + this.getUrl();
-                          sessionStorage.setItem('filters', this.getUrl());
+                            "/search/" +
+                            this.search.current.value +
+                            this.getUrl();
+                          sessionStorage.setItem("filters", this.getUrl());
                         }
                       }}
                       {...params.inputProps}
                     />
                   </div>
                 )}
-                onKeyPress={e => {
-                  if (e.key === 'Enter') {
+                onKeyPress={(e) => {
+                  if (e.key === "Enter") {
                     window.location.href =
-                      '/search/' + this.state.searchtext + this.getUrl();
-                    if (this.getUrl() !== '') sessionStorage.setItem('filters', this.getUrl());
+                      "/search/" + this.state.searchtext + this.getUrl();
+                    sessionStorage.setItem("filters", this.getUrl());
                   }
                 }}
-                onInputChange={(_event, newValue) => { debounce(this.getText(newValue), 500) }}
+                onInputChange={(_event, newValue) => {
+                  this.getText(newValue);
+                }}
               />
 
               <InputGroup.Append>
                 <Button
                   variant="outline-primary"
-                  onClick={_e => {
+                  onClick={(_e) => {
                     window.location.href =
-                      '/search/' + this.state.searchtext + this.getUrl();
-                    if (this.getUrl() !== '') sessionStorage.setItem('filters', this.getUrl());
+                      "/search/" + this.state.searchtext + this.getUrl();
+                    sessionStorage.setItem("filters", this.getUrl());
                   }}
                 >
                   <Icon.Search />
                 </Button>
               </InputGroup.Append>
             </InputGroup>
-            <div style={{ width: '9%', color: '#32a852' }} />
-          <Card
-          style={{
-            flex: 1,
-            alignItems: 'right',
-            justifyContent: 'right',
-            flexGrow: true,
-            borderWidth: 0,
-            flexDirection: 'row',
-            marginTop: -2
-          }}
-        >
-          {window.innerWidth >= 760 ? (
-            <Multiselect
-              className="advanced"
-              options={this.state.options}
-              selectedValues={this.state.selectedValues}
-              onSelect={this.onSelect}
-              onRemove={this.onRemove}
-              displayValue="name"
-              groupBy="group"
-              style={{ multiselectContainer: { width: '60%', height: '30%', marginLeft: "auto"} }}
-              showCheckbox={true}
-              placeholder={this.getUrl() !== '' ? '' : 'Advanced Filters '}
-              closeOnSelect={false}
-            />
-          ) : null}
-          <div style={{ width: '9%', color: '#32a852' }} />
-            <Button
-              variant="outline-primary"
-              className="luckybutton"
-              style={{ borderWidth: 1, color: '#001040', marginRight: "auto", marginLeft: "10%",
-              whiteSpace: "nowrap"}}
-              onClick={_e => {
-                window.location.href = '/imfeelinglucky';
+            <div style={{ width: "9%", color: "#32a852" }} />
+            <Card
+              style={{
+                flex: 1,
+                alignItems: "right",
+                justifyContent: "right",
+                flexGrow: true,
+                borderWidth: 0,
+                flexDirection: "row",
+                marginTop: -2,
               }}
             >
-              {' '}
-              I'm Feeling Lucky{' '}
-            </Button>
-        </Card>{' '}
+              {window.innerWidth >= 760 ? (
+                <Multiselect
+                  className="advanced"
+                  options={[
+                    { name: "2014", id: 1, group: "Year" },
+                    { name: "2015", id: 2, group: "Year" },
+                    { name: "2016", id: 3, group: "Year" },
+                    { name: "2017", id: 4, group: "Year" },
+                    { name: "2018", id: 5, group: "Year" },
+                    { name: "2019", id: 6, group: "Year" },
+                    { name: "2020", id: 7, group: "Year" },
+                    { name: "College Policy", id: 8, group: "Data Set" },
+                    { name: "High School LD", id: 9, group: "Data Set" },
+                    { name: "High School Policy", id: 10, group: "Data Set" },
+                    { name: "OpenEv", id: 11, group: "Data Set" },
+                    { name: "PF (Beta)", id: 12, group: "Data Set" },
+                  ]}
+                  selectedValues={this.state.selectedValues}
+                  onSelect={this.onSelect}
+                  onRemove={this.onRemove}
+                  displayValue="name"
+                  groupBy="group"
+                  style={{
+                    multiselectContainer: {
+                      width: "60%",
+                      height: "30%",
+                      marginLeft: "auto",
+                    },
+                  }}
+                  showCheckbox={true}
+                  placeholder={this.getUrl() !== "" ? "" : "Advanced Filters "}
+                  closeOnSelect={false}
+                />
+              ) : null}
+              <div style={{ width: "9%", color: "#32a852" }} />
+              <Button
+                variant="outline-primary"
+                className="luckybutton"
+                style={{
+                  borderWidth: 1,
+                  color: "#001040",
+                  marginRight: "auto",
+                  marginLeft: "10%",
+                  whiteSpace: "nowrap",
+                }}
+                onClick={(_e) => {
+                  window.location.href = "/imfeelinglucky";
+                }}
+              >
+                {" "}
+                I'm Feeling Lucky{" "}
+              </Button>
+            </Card>{" "}
           </div>
-          <div style={{ width: '25%' }} />
+          <div style={{ width: "25%" }} />
         </Card>
 
-        <div style={{
-          position: "absolute",
-          bottom: 10,
-          textAlign: "center",
-          width: "100%"
-        }}>
-          <a href="https://github.com/densumesh/debatev-frontend">Debate Evidence</a> | Dens Sumesh, Akaash Kolluri, Rohan Agrawal
+        <div
+          style={{
+            position: "absolute",
+            bottom: 10,
+            textAlign: "center",
+            width: "100%",
+          }}
+        >
+          <a href="https://github.com/densumesh/debatev-frontend">
+            Debate Evidence
+          </a>{" "}
+          | Dens Sumesh, Akaash Kolluri, Rohan Agrawal
         </div>
-
       </div>
     );
   }
