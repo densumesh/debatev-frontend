@@ -1,17 +1,14 @@
 /* eslint-disable jsx-a11y/alt-text */
 import axios from "axios";
 import React, { Component } from "react";
-import {
-  Button,
-  Card
-} from "react-bootstrap";
+import { Button, Card } from "react-bootstrap";
 import debateEV from "../Logo/debatevsquarefinal.svg";
-import CardPreview from "./CardPreview";
+import CardPreview from "../utils/CardPreview";
 
-if (JSON.parse(localStorage.getItem('isDark'))) {
-  document.documentElement.classList.add('dark')
+if (JSON.parse(localStorage.getItem("isDark"))) {
+  document.documentElement.classList.add("dark");
 } else {
-  document.documentElement.classList.remove('dark')
+  document.documentElement.classList.remove("dark");
 }
 class ImFeelingLucky extends Component {
   state = { ref: "", page: 0, cards: [], search: "", isLoading: -1 };
@@ -31,9 +28,7 @@ class ImFeelingLucky extends Component {
   };
 
   goToPage = () => {
-    window.location.href.substring(
-      window.location.href.lastIndexOf("/") + 1
-    );
+    window.location.href.substring(window.location.href.lastIndexOf("/") + 1);
 
     let url = "https://api.debatev.com/api/v1/cards/imfeelinglucky";
 
@@ -102,7 +97,14 @@ class ImFeelingLucky extends Component {
           <Button
             className="luckybutton"
             variant="outline-primary"
-            style={{ borderWidth: 1, width: "25%", height: "10%", flexGrow: true, color: "#001040", marginTop: 0 }}
+            style={{
+              borderWidth: 1,
+              width: "25%",
+              height: "10%",
+              flexGrow: true,
+              color: "#001040",
+              marginTop: 0,
+            }}
             onClick={() => {
               window.location.href = "/imfeelinglucky";
             }}
@@ -136,8 +138,16 @@ class ImFeelingLucky extends Component {
               <CardPreview cardData={card} history={this.props.history} />
             ))}
             {this.state.isLoading === -1 ? (
-              <img className="loadinggif" style={{ width: 150, height: 150, marginLeft: "auto", marginRight: "auto" }} src="https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif">
-              </img>
+              <img
+                className="loadinggif"
+                style={{
+                  width: 150,
+                  height: 150,
+                  marginLeft: "auto",
+                  marginRight: "auto",
+                }}
+                src="https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif"
+              ></img>
             ) : null}
           </Card>
 

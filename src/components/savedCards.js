@@ -1,27 +1,23 @@
 /* eslint-disable jsx-a11y/alt-text */
 import axios from "axios";
 import React, { Component } from "react";
-import {
-  Button,
-  Card
-} from "react-bootstrap";
+import { Button, Card } from "react-bootstrap";
 import debateEV from "../Logo/debatevsquarefinal.svg";
-import CardPreview from "./CardPreview";
+import CardPreview from "../utils/CardPreview";
 
-if (JSON.parse(localStorage.getItem('isDark'))) {
-  document.documentElement.classList.add('dark')
+if (JSON.parse(localStorage.getItem("isDark"))) {
+  document.documentElement.classList.add("dark");
 } else {
-  document.documentElement.classList.remove('dark')
+  document.documentElement.classList.remove("dark");
 }
 class SavedCards extends Component {
-  state = { ref: "", page: 1, cards: [], search: "", isLoading: -1, };
+  state = { ref: "", page: 1, cards: [], search: "", isLoading: -1 };
 
   componentDidMount = () => {
-    let m = localStorage.getItem('saved')
+    let m = localStorage.getItem("saved");
     console.log(m);
     this.setState({ search: m });
-    let url =
-      "https://api.debatev.com/api/v1/saved?q=" + m
+    let url = "https://api.debatev.com/api/v1/saved?q=" + m;
 
     this.getData(url).then((data) => {
       let object = data;
@@ -31,7 +27,7 @@ class SavedCards extends Component {
       this.setState({ cards: array });
       this.setState({ isLoading: 0 });
     });
-  }
+  };
 
   async getData(url) {
     let data = await axios.get(url);
@@ -44,7 +40,6 @@ class SavedCards extends Component {
   }
   render() {
     return (
-
       <div className="searchcard">
         {" "}
         <Card
@@ -60,7 +55,7 @@ class SavedCards extends Component {
             flexGrow: true,
             borderWidth: 0,
             flexDirection: "row",
-            height: 100
+            height: 100,
           }}
         >
           <a href="https://www.debatev.com/">
@@ -78,37 +73,38 @@ class SavedCards extends Component {
         </Card>{" "}
         <Button
           style={{
-            backgroundColor: '#1C86EE',
-            color: '#FFF',
+            backgroundColor: "#1C86EE",
+            color: "#FFF",
             borderWidth: 0,
             position: "absolute",
             top: 15,
             right: 130,
-            marginRight: 10
+            marginRight: 10,
           }}
           onClick={() => {
-            window.location.href = "https://api.debatev.com/api/v1/download?q=" + localStorage.getItem('saved')
+            window.location.href =
+              "https://api.debatev.com/api/v1/download?q=" +
+              localStorage.getItem("saved");
           }}
-          disabled={localStorage.getItem('saved') === null}
+          disabled={localStorage.getItem("saved") === null}
         >
           Download Cards
         </Button>
         <Button
           style={{
-            backgroundColor: '#1C86EE',
-            color: '#FFF',
+            backgroundColor: "#1C86EE",
+            color: "#FFF",
             borderWidth: 0,
             position: "absolute",
             top: 15,
             right: 280,
             marginRight: 10,
-
           }}
           onClick={() => {
-            localStorage.removeItem('saved')
-            window.location.reload()
+            localStorage.removeItem("saved");
+            window.location.reload();
           }}
-          disabled={localStorage.getItem('saved') === null}
+          disabled={localStorage.getItem("saved") === null}
         >
           Clear Cards
         </Button>
@@ -128,11 +124,21 @@ class SavedCards extends Component {
               <CardPreview cardData={card} history={this.props.history} />
             ))}
             {this.state.cards.length !== 0 && this.state.isLoading === -1 ? (
-              <img className="loadinggif" style={{ width: 150, height: 150, marginLeft: "auto", marginRight: "auto" }} src="https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif">
-              </img>
+              <img
+                className="loadinggif"
+                style={{
+                  width: 150,
+                  height: 150,
+                  marginLeft: "auto",
+                  marginRight: "auto",
+                }}
+                src="https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif"
+              ></img>
             ) : null}
             {this.state.cards.length === 0 && this.state.isLoading === -1 ? (
-              <Card style={{ borderWidth: 0 }}>No Saved Cards. Go Save Some Cards!</Card>
+              <Card style={{ borderWidth: 0 }}>
+                No Saved Cards. Go Save Some Cards!
+              </Card>
             ) : null}
           </Card>
           <Card style={{ flex: 1, borderWidth: 0 }} />
