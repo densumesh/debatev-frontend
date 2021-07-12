@@ -147,3 +147,15 @@ body {
   background-color: #0096fb !important;
   color: var(--primaryBackgroundColor) !important;
 }
+.scroll-to-top__button {
+  height: 50px;
+  position: fixed;
+  bottom: 20px;
+  width: 50px;
+  transition: opacity 0.5s ease-in-out 0s, right;
+  cursor: pointer;
+  opacity: 1;
+  right: 20px;
+  z-index: 1000;
+  filter: var(--filter);
+}

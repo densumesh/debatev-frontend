@@ -7,6 +7,8 @@ import debateEV from "../Logo/debatevsquarefinal.svg";
 import Filters from "../utils/Filters";
 import CardPreview from "../utils/CardPreview";
 import SearchBox from "../utils/SearchBox";
+import ScrollToTop from "../utils/scrollToTop";
+
 if (JSON.parse(localStorage.getItem("isDark"))) {
   document.documentElement.classList.add("dark");
 } else {
@@ -219,6 +221,7 @@ class DisplayResults extends Component {
     return (
       <div className="searchcard">
         {" "}
+        <ScrollToTop />
         <Card
           style={{ height: 20, flex: 1, borderWidth: 0, alignItems: "center" }}
         >
