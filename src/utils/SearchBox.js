@@ -1,8 +1,8 @@
 import { Button, FormControl, InputGroup } from "react-bootstrap";
 import React, { useState } from "react";
 import Autocomplete from "@material-ui/lab/Autocomplete";
-import * as Icon from "react-bootstrap-icons";
-import axios from "axios";
+import { Search as SearchIcon } from "react-bootstrap-icons";
+import { get as getQuery } from "axios";
 
 export default function SearchBox(props) {
   let search = React.createRef();
@@ -12,7 +12,7 @@ export default function SearchBox(props) {
   async function getText(text) {
     setSearchTerm(text);
 
-    let promise = await axios.get(
+    let promise = await getQuery(
       "https://api.debatev.com/api/v1/autocomplete?q=" + text + props.getUrl()
     );
 
@@ -74,7 +74,7 @@ export default function SearchBox(props) {
             sessionStorage.setItem("filters", props.getUrl());
           }}
         >
-          <Icon.Search />
+          <SearchIcon />
         </Button>
       </InputGroup.Append>
     </InputGroup>

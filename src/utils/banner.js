@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { Button, Card, InputGroup } from "react-bootstrap";
-import * as Icon from "react-bootstrap-icons";
-import axios from "axios";
+import { X as CloseIcon } from "react-bootstrap-icons";
+import { get as getQuery } from "axios";
 
 export default function Banner() {
   let [bannerHtml, setBannerHtml] = useState();
   let [banner, setBanner] = useState(true);
   async function getData() {
-    let data = await axios.get("https://api.debatev.com/api/v1/getBanner");
+    let data = await getQuery("https://api.debatev.com/api/v1/getBanner");
     setBannerHtml(data.data);
   }
   getData();
@@ -46,7 +46,7 @@ export default function Banner() {
                 setBanner(false);
               }}
             >
-              <Icon.X />
+              <CloseIcon />
             </Button>
           </InputGroup.Append>
         </InputGroup>

@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/alt-text */
-import axios from "axios";
+import { get as getQuery } from "axios";
 import React, { Component } from "react";
 import { Button, Card } from "react-bootstrap";
 import debateEV from "../Logo/debatevsquarefinal.svg";
@@ -30,7 +30,7 @@ class SavedCards extends Component {
   };
 
   async getData(url) {
-    let data = await axios.get(url);
+    let data = await getQuery(url);
     console.log(data.data);
     return data.data;
   }

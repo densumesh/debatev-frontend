@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/alt-text */
-import axios from "axios";
+import { get as getQuery } from "axios";
 import React, { Component } from "react";
 import { Button, Card } from "react-bootstrap";
 import debateEV from "../Logo/debatevsquarefinal.svg";
@@ -50,7 +50,7 @@ class ImFeelingLucky extends Component {
   }
 
   async getData(url) {
-    let data = await axios.get(url);
+    let data = await getQuery(url);
     console.log(data.data);
     return data.data;
   }
@@ -66,11 +66,7 @@ class ImFeelingLucky extends Component {
     return (
       <div>
         {" "}
-        <Card
-          style={{ height: 20, flex: 1, borderWidth: 0, alignItems: "center" }}
-        >
-          {" "}
-        </Card>
+        <div style={{ height: 20 }} />
         <Card
           style={{
             flex: 1,
@@ -112,16 +108,8 @@ class ImFeelingLucky extends Component {
             {" "}
             I'm Feeling Luckier{" "}
           </Button>
-          <div style={{ width: 150 }} />
-          <div
-            style={{
-              alignItems: "center",
-              justifyContent: "center",
-              width: "50%",
-              height: 60,
-            }}
-          ></div>
-          <div style={{ width: "40%" }} />
+
+          <div style={{ width: "80%", height: 60 }} />
         </Card>
         <Card
           style={{

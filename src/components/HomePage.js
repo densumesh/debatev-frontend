@@ -175,13 +175,6 @@ class HomePage extends Component {
           }}
         >
           <Banner />
-          <Card
-            style={{
-              height: 0,
-              borderWidth: 0,
-              alignItems: "center",
-            }}
-          />{" "}
           <InputGroup>
             <Button
               style={{
@@ -203,30 +196,20 @@ class HomePage extends Component {
               <DarkToggle />
             </InputGroup.Append>
           </InputGroup>
-          {window.innerWidth >= 760 ? (
-            <img
-              src={debateEV2}
-              style={{
-                height: 300,
-                width: 500,
-              }}
-            />
-          ) : (
-            <img
-              src={debateEV2}
-              style={{
-                height: 200,
-                width: 300,
-              }}
-            />
-          )}
-          <Card
-            style={{
-              height: 25,
-
-              borderWidth: 0,
-              alignItems: "center",
-            }}
+          <img
+            rel="preload"
+            src={debateEV2}
+            style={
+              window.innerWidth >= 760
+                ? {
+                    height: 300,
+                    width: 500,
+                  }
+                : {
+                    height: 200,
+                    width: 300,
+                  }
+            }
           />
         </Card>
         <Card

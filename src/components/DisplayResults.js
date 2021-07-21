@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/alt-text */
-import axios from "axios";
+import { get as getQuery } from "axios";
 import React, { Component } from "react";
 import { Button, Card } from "react-bootstrap";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -212,7 +212,7 @@ class DisplayResults extends Component {
   };
 
   async getData(url) {
-    let data = await axios.get(url);
+    let data = await getQuery(url);
     console.log(data.data);
     return data.data;
   }
@@ -223,11 +223,6 @@ class DisplayResults extends Component {
         {" "}
         <ScrollToTop />
         <Card
-          style={{ height: 20, flex: 1, borderWidth: 0, alignItems: "center" }}
-        >
-          {" "}
-        </Card>
-        <Card
           style={{
             flex: 1,
             alignItems: "right",
@@ -235,6 +230,7 @@ class DisplayResults extends Component {
             flexGrow: true,
             borderWidth: 0,
             flexDirection: "row",
+            marginTop: "20px",
           }}
         >
           <a href="https://www.debatev.com/">
@@ -250,12 +246,12 @@ class DisplayResults extends Component {
             />
           </a>
 
-          <div style={{ width: 150 }} />
           <div
             style={{
               alignItems: "center",
               justifyContent: "center",
               width: "50%",
+              marginLeft: 140,
             }}
           >
             <SearchBox getUrl={this.getUrl} />
