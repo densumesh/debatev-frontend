@@ -1,9 +1,9 @@
 /* eslint-disable jsx-a11y/alt-text */
 import { get as getQuery } from "axios";
-import React, { Component } from "react";
+import React, { Component, lazy } from "react";
 import { Button, Card } from "react-bootstrap";
 import debateEV from "../Logo/debatevsquarefinal.svg";
-import CardPreview from "../utils/CardPreview";
+const CardPreview = lazy(() => import("../utils/CardPreview"));
 
 if (JSON.parse(localStorage.getItem("isDark"))) {
   document.documentElement.classList.add("dark");
