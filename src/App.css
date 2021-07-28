@@ -82,6 +82,7 @@ html.dark {
 .card {
   background: var(--primaryBackgroundColor);
   color: var(--primaryTextColor);
+  border: 0;
 }
 body {
   background: var(--primaryBackgroundColor);
@@ -120,11 +121,13 @@ body {
 }
 
 .home-page-header {
-  background: #191919;
+  background: var(--completeColor);
+  border-bottom-color: white;
 }
 
 .home-page-footer {
-  background: #191919;
+  background: var(--completeColor);
+  border-bottom-color: var(--secondary-border-color);
   text-align: center;
 }
 .filename {
