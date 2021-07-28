@@ -1,13 +1,13 @@
 /* eslint-disable jsx-a11y/alt-text */
 import { get as getQuery } from "axios";
-import React, { lazy, Component, Suspense } from "react";
+import React, { Component } from "react";
 import { Button, Card } from "react-bootstrap";
+import InfiniteScroll from "react-infinite-scroll-component";
 import debateEV from "../Logo/debatevsquarefinal.svg";
-const InfiniteScroll = lazy(() => import("react-infinite-scroll-component"));
-const Filters = lazy(() => import("../utils/Filters"));
-const CardPreview = lazy(() => import("../utils/CardPreview"));
-const SearchBox = lazy(() => import("../utils/SearchBox"));
-const ScrollToTop = lazy(() => import("../utils/scrollToTop"));
+import Filters from "../utils/Filters";
+import CardPreview from "../utils/CardPreview";
+import SearchBox from "../utils/SearchBox";
+import ScrollToTop from "../utils/scrollToTop";
 
 if (JSON.parse(localStorage.getItem("isDark"))) {
   document.documentElement.classList.add("dark");
@@ -219,162 +219,158 @@ class DisplayResults extends Component {
 
   render() {
     return (
-      <Suspense fallback={<div>Loading...</div>}>
-        <div className="searchcard">
-          {" "}
-          <ScrollToTop />
-          <Card
-            style={{
-              flex: 1,
-              alignItems: "right",
-              justifyContent: "center",
-              flexGrow: true,
-              borderWidth: 0,
-              flexDirection: "row",
-              marginTop: "20px",
-            }}
-          >
-            <a href="https://www.debatev.com/">
-              <img
-                src={debateEV}
-                style={{
-                  height: 80,
-                  width: 80,
-                  position: "absolute",
-                  top: -20,
-                  left: 30,
-                }}
-              />
-            </a>
-
-            <div
+      <div className="searchcard">
+        {" "}
+        <ScrollToTop />
+        <Card
+          style={{
+            flex: 1,
+            alignItems: "right",
+            justifyContent: "center",
+            flexGrow: true,
+            borderWidth: 0,
+            flexDirection: "row",
+            marginTop: "20px",
+          }}
+        >
+          <a href="https://www.debatev.com/">
+            <img
+              src={debateEV}
               style={{
-                alignItems: "center",
-                justifyContent: "center",
-                width: "50%",
-                marginLeft: 140,
+                height: 80,
+                width: 80,
+                position: "absolute",
+                top: -20,
+                left: 30,
               }}
-            >
-              <SearchBox getUrl={this.getUrl} />
-              <Card
-                style={{
-                  flex: 1,
-                  alignItems: "right",
-                  justifyContent: "right",
-                  flexGrow: true,
-                  borderWidth: 0,
-                  flexDirection: "row",
-                  marginTop: -7,
-                  marginBottom: 5,
-                }}
-              >
-                <Filters
-                  stateChanger={this.setFilters}
-                  selectedValues={this.state.selectedValues}
-                />{" "}
-                <div style={{ width: "9%", color: "#32a852" }} />
-                <Button
-                  variant="outline-primary"
-                  className="luckybutton"
-                  style={{
-                    borderWidth: 1,
-                    color: "#001040",
-                    marginRight: "auto",
-                    marginLeft: "10%",
-                    whiteSpace: "nowrap",
-                  }}
-                  onClick={(_e) => {
-                    window.location.href = "/imfeelinglucky";
-                  }}
-                >
-                  {" "}
-                  I'm Feeling Lucky{" "}
-                </Button>
-              </Card>{" "}
-            </div>
-            <div style={{ width: "40%" }} />
-          </Card>
-          <Card
+            />
+          </a>
+
+          <div
             style={{
-              flex: 1,
               alignItems: "center",
-              justifyContent: "right",
-              flexGrow: true,
-              borderWidth: 0,
-              flexDirection: "row",
-              marginLeft: "10%",
-            }}
-          >
-            <div style={{ width: "9%", color: "#32a852" }} />
-            {window.innerWidth >= 760 ? (
-              <Button
-                id="dropdown-basic-button"
-                style={{
-                  borderWidth: 0,
-                  position: "absolute",
-                  right: 15,
-                  top: -50,
-                }}
-              >
-                {"1" +
-                  " - " +
-                  (this.state.amt * this.state.page > this.state.total
-                    ? this.state.total
-                    : this.state.amt * this.state.page) +
-                  " of " +
-                  this.state.total}
-              </Button>
-            ) : null}
-            <div style={{ width: "5%", color: "#32a852" }} />
-          </Card>{" "}
-          <Card
-            style={{
-              flex: 1,
-              alignItems: "right",
               justifyContent: "center",
-              flexGrow: true,
-              borderWidth: 0,
-              flexDirection: "row",
+              width: "50%",
+              marginLeft: 140,
             }}
           >
-            <Card style={{ flex: 1, borderWidth: 0 }} />
+            <SearchBox getUrl={this.getUrl} />
             <Card
               style={{
-                flexDirection: "column",
-                flex: 15,
+                flex: 1,
+                alignItems: "right",
+                justifyContent: "right",
+                flexGrow: true,
                 borderWidth: 0,
-                marginTop: "auto",
+                flexDirection: "row",
+                marginTop: -7,
+                marginBottom: 5,
               }}
             >
-              <InfiniteScroll
-                dataLength={this.state.cards.length}
-                next={this.fetchMoreData}
-                hasMore={
-                  this.state.cards.length < this.state.total - 10 &&
-                  this.state.total !== 0
-                }
-                loader={<h4>Loading...</h4>}
-                endMessage={<h4>No more cards to display.</h4>}
+              <Filters
+                stateChanger={this.setFilters}
+                selectedValues={this.state.selectedValues}
+              />{" "}
+              <div style={{ width: "9%", color: "#32a852" }} />
+              <Button
+                variant="outline-primary"
+                className="luckybutton"
+                style={{
+                  borderWidth: 1,
+                  color: "#001040",
+                  marginRight: "auto",
+                  marginLeft: "10%",
+                  whiteSpace: "nowrap",
+                }}
+                onClick={(_e) => {
+                  window.location.href = "/imfeelinglucky";
+                }}
               >
-                {this.state.cards.map((card) => (
-                  <CardPreview
-                    key={card[0]}
-                    cardData={card}
-                    history={this.props.history}
-                  />
-                ))}
-              </InfiniteScroll>
+                {" "}
+                I'm Feeling Lucky{" "}
+              </Button>
+            </Card>{" "}
+          </div>
+          <div style={{ width: "40%" }} />
+        </Card>
+        <Card
+          style={{
+            flex: 1,
+            alignItems: "center",
+            justifyContent: "right",
+            flexGrow: true,
+            borderWidth: 0,
+            flexDirection: "row",
+            marginLeft: "10%",
+          }}
+        >
+          <div style={{ width: "9%", color: "#32a852" }} />
+          {window.innerWidth >= 760 ? (
+            <Button
+              id="dropdown-basic-button"
+              style={{
+                borderWidth: 0,
+                position: "absolute",
+                right: 15,
+                top: -50,
+              }}
+            >
+              {"1" +
+                " - " +
+                (this.state.amt * this.state.page > this.state.total
+                  ? this.state.total
+                  : this.state.amt * this.state.page) +
+                " of " +
+                this.state.total}
+            </Button>
+          ) : null}
+          <div style={{ width: "5%", color: "#32a852" }} />
+        </Card>{" "}
+        <Card
+          style={{
+            flex: 1,
+            alignItems: "right",
+            justifyContent: "center",
+            flexGrow: true,
+            borderWidth: 0,
+            flexDirection: "row",
+          }}
+        >
+          <Card style={{ flex: 1, borderWidth: 0 }} />
+          <Card
+            style={{
+              flexDirection: "column",
+              flex: 15,
+              borderWidth: 0,
+              marginTop: "auto",
+            }}
+          >
+            <InfiniteScroll
+              dataLength={this.state.cards.length}
+              next={this.fetchMoreData}
+              hasMore={
+                this.state.cards.length < this.state.total - 10 &&
+                this.state.total !== 0
+              }
+              loader={<h4>Loading...</h4>}
+              endMessage={<h4>No more cards to display.</h4>}
+            >
+              {this.state.cards.map((card) => (
+                <CardPreview
+                  key={card[0]}
+                  cardData={card}
+                  history={this.props.history}
+                />
+              ))}
+            </InfiniteScroll>
 
-              {this.state.cards.length === 0 && this.state.isLoading !== -1 ? (
-                <Card style={{ borderWidth: 0 }}>
-                  No Results have been found
-                </Card>
-              ) : null}
-            </Card>
-            <Card style={{ flex: 1, borderWidth: 0 }} />
+            {this.state.cards.length === 0 && this.state.isLoading !== -1 ? (
+              <Card style={{ borderWidth: 0 }}>No Results have been found</Card>
+            ) : null}
           </Card>
-        </div>
-      </Suspense>
+          <Card style={{ flex: 1, borderWidth: 0 }} />
+        </Card>
+      </div>
     );
   }
 }

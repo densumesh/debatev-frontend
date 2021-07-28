@@ -1,9 +1,8 @@
 import { Button, FormControl, InputGroup } from "react-bootstrap";
-import React, { useState, lazy, Suspense } from "react";
+import React, { useState } from "react";
+import Autocomplete from "@material-ui/lab/Autocomplete";
 import { Search as SearchIcon } from "react-bootstrap-icons";
 import { get as getQuery } from "axios";
-
-const Autocomplete = lazy(() => import("@material-ui/lab/Autocomplete"));
 
 export default function SearchBox(props) {
   let search = React.createRef();
@@ -31,55 +30,53 @@ export default function SearchBox(props) {
   }
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <InputGroup className="mb-3" style={{ flex: 1, borderRadius: "30" }}>
-        <Autocomplete
-          id="search-bar"
-          freeSolo
-          noOptionsText="No Options"
-          options={autocomplete}
-          style={{ width: "100%", flex: 1 }}
-          renderInput={(params) => (
-            <div ref={params.InputProps.ref}>
-              <FormControl
-                ref={search}
-                placeholder="Search for a card                "
-                y="basic-addon2"
-                style={{ borderRightWidth: 0 }}
-                onKeyPress={(e) => {
-                  if (e.key === "Enter") {
-                    window.location.href =
-                      "/search/" + search.current.value + props.getUrl();
-                    sessionStorage.setItem("filters", props.getUrl());
-                  }
-                }}
-                {...params.inputProps}
-              />
-            </div>
-          )}
-          onKeyPress={(e) => {
-            if (e.key === "Enter") {
-              window.location.href = "/search/" + searchTerm + props.getUrl();
-              sessionStorage.setItem("filters", props.getUrl());
-            }
-          }}
-          onInputChange={(_event, newValue) => {
-            getText(newValue);
-          }}
-        />
+    <InputGroup className="mb-3" style={{ flex: 1, borderRadius: "30" }}>
+      <Autocomplete
+        id="search-bar"
+        freeSolo
+        noOptionsText="No Options"
+        options={autocomplete}
+        style={{ width: "100%", flex: 1 }}
+        renderInput={(params) => (
+          <div ref={params.InputProps.ref}>
+            <FormControl
+              ref={search}
+              placeholder="Search for a card                "
+              y="basic-addon2"
+              style={{ borderRightWidth: 0 }}
+              onKeyPress={(e) => {
+                if (e.key === "Enter") {
+                  window.location.href =
+                    "/search/" + search.current.value + props.getUrl();
+                  sessionStorage.setItem("filters", props.getUrl());
+                }
+              }}
+              {...params.inputProps}
+            />
+          </div>
+        )}
+        onKeyPress={(e) => {
+          if (e.key === "Enter") {
+            window.location.href = "/search/" + searchTerm + props.getUrl();
+            sessionStorage.setItem("filters", props.getUrl());
+          }
+        }}
+        onInputChange={(_event, newValue) => {
+          getText(newValue);
+        }}
+      />
 
-        <InputGroup.Append>
-          <Button
-            variant="outline-primary"
-            onClick={(_e) => {
-              window.location.href = "/search/" + searchTerm + props.getUrl();
-              sessionStorage.setItem("filters", props.getUrl());
-            }}
-          >
-            <SearchIcon />
-          </Button>
-        </InputGroup.Append>
-      </InputGroup>
-    </Suspense>
+      <InputGroup.Append>
+        <Button
+          variant="outline-primary"
+          onClick={(_e) => {
+            window.location.href = "/search/" + searchTerm + props.getUrl();
+            sessionStorage.setItem("filters", props.getUrl());
+          }}
+        >
+          <SearchIcon />
+        </Button>
+      </InputGroup.Append>
+    </InputGroup>
   );
 }

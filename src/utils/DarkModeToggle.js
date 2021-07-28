@@ -31,6 +31,7 @@ export default function DarkToggle() {
         position: "absolute",
         top: 5,
         right: "1%",
+        marginTop: "5px",
       }}
       onClick={(_e) => {
         DarkToggle(!JSON.parse(localStorage.getItem("isDark")));

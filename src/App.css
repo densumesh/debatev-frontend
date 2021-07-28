@@ -118,6 +118,15 @@ body {
   border-bottom-color: var(--secondary-border-color);
   background: var(--secondaryBackgroundColor);
 }
+
+.home-page-header {
+  background: #191919;
+}
+
+.home-page-footer {
+  background: #191919;
+  text-align: center;
+}
 .filename {
   background: var(--titleColor) !important;
   color: var(--primaryTextColor) !important;

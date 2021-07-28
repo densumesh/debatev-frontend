@@ -1,9 +1,9 @@
 /* eslint-disable jsx-a11y/alt-text */
 import { get as getQuery } from "axios";
-import React, { Component, Suspense, lazy } from "react";
+import React, { Component } from "react";
 import { Button, Card } from "react-bootstrap";
 import debateEV from "../Logo/debatevsquarefinal.svg";
-const CardPreview = lazy(() => import("../utils/CardPreview"));
+import CardPreview from "../utils/CardPreview";
 
 if (JSON.parse(localStorage.getItem("isDark"))) {
   document.documentElement.classList.add("dark");
@@ -64,86 +64,84 @@ class ImFeelingLucky extends Component {
   }
   render() {
     return (
-      <Suspense fallback={<div>Loading...</div>}>
-        <div>
-          {" "}
-          <div style={{ height: 20 }} />
-          <Card
-            style={{
-              flex: 1,
-              alignItems: "right",
-              justifyContent: "center",
-              flexGrow: true,
-              borderWidth: 0,
-              flexDirection: "row",
-            }}
-          >
-            <a href="https://www.debatev.com/">
-              <img
-                src={debateEV}
-                style={{
-                  height: 80,
-                  width: 80,
-                  position: "absolute",
-                  top: -20,
-                  left: 30,
-                }}
-              />
-            </a>
-            <div style={{ width: "80%" }} />
-            <Button
-              className="luckybutton"
-              variant="outline-primary"
+      <div>
+        {" "}
+        <div style={{ height: 20 }} />
+        <Card
+          style={{
+            flex: 1,
+            alignItems: "right",
+            justifyContent: "center",
+            flexGrow: true,
+            borderWidth: 0,
+            flexDirection: "row",
+          }}
+        >
+          <a href="https://www.debatev.com/">
+            <img
+              src={debateEV}
               style={{
-                borderWidth: 1,
-                width: "25%",
-                height: "10%",
-                flexGrow: true,
-                color: "#001040",
-                marginTop: 0,
+                height: 80,
+                width: 80,
+                position: "absolute",
+                top: -20,
+                left: 30,
               }}
-              onClick={() => {
-                window.location.href = "/imfeelinglucky";
-              }}
-            >
-              {" "}
-              I'm Feeling Luckier{" "}
-            </Button>
-
-            <div style={{ width: "80%", height: 60 }} />
-          </Card>
-          <Card
+            />
+          </a>
+          <div style={{ width: "80%" }} />
+          <Button
+            className="luckybutton"
+            variant="outline-primary"
             style={{
-              flex: 1,
-              alignItems: "center",
-              justifyContent: "center",
-
-              flexDirection: "row",
+              borderWidth: 1,
+              width: "25%",
+              height: "10%",
+              flexGrow: true,
+              color: "#001040",
+              marginTop: 0,
+            }}
+            onClick={() => {
+              window.location.href = "/imfeelinglucky";
             }}
           >
-            <Card style={{ flex: 1, borderWidth: 0 }} />
-            <Card style={{ flex: 15, borderWidth: 0, marginTop: 10 }}>
-              {this.state.cards.map((card) => (
-                <CardPreview cardData={card} history={this.props.history} />
-              ))}
-              {this.state.isLoading === -1 ? (
-                <img
-                  className="loadinggif"
-                  style={{
-                    width: 150,
-                    height: 150,
-                    marginLeft: "auto",
-                    marginRight: "auto",
-                  }}
-                  src="https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif"
-                ></img>
-              ) : null}
-            </Card>
+            {" "}
+            I'm Feeling Luckier{" "}
+          </Button>
 
-            <Card style={{ flex: 1, borderWidth: 0 }} />
-          </Card>{" "}
-        </div>
-      </Suspense>
+          <div style={{ width: "80%", height: 60 }} />
+        </Card>
+        <Card
+          style={{
+            flex: 1,
+            alignItems: "center",
+            justifyContent: "center",
+
+            flexDirection: "row",
+          }}
+        >
+          <Card style={{ flex: 1, borderWidth: 0 }} />
+          <Card style={{ flex: 15, borderWidth: 0, marginTop: 10 }}>
+            {this.state.cards.map((card) => (
+              <CardPreview cardData={card} history={this.props.history} />
+            ))}
+            {this.state.isLoading === -1 ? (
+              <img
+                className="loadinggif"
+                style={{
+                  width: 150,
+                  height: 150,
+                  marginLeft: "auto",
+                  marginRight: "auto",
+                }}
+                src="https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif"
+              ></img>
+            ) : null}
+          </Card>
+
+          <Card style={{ flex: 1, borderWidth: 0 }} />
+        </Card>{" "}
+      </div>
     );
   }
 }
