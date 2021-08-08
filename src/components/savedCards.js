@@ -1,9 +1,8 @@
 /* eslint-disable jsx-a11y/alt-text */
-import { get as getQuery } from "axios";
-import React, { Component, lazy } from "react";
+import React, { Component } from "react";
 import { Button, Card } from "react-bootstrap";
 import debateEV from "../Logo/debatevsquarefinal.svg";
-const CardPreview = lazy(() => import("../utils/CardPreview"));
+import CardPreview from "../utils/CardPreview";
 
 if (JSON.parse(localStorage.getItem("isDark"))) {
   document.documentElement.classList.add("dark");
@@ -30,9 +29,12 @@ class SavedCards extends Component {
   };
 
   async getData(url) {
-    let data = await getQuery(url);
-    console.log(data.data);
-    return data.data;
+    let data = fetch(url)
+      .then((response) => response.json())
+      .then((data) => {
+        return data;
+      });
+    return data;
   }
   constructor() {
     super();

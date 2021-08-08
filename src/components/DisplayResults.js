@@ -1,13 +1,12 @@
 /* eslint-disable jsx-a11y/alt-text */
-import { get as getQuery } from "axios";
-import React, { Component } from "react";
+import React, { Component, lazy, Suspense } from "react";
 import { Button, Card } from "react-bootstrap";
 import InfiniteScroll from "react-infinite-scroll-component";
 import debateEV from "../Logo/debatevsquarefinal.svg";
 import Filters from "../utils/Filters";
 import CardPreview from "../utils/CardPreview";
 import SearchBox from "../utils/SearchBox";
-import ScrollToTop from "../utils/scrollToTop";
+const ScrollToTop = lazy(() => import("../utils/scrollToTop"));
 
 if (JSON.parse(localStorage.getItem("isDark"))) {
   document.documentElement.classList.add("dark");
@@ -212,16 +211,21 @@ class DisplayResults extends Component {
   };
 
   async getData(url) {
-    let data = await getQuery(url);
-    console.log(data.data);
-    return data.data;
+    let data = fetch(url)
+      .then((response) => response.json())
+      .then((data) => {
+        return data;
+      });
+    return data;
   }
 
   render() {
     return (
       <div className="searchcard">
         {" "}
-        <ScrollToTop />
+        <Suspense fallback={<div>Loading...</div>}>
+          <ScrollToTop />
+        </Suspense>
         <Card
           style={{
             flex: 1,
@@ -326,6 +330,7 @@ class DisplayResults extends Component {
           ) : null}
           <div style={{ width: "5%", color: "#32a852" }} />
         </Card>{" "}
+        <div style={{ height: 20 }} />
         <Card
           style={{
             flex: 1,
