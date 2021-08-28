@@ -18,6 +18,7 @@ class HomePage extends Component {
       a18: false,
       a19: false,
       a20: false,
+      a21: false,
     },
     dtypes: {
       hspolicy: false,
@@ -55,6 +56,9 @@ class HomePage extends Component {
     if (this.state.years.a20 === true) {
       years = years + "2020,";
     }
+    if (this.state.years.a21 === true) {
+      years = years + "2021,";
+    }
 
     if (years.length > 0)
       url = url + "&year=" + years.substring(0, years.length - 1);
@@ -73,9 +77,6 @@ class HomePage extends Component {
     }
     if (this.state.dtypes.openev === true) {
       dtypes = dtypes + "openev,";
-    }
-    if (this.state.dtypes.pf === true) {
-      dtypes = dtypes + "pf,";
     }
 
     if (dtypes.length > 0)
@@ -139,8 +140,6 @@ class HomePage extends Component {
             selectedValues.push({ name: "High School Policy" });
           } else if (dtype1 === "openev") {
             selectedValues.push({ name: "OpenEv" });
-          } else if (dtype1 === "pf") {
-            selectedValues.push({ name: "PF (Beta)" });
           }
         }
       this.state.selectedValues = selectedValues.concat(years);
