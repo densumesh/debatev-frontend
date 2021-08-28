@@ -9,8 +9,6 @@
     "@testing-library/react": "^12.0.0",
     "@testing-library/user-event": "^13.1.9",
     "bootstrap": "^5.0.2",
-    "debounce": "^1.2.1",
-    "faker": "^5.5.3",
     "history": "^5.0.0",
     "inspector": "^0.5.0",
     "multiselect-react-dropdown": "^2.0.4",
@@ -20,12 +18,10 @@
     "react-bootstrap-icons": "^1.5.0",
     "react-bootstrap-modal": "^4.2.0",
     "react-dom": "^17.0.2",
-    "react-icons": "^4.2.0",
     "react-infinite-scroll-component": "^6.1.0",
     "react-responsive": "^8.2.0",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "^4.0.3",
-    "reactstrap": "^8.9.0"
+    "react-scripts": "^4.0.3"
   },
   "scripts": {
     "start": "react-scripts start",

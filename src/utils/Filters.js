@@ -11,6 +11,7 @@ export default function Filters(props) {
     a18: false,
     a19: false,
     a20: false,
+    a21: false,
   });
 
   let [dtype, setDtype] = useState({
@@ -18,7 +19,6 @@ export default function Filters(props) {
     hspolicy: false,
     ld: false,
     openev: false,
-    pf: false,
   });
 
   let [selectedValues] = useState(props.selectedValues);
@@ -70,6 +70,10 @@ export default function Filters(props) {
 
         break;
 
+      case "2021":
+        setYears({ ...years, a21: true });
+
+        break;
       case "College Policy":
         setDtype({ ...dtype, college: true });
 
@@ -90,10 +94,6 @@ export default function Filters(props) {
 
         break;
 
-      case "PF (Beta)":
-        setDtype({ ...dtype, pf: true });
-
-        break;
       default:
         break;
     }
@@ -135,7 +135,10 @@ export default function Filters(props) {
         setYears({ ...years, a20: false });
 
         break;
+      case "2021":
+        setYears({ ...years, a21: false });
 
+        break;
       case "College Policy":
         setDtype({ ...dtype, college: false });
 
@@ -156,10 +159,6 @@ export default function Filters(props) {
 
         break;
 
-      case "PF (Beta)":
-        setDtype({ ...dtype, pf: false });
-
-        break;
       default:
         break;
     }
@@ -178,11 +177,11 @@ export default function Filters(props) {
             { name: "2018", id: 5, group: "Year" },
             { name: "2019", id: 6, group: "Year" },
             { name: "2020", id: 7, group: "Year" },
+            { name: "2021", id: 7, group: "Year" },
             { name: "College Policy", id: 8, group: "Data Set" },
             { name: "High School LD", id: 9, group: "Data Set" },
             { name: "High School Policy", id: 10, group: "Data Set" },
             { name: "OpenEv", id: 11, group: "Data Set" },
-            { name: "PF (Beta)", id: 12, group: "Data Set" },
           ]}
           selectedValues={selectedValues}
           onSelect={onSelect}
