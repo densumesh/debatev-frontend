@@ -27,7 +27,7 @@ export default function Filters(props) {
 
   useEffect(() => {
     if (props.selectedValues !== null) {
-      for (let i = 0; i < props.selectedValues.length; i++) {
+      for (let i = 0; i < props.selectedValues?.length; i++) {
         onSelect(props.selectedValues, props.selectedValues[i]);
       }
     }
@@ -200,7 +200,7 @@ export default function Filters(props) {
           hidePlaceholder={
             (!Object.keys(years).every((k) => !years[k]) &&
               !Object.keys(dtype).every((k) => !dtype[k])) ||
-            selectedValues.length !== 0
+            selectedValues?.length !== 0
           }
           closeOnSelect={false}
         />
