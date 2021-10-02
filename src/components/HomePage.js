@@ -1,15 +1,16 @@
 /* eslint-disable jsx-a11y/alt-text */
-import React, { Component } from "react";
-import { Button, Card } from "react-bootstrap";
+import React, {Component} from "react";
+import {Button, Card} from "react-bootstrap";
 import debateEV2 from "../Logo/debatevlargefinal.svg";
 import DarkToggle from "../utils/DarkModeToggle";
 import Filters from "../utils/Filters";
 import SearchBox from "../utils/SearchBox";
+
 class HomePage extends Component {
-  state = {
-    searchtext: "",
-    selectedList: null,
-    selectedValues: [],
+    state = {
+        searchtext: "",
+        selectedList: null,
+        selectedValues: [],
     years: {
       a14: false,
       a15: false,
@@ -75,28 +76,32 @@ class HomePage extends Component {
     if (this.state.dtypes.college === true) {
       dtypes = dtypes + "college,";
     }
-    if (this.state.dtypes.openev === true) {
-      dtypes = dtypes + "openev,";
-    }
+      if (this.state.dtypes.openev === true) {
+          dtypes = dtypes + "openev,";
+      }
 
-    if (dtypes.length > 0)
-      url = url + "&dtype=" + dtypes.substring(0, dtypes.length - 1);
+      if (dtypes.length > 0)
+          url = url + "&dtype=" + dtypes.substring(0, dtypes.length - 1);
 
-    return url;
+      return url;
   };
-  constructor() {
-    super();
-    this.search = React.createRef();
-    function years1(currElm) {
-      return currElm.includes("year");
-    }
-    function dtypes1(currElm) {
-      return currElm.includes("dtype");
-    }
-    if (sessionStorage.getItem("filters") === null) {
-    } else {
-      var selectedValues = [];
-      let years = [];
+
+    constructor(props) {
+        super(props);
+        this.search = React.createRef();
+
+        function years1(currElm) {
+            return currElm.includes("year");
+        }
+
+        function dtypes1(currElm) {
+            return currElm.includes("dtype");
+        }
+
+        if (sessionStorage.getItem("filters") === null) {
+        } else {
+            let selectedValues = [];
+            let years = [];
       if (
         sessionStorage
           .getItem("filters")
@@ -197,17 +202,17 @@ class HomePage extends Component {
             rel="preload"
             src={debateEV2}
             style={
-              window.innerWidth >= 760
-                ? {
-                    height: 300,
-                    width: 500,
-                  }
-                : {
-                    height: 200,
-                    width: 300,
-                  }
+                window.innerWidth >= 760
+                    ? {
+                        height: 300,
+                        width: 500,
+                    }
+                    : {
+                        height: 200,
+                        width: 300,
+                    }
             }
-          />
+            alt={"Website logo"}/>
         </Card>
         <Card
           style={{
