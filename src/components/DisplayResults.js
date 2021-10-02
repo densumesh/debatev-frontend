@@ -1,11 +1,12 @@
 /* eslint-disable jsx-a11y/alt-text */
-import React, { Component, lazy, Suspense } from "react";
-import { Button, Card } from "react-bootstrap";
+import React, {Component, lazy, Suspense} from "react";
+import {Button, Card} from "react-bootstrap";
 import InfiniteScroll from "react-infinite-scroll-component";
 import debateEV from "../Logo/debatevsquarefinal.svg";
 import Filters from "../utils/Filters";
 import CardPreview from "../utils/CardPreview";
 import SearchBox from "../utils/SearchBox";
+
 const ScrollToTop = lazy(() => import("../utils/scrollToTop"));
 
 if (JSON.parse(localStorage.getItem("isDark"))) {
@@ -99,8 +100,9 @@ class DisplayResults extends Component {
 
     return url;
   };
-  constructor() {
-    super();
+
+  constructor(props) {
+    super(props);
     this.search = React.createRef();
     function years1(currElm) {
       return currElm.includes("year");
@@ -110,7 +112,7 @@ class DisplayResults extends Component {
     }
     if (sessionStorage.getItem("filters") === null) {
     } else {
-      var selectedValues = [];
+      let selectedValues = [];
       let years = [];
       if (
         sessionStorage
@@ -208,12 +210,11 @@ class DisplayResults extends Component {
   };
 
   async getData(url) {
-    let data = fetch(url)
-      .then((response) => response.json())
-      .then((data) => {
-        return data;
-      });
-    return data;
+      return fetch(url)
+        .then((response) => response.json())
+        .then((data) => {
+            return data;
+        });
   }
 
   render() {
@@ -244,7 +245,7 @@ class DisplayResults extends Component {
                 top: -20,
                 left: 30,
               }}
-            />
+             alt={"Website logo"}/>
           </a>
 
           <div
