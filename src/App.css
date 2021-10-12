@@ -76,7 +76,6 @@ html.dark {
 .pagination.page-link {
   background: var(--completeColor);
   border-color: var(--completeColor);
-  border-color: var(--completeColor);
 }
 
 .card {
