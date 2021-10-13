@@ -1,12 +1,12 @@
 /* eslint-disable jsx-a11y/alt-text */
-import React, {Component, lazy, Suspense} from "react";
-import {Button, Card} from "react-bootstrap";
+import React, { Component, lazy, Suspense } from "react";
+import { Button, Card } from "react-bootstrap";
 import InfiniteScroll from "react-infinite-scroll-component";
 import debateEV from "../Logo/debatevsquarefinal.svg";
 import Filters from "../utils/Filters";
 import CardPreview from "../utils/CardPreview";
 import SearchBox from "../utils/SearchBox";
-
+import { CacheableResponse } from "workbox-cacheable-response";
 const ScrollToTop = lazy(() => import("../utils/scrollToTop"));
 
 if (JSON.parse(localStorage.getItem("isDark"))) {
@@ -210,11 +210,26 @@ class DisplayResults extends Component {
   };
 
   async getData(url) {
+    const cacheable = new CacheableResponse({
+      statuses: [404, 200],
+    });
+    console.log((await caches.match(url, { cacheName: "api-cache" }))?.json());
+    if ((await caches.match(url, { cacheName: "api-cache" })) === undefined) {
       return fetch(url)
-        .then((response) => response.json())
+        .then((response) => {
+          if (cacheable.isResponseCacheable(response)) {
+            caches.open("api-cache").then(function (cache) {
+              cache.put(url, response);
+            });
+          }
+          return response.clone().json();
+        })
         .then((data) => {
-            return data;
+          return data;
         });
+    } else {
+      return (await caches.match(url, { cacheName: "api-cache" })).json();
+    }
   }
 
   render() {
@@ -245,7 +260,8 @@ class DisplayResults extends Component {
                 top: -20,
                 left: 30,
               }}
-             alt={"Website logo"}/>
+              alt={"Website logo"}
+            />
           </a>
 
           <div

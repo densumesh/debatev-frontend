@@ -1,17 +1,18 @@
 /* eslint-disable jsx-a11y/alt-text */
-import React, {Component} from "react";
-import {Button, Card} from "react-bootstrap";
+import React, { Component } from "react";
+import { Button, Card } from "react-bootstrap";
 import debateEV from "../Logo/debatevsquarefinal.svg";
 import CardPreview from "../utils/CardPreview";
+import { CacheableResponse } from "workbox-cacheable-response";
 
 if (JSON.parse(localStorage.getItem("isDark"))) {
-    document.documentElement.classList.add("dark");
+  document.documentElement.classList.add("dark");
 } else {
-    document.documentElement.classList.remove("dark");
+  document.documentElement.classList.remove("dark");
 }
 
 class SavedCards extends Component {
-    state = {ref: "", page: 1, cards: [], search: "", isLoading: -1};
+  state = { ref: "", page: 1, cards: [], search: "", isLoading: -1 };
 
   componentDidMount = () => {
     let m = localStorage.getItem("saved");
@@ -29,27 +30,41 @@ class SavedCards extends Component {
     });
   };
 
-    async getData(url) {
-        return fetch(url)
-            .then((response) => response.json())
-            .then((data) => {
-                return data;
+  async getData(url) {
+    const cacheable = new CacheableResponse({
+      statuses: [404, 200],
+    });
+    console.log((await caches.match(url, { cacheName: "api-cache" }))?.json());
+    if ((await caches.match(url, { cacheName: "api-cache" })) === undefined) {
+      return fetch(url)
+        .then((response) => {
+          if (cacheable.isResponseCacheable(response)) {
+            caches.open("api-cache").then(function (cache) {
+              cache.put(url, response);
             });
+          }
+          return response.clone().json();
+        })
+        .then((data) => {
+          return data;
+        });
+    } else {
+      return (await caches.match(url, { cacheName: "api-cache" })).json();
     }
+  }
+  constructor(props) {
+    super(props);
+    this.search = React.createRef();
+  }
 
-    constructor(props) {
-        super(props);
-        this.search = React.createRef();
-    }
-
-    render() {
-        return (
-            <div className="searchcard">
-                {" "}
-                <Card
-                    style={{height: 20, flex: 1, borderWidth: 0, alignItems: "center"}}
-                >
-                    {" "}
+  render() {
+    return (
+      <div className="searchcard">
+        {" "}
+        <Card
+          style={{ height: 20, flex: 1, borderWidth: 0, alignItems: "center" }}
+        >
+          {" "}
         </Card>
         <Card
           style={{
@@ -63,16 +78,17 @@ class SavedCards extends Component {
           }}
         >
           <a href="https://www.debatev.com/">
-              <img
-                  src={debateEV}
-                  style={{
-                      height: 80,
-                      width: 80,
-                      position: "absolute",
-                      top: -20,
-                      left: 30,
-                  }}
-                  alt={"Website logo"}/>
+            <img
+              src={debateEV}
+              style={{
+                height: 80,
+                width: 80,
+                position: "absolute",
+                top: -20,
+                left: 30,
+              }}
+              alt={"Website logo"}
+            />
           </a>
         </Card>{" "}
         <Button
@@ -128,16 +144,17 @@ class SavedCards extends Component {
               <CardPreview cardData={card} history={this.props.history} />
             ))}
             {this.state.cards.length !== 0 && this.state.isLoading === -1 ? (
-                <img
-                    className="loadinggif"
-                    style={{
-                        width: 150,
-                        height: 150,
-                        marginLeft: "auto",
-                        marginRight: "auto",
-                    }}
-                    src="https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif"
-                    alt={"loading"}/>
+              <img
+                className="loadinggif"
+                style={{
+                  width: 150,
+                  height: 150,
+                  marginLeft: "auto",
+                  marginRight: "auto",
+                }}
+                src="https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif"
+                alt={"loading"}
+              />
             ) : null}
             {this.state.cards.length === 0 && this.state.isLoading === -1 ? (
               <Card style={{ borderWidth: 0 }}>

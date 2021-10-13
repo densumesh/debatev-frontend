@@ -1,17 +1,17 @@
 /* eslint-disable jsx-a11y/alt-text */
-import React, {Component} from "react";
-import {Button, Card} from "react-bootstrap";
+import React, { Component } from "react";
+import { Button, Card } from "react-bootstrap";
 import debateEV from "../Logo/debatevsquarefinal.svg";
 import CardPreview from "../utils/CardPreview";
 
 if (JSON.parse(localStorage.getItem("isDark"))) {
-    document.documentElement.classList.add("dark");
+  document.documentElement.classList.add("dark");
 } else {
-    document.documentElement.classList.remove("dark");
+  document.documentElement.classList.remove("dark");
 }
 
 class ImFeelingLucky extends Component {
-    state = {ref: "", page: 0, cards: [], search: "", isLoading: -1};
+  state = { ref: "", page: 0, cards: [], search: "", isLoading: -1 };
   componentDidMount = () => {
     let url = "https://api.debatev.com/api/v1/cards/imfeelinglucky";
     document.addEventListener("keydown", this.escFunction, false);
@@ -49,28 +49,28 @@ class ImFeelingLucky extends Component {
     }
   }
 
-    async getData(url) {
-        return fetch(url)
-            .then((response) => response.json())
-            .then((data) => {
-                return data;
-            });
-    }
+  async getData(url) {
+    return fetch(url)
+      .then((response) => response.json())
+      .then((data) => {
+        return data;
+      });
+  }
 
-    constructor(props) {
-        super(props);
-        this.search = React.createRef();
-    }
+  constructor(props) {
+    super(props);
+    this.search = React.createRef();
+  }
 
-    componentWillUnmount() {
-        document.removeEventListener("keydown", this.escFunction, false);
-    }
+  componentWillUnmount() {
+    document.removeEventListener("keydown", this.escFunction, false);
+  }
 
-    render() {
-        return (
-            <div>
-                {" "}
-                <div style={{height: 20}}/>
+  render() {
+    return (
+      <div>
+        {" "}
+        <div style={{ height: 20 }} />
         <Card
           style={{
             flex: 1,
@@ -82,16 +82,17 @@ class ImFeelingLucky extends Component {
           }}
         >
           <a href="https://www.debatev.com/">
-              <img
-                  src={debateEV}
-                  style={{
-                      height: 80,
-                      width: 80,
-                      position: "absolute",
-                      top: -20,
-                      left: 30,
-                  }}
-                  alt={"Website logo"}/>
+            <img
+              src={debateEV}
+              style={{
+                height: 80,
+                width: 80,
+                position: "absolute",
+                top: -20,
+                left: 30,
+              }}
+              alt={"Website logo"}
+            />
           </a>
           <div style={{ width: "80%" }} />
           <Button
@@ -130,16 +131,17 @@ class ImFeelingLucky extends Component {
               <CardPreview cardData={card} history={this.props.history} />
             ))}
             {this.state.isLoading === -1 ? (
-                <img
-                    className="loadinggif"
-                    style={{
-                        width: 150,
-                        height: 150,
-                        marginLeft: "auto",
-                        marginRight: "auto",
-                    }}
-                    src="https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif"
-                    alt={"loading"}/>
+              <img
+                className="loadinggif"
+                style={{
+                  width: 150,
+                  height: 150,
+                  marginLeft: "auto",
+                  marginRight: "auto",
+                }}
+                src="https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif"
+                alt={"loading"}
+              />
             ) : null}
           </Card>
 
