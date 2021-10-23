@@ -213,7 +213,6 @@ class DisplayResults extends Component {
     const cacheable = new CacheableResponse({
       statuses: [404, 200],
     });
-    console.log((await caches.match(url, { cacheName: "api-cache" }))?.json());
     if ((await caches.match(url, { cacheName: "api-cache" })) === undefined) {
       return fetch(url)
         .then((response) => {

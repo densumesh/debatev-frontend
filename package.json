@@ -24,11 +24,12 @@
     "react-scripts": "^4.0.3"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "react-scripts build && serve -s build -l 3000",
+    "dev": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "watch": "react-scripts watch"
+    "watch": "nodemon --ignore build/ "
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -44,5 +45,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "purgecss": "^4.0.3",
+    "purify-css": "^1.2.5",
+    "purifycss-webpack": "^0.7.0"
   }
 }
