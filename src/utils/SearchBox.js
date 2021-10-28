@@ -39,18 +39,25 @@ export default function SearchBox(props) {
         noOptionsText="No Options"
         options={autocomplete}
         style={{ width: "100%", flex: 1 }}
+        value={
+          window.location.href !== window.location.origin + "/"
+            ? sessionStorage.getItem("searchTerm")
+            : sessionStorage.setItem("searchTerm", "")
+        }
         renderInput={(params) => (
           <div ref={params.InputProps.ref}>
             <FormControl
               ref={search}
               placeholder="Search for a card                "
+              value={sessionStorage.getItem("searchTerm")}
               y="basic-addon2"
               style={{ borderRightWidth: 0 }}
               onKeyPress={(e) => {
                 if (e.key === "Enter") {
                   window.location.href =
-                    "/search/" + search.current.value + props.getUrl();
+                    "/search/" + search.current?.value + props.getUrl();
                   sessionStorage.setItem("filters", props.getUrl());
+                  sessionStorage.setItem("searchTerm", search.current?.value);
                 }
               }}
               {...params.inputProps}
@@ -61,6 +68,7 @@ export default function SearchBox(props) {
           if (e.key === "Enter") {
             window.location.href = "/search/" + searchTerm + props.getUrl();
             sessionStorage.setItem("filters", props.getUrl());
+            sessionStorage.setItem("searchTerm", searchTerm);
           }
         }}
         onInputChange={(_event, newValue) => {

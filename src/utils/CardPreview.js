@@ -93,6 +93,7 @@ class CardPreview extends Component {
           show={this.state.visible}
           onHide={this.closeModal}
           size="lg"
+          centered
         >
           <Modal.Header>
             <Modal.Title id="example-modal-sizes-title-sm">

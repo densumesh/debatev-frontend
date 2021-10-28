@@ -21,9 +21,11 @@
     "react-infinite-scroll-component": "^6.1.0",
     "react-responsive": "^8.2.0",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "^4.0.3"
+    "react-scripts": "^4.0.3",
+    "source-map-explorer": "^2.5.2"
   },
   "scripts": {
+    "analyze": "source-map-explorer 'build/static/js/*.js'",
     "start": "react-scripts build && serve -s build -l 3000",
     "dev": "react-scripts start",
     "build": "react-scripts build",

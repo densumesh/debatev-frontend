@@ -90,64 +90,9 @@ class HomePage extends Component {
     super(props);
     this.search = React.createRef();
 
-    function years1(currElm) {
-      return currElm.includes("year");
-    }
-
-    function dtypes1(currElm) {
-      return currElm.includes("dtype");
-    }
-
     if (sessionStorage.getItem("filters") === null) {
     } else {
-      let selectedValues = [];
-      let years = [];
-      if (
-        sessionStorage
-          .getItem("filters")
-          .substring(1)
-          .split("&")
-          .find(years1)
-          ?.substring(5)
-          .split(",")
-      )
-        for (let year1 of sessionStorage
-          .getItem("filters")
-          .substring(1)
-          .split("&")
-          .find(years1)
-          ?.substring(5)
-          .split(",")) {
-          years.push({ name: year1 });
-        }
-
-      if (
-        sessionStorage
-          .getItem("filters")
-          .substring(1)
-          .split("&")
-          .find(dtypes1)
-          ?.substring(6)
-          .split(",")
-      )
-        for (let dtype1 of sessionStorage
-          .getItem("filters")
-          .substring(1)
-          .split("&")
-          .find(dtypes1)
-          ?.substring(6)
-          .split(",")) {
-          if (dtype1 === "college") {
-            selectedValues.push({ name: "College Policy" });
-          } else if (dtype1 === "ld") {
-            selectedValues.push({ name: "High School LD" });
-          } else if (dtype1 === "hspolicy") {
-            selectedValues.push({ name: "High School Policy" });
-          } else if (dtype1 === "openev") {
-            selectedValues.push({ name: "OpenEv" });
-          }
-        }
-      this.state.selectedValues = selectedValues.concat(years);
+      sessionStorage.setItem("filters", "");
     }
   }
 
