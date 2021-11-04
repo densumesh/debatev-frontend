@@ -218,7 +218,15 @@ class DisplayResults extends Component {
         .then((response) => {
           if (cacheable.isResponseCacheable(response)) {
             caches.open("api-cache").then(function (cache) {
-              cache.put(url, response);
+              cache.keys().then(function (keys) {
+                if (keys.length < 20) {
+                  cache.put(url, response);
+                } else {
+                  cache.delete(keys[0]).then(function () {
+                    cache.put(url, response);
+                  });
+                }
+              });
             });
           }
           return response.clone().json();
