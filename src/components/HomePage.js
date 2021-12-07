@@ -1,4 +1,4 @@
-/* eslint-disable jsx-a11y/alt-text */
+﻿/* eslint-disable jsx-a11y/alt-text */
 import React, { Component } from "react";
 import { Button, Card } from "react-bootstrap";
 import debateEV2 from "../Logo/debatevlargefinal.svg";
