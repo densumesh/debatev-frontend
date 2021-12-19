@@ -1,12 +1,14 @@
 /* eslint-disable jsx-a11y/alt-text */
 import React, { Component, lazy, Suspense } from "react";
-import { Button, Card } from "react-bootstrap";
+import Button from "react-bootstrap/Button";
+import Card from "react-bootstrap/Card";
 import InfiniteScroll from "react-infinite-scroll-component";
 import debateEV from "../Logo/debatevsquarefinal.svg";
 import Filters from "../utils/Filters";
 import CardPreview from "../utils/CardPreview";
 import SearchBox from "../utils/SearchBox";
 import { CacheableResponse } from "workbox-cacheable-response";
+
 const ScrollToTop = lazy(() => import("../utils/scrollToTop"));
 
 if (JSON.parse(localStorage.getItem("isDark"))) {
@@ -239,6 +241,26 @@ class DisplayResults extends Component {
     }
   }
 
+  buildUrl = () => {
+    let year = "";
+    let dtype = "";
+    if (this.state.year?.length > 0) {
+      year = "&year=" + this.state.year;
+    }
+    if (this.state.dtype?.length > 0) {
+      dtype = "&dtype=" + this.state.dtype + ",";
+    } else {
+      dtype = "&dtype=";
+    }
+    return (
+      "https://www.debatev.com/search/" +
+      this.state.search +
+      year +
+      dtype +
+      "usersubmit"
+    );
+  };
+
   render() {
     return (
       <div className="searchcard">
@@ -379,7 +401,12 @@ class DisplayResults extends Component {
                 this.state.total !== 0
               }
               loader={<h4>Loading...</h4>}
-              endMessage={<h4>No more cards to display.</h4>}
+              endMessage={
+                <h4>
+                  No more cards to display. Do you want to include{" "}
+                  <a href={this.buildUrl()}>user-submited cards?</a>
+                </h4>
+              }
             >
               {this.state.cards.map((card) => (
                 <CardPreview

@@ -1,4 +1,6 @@
-import { Button, FormControl, InputGroup } from "react-bootstrap";
+import Button from "react-bootstrap/Button";
+import FormControl from "react-bootstrap/FormControl";
+import InputGroup from "react-bootstrap/InputGroup";
 import React, { useState } from "react";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { Search as SearchIcon } from "react-bootstrap-icons";

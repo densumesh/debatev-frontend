@@ -1,14 +1,15 @@
 ﻿/* eslint-disable jsx-a11y/alt-text */
 import React, { Component } from "react";
-import { Button, Card } from "react-bootstrap";
+import Button from "react-bootstrap/Button";
+import Card from "react-bootstrap/Card";
 import debateEV2 from "../Logo/debatevlargefinal.svg";
 import DarkToggle from "../utils/DarkModeToggle";
 import Filters from "../utils/Filters";
 import SearchBox from "../utils/SearchBox";
+import UploadCard from "../utils/Upload";
 
 class HomePage extends Component {
   state = {
-    searchtext: "",
     selectedList: null,
     selectedValues: [],
     years: {
@@ -28,9 +29,6 @@ class HomePage extends Component {
       openev: false,
       pf: false,
     },
-
-    name: null,
-    array: [],
   };
 
   getUrl = () => {
@@ -140,6 +138,7 @@ class HomePage extends Component {
           >
             Saved Cards
           </Button>
+          <UploadCard />
           <DarkToggle />
         </Card>
         <Card style={{ alignItems: "center" }}>

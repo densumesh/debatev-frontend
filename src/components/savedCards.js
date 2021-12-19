@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/alt-text */
 import React, { Component } from "react";
-import { Button, Card } from "react-bootstrap";
+import Button from "react-bootstrap/Button";
+import Card from "react-bootstrap/Card";
 import debateEV from "../Logo/debatevsquarefinal.svg";
 import CardPreview from "../utils/CardPreview";
 import { CacheableResponse } from "workbox-cacheable-response";

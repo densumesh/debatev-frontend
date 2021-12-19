@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Multiselect } from "multiselect-react-dropdown";
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 export default function Filters(props) {
   let [years, setYears] = useState({
