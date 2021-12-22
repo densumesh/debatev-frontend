@@ -1,4 +1,4 @@
-import { Button } from "react-bootstrap";
+import Button from "react-bootstrap/Button";
 import React, { useState } from "react";
 
 export default function DarkToggle() {

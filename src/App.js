@@ -1,7 +1,6 @@
-import React, {Component, lazy, Suspense} from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "./App.css";
-import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
+import React, { Component, lazy, Suspense } from "react";
+import "./App.scss";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 const HomePage = lazy(() => import("./components/HomePage"));
 const DisplayResults = lazy(() => import("./components/DisplayResults"));
@@ -18,31 +17,28 @@ class App extends Component {
           <div>
             <Switch>
               <Route
-                  path="/imfeelinglucky"
-                  render={(props) => <ImFeelingLucky {...props} />}
+                path="/imfeelinglucky"
+                render={(props) => <ImFeelingLucky {...props} />}
               />
               <Route
-                  path="/search/:id"
-                  render={(props) => (
-                      <DisplayResults yearFilters={props.yearFilters} {...props} />
-                  )}
+                path="/search/:id"
+                render={(props) => (
+                  <DisplayResults yearFilters={props.yearFilters} {...props} />
+                )}
               />
               <Route
-                  path="/search"
-                  render={(props) => (
-                      <DisplayResults yearFilters={props.yearFilters} {...props} />
-                  )}
+                path="/search"
+                render={(props) => (
+                  <DisplayResults yearFilters={props.yearFilters} {...props} />
+                )}
               />
               <Route
-                  path="/saved"
-                  render={(props) => (
-                      <SavedCards yearFilters={props.yearFilters} {...props} />
-                  )}
+                path="/saved"
+                render={(props) => (
+                  <SavedCards yearFilters={props.yearFilters} {...props} />
+                )}
               />
-              <Route
-                  path="/"
-                  render={(props) => <HomePage {...props} />}
-              />
+              <Route path="/" render={(props) => <HomePage {...props} />} />
             </Switch>
           </div>
         </Router>
