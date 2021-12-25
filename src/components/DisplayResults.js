@@ -412,7 +412,6 @@ class DisplayResults extends Component {
                 <CardPreview
                   key={card[0]}
                   cardData={card}
-                  history={this.props.history}
                 />
               ))}
             </InfiniteScroll>

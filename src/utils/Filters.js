@@ -190,10 +190,11 @@ export default function Filters(props) {
           groupBy="group"
           style={{
             multiselectContainer: {
-              width: "60%",
+              width: "50%",
               height: "30%",
-              marginLeft: "auto",
+              flex: 1,
             },
+            flexShrink: 1,
           }}
           showCheckbox={true}
           placeholder={"Advanced Filters "}

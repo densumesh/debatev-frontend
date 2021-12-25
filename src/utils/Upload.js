@@ -31,33 +31,37 @@ export default function UploadCard(props) {
   };
 
   return (
-    <div className="custom-file-label custom custom-file">
-      <input
-        type="file"
-        id="inputGroupFile01"
-        className="custom-file-input"
-        ref={inputFileRef}
-        onChangeCapture={onFileChangeCapture}
-        style={{ position: "fixed", top: "-100em" }}
-        accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf"
-      />
-      <label htmlFor="inputGroupFile01" className="custom-file-label">
-        <Button
-          style={{
-            backgroundColor: "#1C86EE",
-            marginTop: "5px",
-            color: "#FFF",
-            borderWidth: 0,
-            position: "absolute",
-            top: 5,
-            left: 10,
-            marginRight: 10,
-          }}
-          onClick={!isLoading ? onBtnClick : null}
-        >
-          {text}
-        </Button>
-      </label>
-    </div>
+    <>
+      {window.innerWidth >= 760 ? (
+        <div className="custom-file-label custom custom-file">
+          <input
+            type="file"
+            id="inputGroupFile01"
+            className="custom-file-input"
+            ref={inputFileRef}
+            onChangeCapture={onFileChangeCapture}
+            style={{ position: "fixed", top: "-100em" }}
+            accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf"
+          />
+          <label htmlFor="inputGroupFile01" className="custom-file-label">
+            <Button
+              style={{
+                backgroundColor: "#1C86EE",
+                marginTop: "5px",
+                color: "#FFF",
+                borderWidth: 0,
+                position: "absolute",
+                top: 5,
+                left: 10,
+                marginRight: 10,
+              }}
+              onClick={!isLoading ? onBtnClick : null}
+            >
+              {text}
+            </Button>
+          </label>
+        </div>
+      ) : null}
+    </>
   );
 }

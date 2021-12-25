@@ -180,10 +180,10 @@ class HomePage extends Component {
             <div style={{ width: "9%", color: "#32a852" }} />
             <Card
               style={{
-                flex: 1,
+                display: "flex",
                 alignItems: "right",
                 justifyContent: "right",
-                flexGrow: true,
+                flexShrink: true,
                 borderWidth: 0,
                 flexDirection: "row",
                 marginTop: -2,
@@ -201,8 +201,7 @@ class HomePage extends Component {
                   borderWidth: 1,
                   color: "#001040",
                   marginRight: "auto",
-                  marginLeft: "10%",
-                  whiteSpace: "nowrap",
+                  marginLeft: "20",
                 }}
                 onClick={(_e) => {
                   window.location.href = "/imfeelinglucky";

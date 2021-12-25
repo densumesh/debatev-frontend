@@ -1,6 +1,6 @@
 import React, { Component, lazy, Suspense } from "react";
 import "./App.css";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 const HomePage = lazy(() => import("./components/HomePage"));
 const DisplayResults = lazy(() => import("./components/DisplayResults"));
@@ -15,31 +15,13 @@ class App extends Component {
       <Suspense fallback={<div> </div>}>
         <Router>
           <div>
-            <Switch>
-              <Route
-                path="/imfeelinglucky"
-                render={(props) => <ImFeelingLucky {...props} />}
-              />
-              <Route
-                path="/search/:id"
-                render={(props) => (
-                  <DisplayResults yearFilters={props.yearFilters} {...props} />
-                )}
-              />
-              <Route
-                path="/search"
-                render={(props) => (
-                  <DisplayResults yearFilters={props.yearFilters} {...props} />
-                )}
-              />
-              <Route
-                path="/saved"
-                render={(props) => (
-                  <SavedCards yearFilters={props.yearFilters} {...props} />
-                )}
-              />
-              <Route path="/" render={(props) => <HomePage {...props} />} />
-            </Switch>
+            <Routes>
+              <Route path="/imfeelinglucky" element={<ImFeelingLucky />} />
+              <Route path="/search/:id" element={<DisplayResults />} />
+              <Route path="/search" element={<DisplayResults />} />
+              <Route path="/saved" element={<SavedCards />} />
+              <Route path="/" element={<HomePage />} />
+            </Routes>
           </div>
         </Router>
       </Suspense>
