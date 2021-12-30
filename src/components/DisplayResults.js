@@ -8,6 +8,7 @@ import Filters from "../utils/Filters";
 import CardPreview from "../utils/CardPreview";
 import SearchBox from "../utils/SearchBox";
 import { CacheableResponse } from "workbox-cacheable-response";
+import { Link } from "react-router-dom";
 
 const ScrollToTop = lazy(() => import("../utils/scrollToTop"));
 
@@ -319,23 +320,21 @@ class DisplayResults extends Component {
                 selectedValues={this.state.selectedValues}
               />{" "}
               <div style={{ width: "9%", color: "#32a852" }} />
-              <Button
-                variant="outline-primary"
-                className="luckybutton"
-                style={{
-                  borderWidth: 1,
-                  color: "#001040",
-                  marginRight: "auto",
-                  marginLeft: "10%",
-                  whiteSpace: "nowrap",
-                }}
-                onClick={(_e) => {
-                  window.location.href = "/imfeelinglucky";
-                }}
-              >
-                {" "}
-                I'm Feeling Lucky{" "}
-              </Button>
+              <Link to="/imfeelinglucky">
+                <Button
+                  variant="outline-primary"
+                  className="luckybutton"
+                  style={{
+                    borderWidth: 1,
+                    color: "#001040",
+                    marginRight: "auto",
+                    marginLeft: "20",
+                  }}
+                >
+                  {" "}
+                  I'm Feeling Lucky{" "}
+                </Button>
+              </Link>
             </Card>{" "}
           </div>
           <div style={{ width: "40%" }} />
@@ -409,10 +408,7 @@ class DisplayResults extends Component {
               }
             >
               {this.state.cards.map((card) => (
-                <CardPreview
-                  key={card[0]}
-                  cardData={card}
-                />
+                <CardPreview key={card[0]} cardData={card} />
               ))}
             </InfiniteScroll>
 

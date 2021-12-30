@@ -1,5 +1,6 @@
 ﻿/* eslint-disable jsx-a11y/alt-text */
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import debateEV2 from "../Logo/debatevlargefinal.svg";
@@ -121,23 +122,22 @@ class HomePage extends Component {
           }}
           className="home-page-header"
         >
-          <Button
-            style={{
-              backgroundColor: "#1C86EE",
-              marginTop: "5px",
-              color: "#FFF",
-              borderWidth: 0,
-              position: "absolute",
-              top: 5,
-              right: 130,
-              marginRight: 10,
-            }}
-            onClick={(_e) => {
-              window.location.href = "/saved";
-            }}
-          >
-            Saved Cards
-          </Button>
+          <Link to="/saved">
+            <Button
+              style={{
+                backgroundColor: "#1C86EE",
+                marginTop: "5px",
+                color: "#FFF",
+                borderWidth: 0,
+                position: "absolute",
+                top: 5,
+                right: 130,
+                marginRight: 10,
+              }}
+            >
+              Saved Cards
+            </Button>
+          </Link>
           <UploadCard />
           <DarkToggle />
         </Card>
@@ -194,22 +194,21 @@ class HomePage extends Component {
                 selectedValues={this.state.selectedValues}
               />
               <div style={{ width: "9%", color: "#32a852" }} />
-              <Button
-                variant="outline-primary"
-                className="luckybutton"
-                style={{
-                  borderWidth: 1,
-                  color: "#001040",
-                  marginRight: "auto",
-                  marginLeft: "20",
-                }}
-                onClick={(_e) => {
-                  window.location.href = "/imfeelinglucky";
-                }}
-              >
-                {" "}
-                I'm Feeling Lucky{" "}
-              </Button>
+              <Link to="/imfeelinglucky">
+                <Button
+                  variant="outline-primary"
+                  className="luckybutton"
+                  style={{
+                    borderWidth: 1,
+                    color: "#001040",
+                    marginRight: "auto",
+                    marginLeft: "20",
+                  }}
+                >
+                  {" "}
+                  I'm Feeling Lucky{" "}
+                </Button>
+              </Link>
             </Card>{" "}
           </div>
           <div style={{ width: "25%" }} />

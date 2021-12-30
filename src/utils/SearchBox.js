@@ -9,6 +9,9 @@ export default function SearchBox(props) {
   let search = React.createRef();
   let [autocomplete, setAutocomplete] = useState([]);
   let [searchTerm, setSearchTerm] = useState("");
+  let ogSearch = window.location.href.substring(
+    window.location.href.lastIndexOf("/") + 1
+  );
 
   async function getText(text) {
     setSearchTerm(text);
@@ -41,17 +44,13 @@ export default function SearchBox(props) {
         noOptionsText="No Options"
         options={autocomplete}
         style={{ width: "100%", flex: 1 }}
-        value={
-          window.location.href !== window.location.origin + "/"
-            ? sessionStorage.getItem("searchTerm")
-            : sessionStorage.setItem("searchTerm", "")
-        }
+        value={decodeURI(ogSearch.split("&")[0])}
         renderInput={(params) => (
           <div ref={params.InputProps.ref}>
             <FormControl
               ref={search}
               placeholder="Search for a card                "
-              value={sessionStorage.getItem("searchTerm")}
+              value={decodeURI(ogSearch.split("&")[0])}
               y="basic-addon2"
               style={{ borderRightWidth: 0 }}
               onKeyPress={(e) => {
@@ -59,7 +58,6 @@ export default function SearchBox(props) {
                   window.location.href =
                     "/search/" + search.current?.value + props.getUrl();
                   sessionStorage.setItem("filters", props.getUrl());
-                  sessionStorage.setItem("searchTerm", search.current?.value);
                 }
               }}
               {...params.inputProps}
@@ -70,7 +68,6 @@ export default function SearchBox(props) {
           if (e.key === "Enter") {
             window.location.href = "/search/" + searchTerm + props.getUrl();
             sessionStorage.setItem("filters", props.getUrl());
-            sessionStorage.setItem("searchTerm", searchTerm);
           }
         }}
         onInputChange={(_event, newValue) => {
