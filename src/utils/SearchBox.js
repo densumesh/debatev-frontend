@@ -57,7 +57,6 @@ export default function SearchBox(props) {
                 if (e.key === "Enter") {
                   window.location.href =
                     "/search/" + search.current?.value + props.getUrl();
-                  sessionStorage.setItem("filters", props.getUrl());
                 }
               }}
               {...params.inputProps}
@@ -67,7 +66,6 @@ export default function SearchBox(props) {
         onKeyPress={(e) => {
           if (e.key === "Enter") {
             window.location.href = "/search/" + searchTerm + props.getUrl();
-            sessionStorage.setItem("filters", props.getUrl());
           }
         }}
         onInputChange={(_event, newValue) => {
@@ -80,7 +78,6 @@ export default function SearchBox(props) {
           variant="outline-primary"
           onClick={(_e) => {
             window.location.href = "/search/" + searchTerm + props.getUrl();
-            sessionStorage.setItem("filters", props.getUrl());
           }}
         >
           <SearchIcon />

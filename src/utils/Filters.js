@@ -37,7 +37,6 @@ export default function Filters(props) {
     switch (selectedItem.name) {
       case "2014":
         setYears({ ...years, a14: true });
-
         break;
 
       case "2015":
@@ -47,7 +46,6 @@ export default function Filters(props) {
 
       case "2016":
         setYears({ ...years, a16: true });
-
         break;
 
       case "2017":

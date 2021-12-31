@@ -113,40 +113,30 @@ class DisplayResults extends Component {
     function dtypes1(currElm) {
       return currElm.includes("dtype");
     }
-    if (sessionStorage.getItem("filters") === null) {
-    } else {
+    let params =
+      "&" +
+      window.location.href
+        .substring(window.location.href.lastIndexOf("/") + 1)
+        ?.split("&")[1] +
+      "&" +
+      window.location.href
+        .substring(window.location.href.lastIndexOf("/") + 1)
+        ?.split("&")[2];
+    console.log(params);
+    if (params) {
       let selectedValues = [];
-      let years = [];
-      if (
-        sessionStorage
-          .getItem("filters")
-          .substring(1)
-          .split("&")
-          .find(years1)
-          ?.substring(5)
-          .split(",")
-      )
-        for (let year1 of sessionStorage
-          .getItem("filters")
+      if (params.substring(1).split("&").find(years1)?.substring(5).split(","))
+        for (let year1 of params
           .substring(1)
           .split("&")
           .find(years1)
           ?.substring(5)
           .split(",")) {
-          years.push({ name: year1 });
+          selectedValues.push({ name: year1 });
         }
 
-      if (
-        sessionStorage
-          .getItem("filters")
-          .substring(1)
-          .split("&")
-          .find(dtypes1)
-          ?.substring(6)
-          .split(",")
-      )
-        for (let dtype1 of sessionStorage
-          .getItem("filters")
+      if (params.substring(1).split("&").find(dtypes1)?.substring(6).split(","))
+        for (let dtype1 of params
           .substring(1)
           .split("&")
           .find(dtypes1)
@@ -162,7 +152,7 @@ class DisplayResults extends Component {
             selectedValues.push({ name: "OpenEv" });
           }
         }
-      this.state.selectedValues = selectedValues.concat(years);
+      this.state.selectedValues = selectedValues;
     }
   }
 
