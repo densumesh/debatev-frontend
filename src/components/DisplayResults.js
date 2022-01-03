@@ -157,8 +157,8 @@ class DisplayResults extends Component {
   }
 
   componentDidMount = () => {
-    let m = window.location.href.substring(
-      window.location.href.lastIndexOf("/") + 1
+    let m = decodeURIComponent(
+      window.location.href.substring(window.location.href.lastIndexOf("/") + 1)
     );
     console.log(m);
     this.setState({ search: m });

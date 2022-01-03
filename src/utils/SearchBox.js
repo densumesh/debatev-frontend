@@ -44,19 +44,21 @@ export default function SearchBox(props) {
         noOptionsText="No Options"
         options={autocomplete}
         style={{ width: "100%", flex: 1 }}
-        value={decodeURI(ogSearch.split("&")[0])}
+        value={decodeURIComponent(ogSearch.split("&")[0])}
         renderInput={(params) => (
           <div ref={params.InputProps.ref}>
             <FormControl
               ref={search}
               placeholder="Search for a card                "
-              value={decodeURI(ogSearch.split("&")[0])}
+              value={decodeURIComponent(ogSearch.split("&")[0])}
               y="basic-addon2"
               style={{ borderRightWidth: 0 }}
               onKeyPress={(e) => {
                 if (e.key === "Enter") {
                   window.location.href =
-                    "/search/" + search.current?.value + props.getUrl();
+                    "/search/" +
+                    encodeURIComponent(search.current?.value) +
+                    props.getUrl();
                 }
               }}
               {...params.inputProps}
@@ -65,7 +67,8 @@ export default function SearchBox(props) {
         )}
         onKeyPress={(e) => {
           if (e.key === "Enter") {
-            window.location.href = "/search/" + searchTerm + props.getUrl();
+            window.location.href =
+              "/search/" + encodeURIComponent(searchTerm) + props.getUrl();
           }
         }}
         onInputChange={(_event, newValue) => {
@@ -77,7 +80,8 @@ export default function SearchBox(props) {
         <Button
           variant="outline-primary"
           onClick={(_e) => {
-            window.location.href = "/search/" + searchTerm + props.getUrl();
+            window.location.href =
+              "/search/" + encodeURIComponent(searchTerm) + props.getUrl();
           }}
         >
           <SearchIcon />

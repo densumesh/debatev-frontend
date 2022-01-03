@@ -141,6 +141,7 @@ class HomePage extends Component {
           <UploadCard />
           <DarkToggle />
         </Card>
+
         <Card style={{ alignItems: "center" }}>
           <img
             rel="preload"
@@ -159,6 +160,7 @@ class HomePage extends Component {
             alt={"Website logo"}
           />
         </Card>
+
         <Card
           style={{
             flex: 1,
