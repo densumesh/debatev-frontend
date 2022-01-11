@@ -163,19 +163,27 @@ class DisplayResults extends Component {
     console.log(m);
     this.setState({ search: m });
     this.setState({ amt: "20" });
-    let url =
-      "https://api.debatev.com/api/v1/search?q=" +
-      m +
-      "&p=" +
-      (this.state.page - 1);
+    let url = "";
+    if (m.match("[a-z0-9]{56,}")) {
+      url = "https://api.debatev.com/api/v1/cards/" + m;
+      console.log(url);
+    } else {
+      url =
+        "https://api.debatev.com/api/v1/search?q=" +
+        m +
+        "&p=" +
+        (this.state.page - 1);
+    }
 
     this.getData(url).then((data) => {
       let object = data;
+      console.log(data);
       let array = Object.keys(object).map(function (k) {
         return object[k];
       });
       this.setState({ total: array.slice(-1)[0] });
       array.pop();
+      console.log(array);
       this.setState({ cards: array });
       this.setState({ isLoading: 0 });
     });
@@ -197,6 +205,7 @@ class DisplayResults extends Component {
       });
       this.setState({ total: array.slice(-1)[0] });
       array.pop();
+      console.log(this.state.cards.concat(array));
       this.setState({ cards: this.state.cards.concat(array) });
     });
     this.setState({ page: this.state.page + 1 });
