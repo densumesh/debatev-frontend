@@ -400,10 +400,14 @@ class DisplayResults extends Component {
               }
               loader={<h4>Loading...</h4>}
               endMessage={
-                <h4>
-                  No more cards to display. Do you want to include{" "}
-                  <a href={this.buildUrl()}>user-submited cards?</a>
-                </h4>
+                this.state.isLoading === -1 ? (
+                  <h4>Loading...</h4>
+                ) : (
+                  <h4>
+                    No more cards to display. Do you want to include{" "}
+                    <a href={this.buildUrl()}>user-submited cards?</a>
+                  </h4>
+                )
               }
             >
               {this.state.cards.map((card) => (
