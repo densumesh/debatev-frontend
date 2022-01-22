@@ -219,26 +219,6 @@ class DisplayResults extends Component {
     });
   }
 
-  buildUrl = () => {
-    let year = "";
-    let dtype = "";
-    if (this.state.year?.length > 0) {
-      year = "&year=" + this.state.year;
-    }
-    if (this.state.dtype?.length > 0) {
-      dtype = "&dtype=" + this.state.dtype + ",";
-    } else {
-      dtype = "&dtype=";
-    }
-    return (
-      "https://www.debatev.com/search/" +
-      this.state.search +
-      year +
-      dtype +
-      "usersubmit"
-    );
-  };
-
   render() {
     return (
       <div className="searchcard">
@@ -393,10 +373,7 @@ class DisplayResults extends Component {
                     src="https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif"
                   ></img>
                 ) : (
-                  <h4>
-                    No more cards to display. Do you want to include{" "}
-                    <a href={this.buildUrl()}>user-submited cards?</a>
-                  </h4>
+                  <h4>No more cards to display.</h4>
                 )
               }
             >
