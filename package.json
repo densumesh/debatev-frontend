@@ -22,7 +22,7 @@
     "react-infinite-scroll-component": "^6.1.0",
     "react-responsive": "^8.2.0",
     "react-router-dom": "^6.2.1",
-    "react-scripts": "^4.0.3",
+    "react-scripts": "^5.0.0",
     "source-map-explorer": "^2.5.2"
   },
   "scripts": {
@@ -51,7 +51,7 @@
   },
   "devDependencies": {
     "purgecss": "^4.0.3",
-    "purify-css": "^1.2.5",
+    "purify-css": "^1.1.9",
     "purifycss-webpack": "^0.7.0"
   }
 }

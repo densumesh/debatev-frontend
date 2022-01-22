@@ -1,10 +1,11 @@
 import Button from "react-bootstrap/Button";
 import React, { useState } from "react";
+import { Upload } from "react-bootstrap-icons";
 
 export default function UploadCard(props) {
   const inputFileRef = React.useRef();
   const [isLoading, setLoading] = useState(false);
-  const [text, setText] = useState("Upload Cards");
+  const [text, setText] = useState(" Upload");
   const onFileChangeCapture = (e) => {
     /*Selected files data can be collected here.*/
     setLoading(true);
@@ -21,8 +22,8 @@ export default function UploadCard(props) {
       .then((response) => response.text())
       .then((result) => console.log(result))
       .then((result) => setLoading(false))
-      .then((result) => setText("Uploaded!"))
-      .then((result) => setTimeout(() => setText("Upload Cards"), 3000))
+      .then((result) => setText(" Uploaded!"))
+      .then((result) => setTimeout(() => setText(" Upload"), 3000))
       .catch((error) => console.log("error", error));
   };
   const onBtnClick = () => {
@@ -57,6 +58,7 @@ export default function UploadCard(props) {
               }}
               onClick={!isLoading ? onBtnClick : null}
             >
+              <Upload />
               {text}
             </Button>
           </label>

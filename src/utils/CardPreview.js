@@ -5,6 +5,7 @@ import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import Modal from "react-bootstrap/Modal";
 import { useNavigate } from "react-router-dom";
+import { Download, XCircleFill } from "react-bootstrap-icons";
 
 export default function CardPreview(props) {
   const [visible, setVisible] = useState(false);
@@ -93,7 +94,7 @@ export default function CardPreview(props) {
           onClick={() => openModal()}
         />
       </Card>
-      <Button onClick={openModal}>Open this card</Button>
+      <Button onClick={openModal}>Open</Button>
       <Card style={{ height: 100, borderWidth: 0 }} />
 
       <Modal
@@ -161,7 +162,7 @@ export default function CardPreview(props) {
                 props.cardData[0];
             }}
           >
-            Download
+            <Download /> Download
           </Button>
           {saved ? (
             <Button
@@ -196,7 +197,7 @@ export default function CardPreview(props) {
             style={{ width: "100px" }}
             onClick={closeModal}
           >
-            Close
+            <XCircleFill /> Close
           </Button>
         </Modal.Footer>
       </Modal>

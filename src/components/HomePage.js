@@ -3,7 +3,6 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
-import debateEV2 from "../Logo/debatevlargefinal.svg";
 import DarkToggle from "../utils/DarkModeToggle";
 import Filters from "../utils/Filters";
 import SearchBox from "../utils/SearchBox";
@@ -149,7 +148,9 @@ class HomePage extends Component {
         <Card style={{ alignItems: "center" }}>
           <img
             rel="preload"
-            src={debateEV2}
+            src={
+              "https://ik.imagekit.io/vfpouuewr1ci/debatevlargefinal_F5O-Fxtve.svg?ik-sdk-version=javascript-1.4.3&updatedAt=1642690334953"
+            }
             style={
               window.innerWidth >= 760
                 ? {

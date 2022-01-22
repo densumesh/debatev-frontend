@@ -2,9 +2,8 @@
 import React, { Component } from "react";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
-import debateEV from "../Logo/debatevsquarefinal.svg";
 import CardPreview from "../utils/CardPreview";
-import { CacheableResponse } from "workbox-cacheable-response";
+import { XCircle, Download } from "react-bootstrap-icons";
 
 if (JSON.parse(localStorage.getItem("isDark"))) {
   document.documentElement.classList.add("dark");
@@ -32,26 +31,11 @@ class SavedCards extends Component {
   };
 
   async getData(url) {
-    const cacheable = new CacheableResponse({
-      statuses: [404, 200],
+    return fetch(url).then((response) => {
+      return response.json();
     });
-    if ((await caches.match(url, { cacheName: "api-cache" })) === undefined) {
-      return fetch(url)
-        .then((response) => {
-          if (cacheable.isResponseCacheable(response)) {
-            caches.open("api-cache").then(function (cache) {
-              cache.put(url, response);
-            });
-          }
-          return response.clone().json();
-        })
-        .then((data) => {
-          return data;
-        });
-    } else {
-      return (await caches.match(url, { cacheName: "api-cache" })).json();
-    }
   }
+
   constructor(props) {
     super(props);
     this.search = React.createRef();
@@ -79,7 +63,9 @@ class SavedCards extends Component {
         >
           <a href="https://www.debatev.com/">
             <img
-              src={debateEV}
+              src={
+                "https://ik.imagekit.io/vfpouuewr1ci/debatevsquarefinal_t6mIX8XIt.svg?ik-sdk-version=javascript-1.4.3&updatedAt=1642690334995"
+              }
               style={{
                 height: 80,
                 width: 80,
@@ -98,7 +84,7 @@ class SavedCards extends Component {
             borderWidth: 0,
             position: "absolute",
             top: 15,
-            right: 130,
+            right: 60,
             marginRight: 10,
           }}
           onClick={() => {
@@ -108,7 +94,7 @@ class SavedCards extends Component {
           }}
           disabled={localStorage.getItem("saved") === null}
         >
-          Download Cards
+          <Download /> Download
         </Button>
         <Button
           style={{
@@ -117,7 +103,7 @@ class SavedCards extends Component {
             borderWidth: 0,
             position: "absolute",
             top: 15,
-            right: 280,
+            right: 190,
             marginRight: 10,
           }}
           onClick={() => {
@@ -126,7 +112,7 @@ class SavedCards extends Component {
           }}
           disabled={localStorage.getItem("saved") === null}
         >
-          Clear Cards
+          <XCircle /> Clear
         </Button>
         <Card
           style={{
@@ -162,6 +148,7 @@ class SavedCards extends Component {
               </Card>
             ) : null}
           </Card>
+
           <Card style={{ flex: 1, borderWidth: 0 }} />
         </Card>
       </div>

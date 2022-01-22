@@ -3,11 +3,9 @@ import React, { Component, lazy, Suspense } from "react";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import InfiniteScroll from "react-infinite-scroll-component";
-import debateEV from "../Logo/debatevsquarefinal.svg";
 import Filters from "../utils/Filters";
 import CardPreview from "../utils/CardPreview";
 import SearchBox from "../utils/SearchBox";
-import { CacheableResponse } from "workbox-cacheable-response";
 import { Link } from "react-router-dom";
 
 const ScrollToTop = lazy(() => import("../utils/scrollToTop"));
@@ -216,33 +214,9 @@ class DisplayResults extends Component {
   };
 
   async getData(url) {
-    const cacheable = new CacheableResponse({
-      statuses: [404, 200],
+    return fetch(url).then((response) => {
+      return response.json();
     });
-    if ((await caches.match(url, { cacheName: "api-cache" })) === undefined) {
-      return fetch(url)
-        .then((response) => {
-          if (cacheable.isResponseCacheable(response)) {
-            caches.open("api-cache").then(function (cache) {
-              cache.keys().then(function (keys) {
-                if (keys.length < 20) {
-                  cache.put(url, response);
-                } else {
-                  cache.delete(keys[0]).then(function () {
-                    cache.put(url, response);
-                  });
-                }
-              });
-            });
-          }
-          return response.clone().json();
-        })
-        .then((data) => {
-          return data;
-        });
-    } else {
-      return (await caches.match(url, { cacheName: "api-cache" })).json();
-    }
   }
 
   buildUrl = () => {
@@ -285,7 +259,9 @@ class DisplayResults extends Component {
         >
           <a href="https://www.debatev.com/">
             <img
-              src={debateEV}
+              src={
+                "https://ik.imagekit.io/vfpouuewr1ci/debatevsquarefinal_t6mIX8XIt.svg?ik-sdk-version=javascript-1.4.3&updatedAt=1642690334995"
+              }
               style={{
                 height: 80,
                 width: 80,
@@ -405,7 +381,17 @@ class DisplayResults extends Component {
               loader={<h4>Loading...</h4>}
               endMessage={
                 this.state.isLoading === -1 ? (
-                  <h4>Loading...</h4>
+                  <img
+                    className="loadinggif"
+                    style={{
+                      width: 150,
+                      height: 150,
+                      position: "absolute",
+                      left: "40%",
+                      right: "50%",
+                    }}
+                    src="https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif"
+                  ></img>
                 ) : (
                   <h4>
                     No more cards to display. Do you want to include{" "}
