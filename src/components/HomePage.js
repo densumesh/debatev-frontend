@@ -141,7 +141,6 @@ class HomePage extends Component {
               Saved Cards
             </Button>
           </Link>
-          <UploadCard />
           <DarkToggle />
         </Card>
 
