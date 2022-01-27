@@ -50,7 +50,7 @@
     ]
   },
   "devDependencies": {
-    "purgecss": "^4.0.3",
+    "purgecss": "^4.1.3",
     "purify-css": "^1.1.9",
     "purifycss-webpack": "^0.7.0"
   }
