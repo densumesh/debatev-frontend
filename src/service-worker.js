@@ -71,3 +71,9 @@ self.addEventListener("message", (event) => {
 });
 
 // Any other custom service worker logic can go here.
+if (typeof window === undefined) {
+  self.importScripts(
+    "https://runtime.imagekit.io/0gr1w07bzr6iu/v1/js/network-based-adaption.js?v=" +
+      new Date().getTime()
+  );
+}
