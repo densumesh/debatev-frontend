@@ -76,17 +76,15 @@ export default function SearchBox(props) {
         }}
       />
 
-      <InputGroup.Append>
-        <Button
-          variant="outline-primary"
-          onClick={(_e) => {
-            window.location.href =
-              "/search/" + encodeURIComponent(searchTerm) + props.getUrl();
-          }}
-        >
-          <SearchIcon />
-        </Button>
-      </InputGroup.Append>
+      <Button
+        variant="outline-primary"
+        onClick={(_e) => {
+          window.location.href =
+            "/search/" + encodeURIComponent(searchTerm) + props.getUrl();
+        }}
+      >
+        <SearchIcon />
+      </Button>
     </InputGroup>
   );
 }
