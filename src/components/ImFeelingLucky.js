@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import CardPreview from "../utils/CardPreview";
+import debatevsquarefinal from "../Logo/debatevsquarefinal.svg";
 
 if (JSON.parse(localStorage.getItem("isDark"))) {
   document.documentElement.classList.add("dark");
@@ -83,9 +84,7 @@ class ImFeelingLucky extends Component {
         >
           <a href="https://www.debatev.com/">
             <img
-              src={
-                "https://ik.imagekit.io/vfpouuewr1ci/debatevsquarefinal_t6mIX8XIt.svg?ik-sdk-version=javascript-1.4.3&updatedAt=1642690334995"
-              }
+              src={debatevsquarefinal}
               style={{
                 height: 80,
                 width: 80,

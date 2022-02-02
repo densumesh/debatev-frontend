@@ -7,6 +7,7 @@ import Filters from "../utils/Filters";
 import CardPreview from "../utils/CardPreview";
 import SearchBox from "../utils/SearchBox";
 import { Link } from "react-router-dom";
+import debatevsquarefinal from "../Logo/debatevsquarefinal.svg";
 
 const ScrollToTop = lazy(() => import("../utils/scrollToTop"));
 
@@ -239,9 +240,7 @@ class DisplayResults extends Component {
         >
           <a href="https://www.debatev.com/">
             <img
-              src={
-                "https://ik.imagekit.io/vfpouuewr1ci/debatevsquarefinal_t6mIX8XIt.svg?ik-sdk-version=javascript-1.4.3&updatedAt=1642690334995"
-              }
+              src={debatevsquarefinal}
               style={{
                 height: 80,
                 width: 80,
