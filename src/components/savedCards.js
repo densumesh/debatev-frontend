@@ -64,6 +64,7 @@ class SavedCards extends Component {
         >
           <a href="https://www.debatev.com/">
             <img
+              loading="lazy"
               src={debatevsquarefinal}
               style={{
                 height: 80,

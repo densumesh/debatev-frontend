@@ -147,6 +147,7 @@ class HomePage extends Component {
         <Card style={{ alignItems: "center" }}>
           <img
             rel="preload"
+            loading="lazy"
             src={debatevlargefinal}
             style={
               window.innerWidth >= 760
