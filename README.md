@@ -8,7 +8,7 @@ Check out our website at [debatev.com](http://www.debatev.com/)
 
 ## Authors
 
-- **Dens Sumesh** - _Wiki scraping and backend_ - [densumesh](https://github.com/densumesh)
+- **Dens Sumesh** - _Wiki scraping, backend, and frontend_ - [densumesh](https://github.com/densumesh)
 - **Akaash Kolluri** - _Frontend and html conversion_ - [AkaashKolluri](https://github.com/AkaashKolluri)
 - **Rohan Agrawal** - _Database and indexing_ - [ragrwal1](https://github.com/ragrwal1)
 
