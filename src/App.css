@@ -774,4 +774,13 @@ body {
   -webkit-filter: var(--filter);
   filter: var(--filter);
 }
+
+.dropdown-header {
+  display: block;
+  padding: 0.25rem 1rem;
+  margin-bottom: 0;
+  font-size: .875rem;
+  color: #6c757d;
+  white-space: nowrap;
+}
 /*# sourceMappingURL=main.c95b4bec.chunk.css.map */

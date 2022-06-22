@@ -8,6 +8,8 @@ import CardPreview from "../utils/CardPreview";
 import SearchBox from "../utils/SearchBox";
 import { Link } from "react-router-dom";
 import debatevsquarefinal from "../Logo/debatevsquarefinal.svg";
+import DropdownButton from "react-bootstrap/DropdownButton";
+import Dropdown from "react-bootstrap/Dropdown";
 
 const ScrollToTop = lazy(() => import("../utils/scrollToTop"));
 
@@ -55,49 +57,49 @@ class DisplayResults extends Component {
   getUrl = () => {
     let years = "";
     let url = "";
-    if (this.state.years.a14 === true) {
+    if (this.state.years.a14) {
       years = years + "2014,";
     }
-    if (this.state.years.a15 === true) {
+    if (this.state.years.a15) {
       years = years + "2015,";
     }
-    if (this.state.years.a16 === true) {
+    if (this.state.years.a16) {
       years = years + "2016,";
     }
-    if (this.state.years.a17 === true) {
+    if (this.state.years.a17) {
       years = years + "2017,";
     }
-    if (this.state.years.a18 === true) {
+    if (this.state.years.a18) {
       years = years + "2018,";
     }
-    if (this.state.years.a19 === true) {
+    if (this.state.years.a19) {
       years = years + "2019,";
     }
-    if (this.state.years.a20 === true) {
+    if (this.state.years.a20) {
       years = years + "2020,";
     }
-    if (this.state.years.a21 === true) {
+    if (this.state.years.a21) {
       years = years + "2021,";
     }
-    if (this.state.years.a22 === true) {
+    if (this.state.years.a22) {
       years = years + "2022,";
     }
     if (years.length > 0)
       url = url + "&year=" + years.substring(0, years.length - 1);
 
     let dtypes = "";
-    if (this.state.dtypes.ld === true) {
+    if (this.state.dtypes.ld) {
       dtypes = dtypes + "ld,";
     }
 
-    if (this.state.dtypes.hspolicy === true) {
+    if (this.state.dtypes.hspolicy) {
       dtypes = dtypes + "hspolicy,";
     }
 
-    if (this.state.dtypes.college === true) {
+    if (this.state.dtypes.college) {
       dtypes = dtypes + "college,";
     }
-    if (this.state.dtypes.openev === true) {
+    if (this.state.dtypes.openev) {
       dtypes = dtypes + "openev,";
     }
 
@@ -220,6 +222,49 @@ class DisplayResults extends Component {
     });
   }
 
+  orderBy = (order) => {
+    if (order === "year") {
+      let m = window.location.href.substring(
+        window.location.href.lastIndexOf("/") + 1
+      );
+      let url =
+        "https://api.debatev.com/api/v1/search?q=" +
+        m +
+        "&p=" +
+        0 +
+        "&order=year";
+      this.getData(url).then((data) => {
+        let object = data;
+        let array = Object.keys(object).map(function (k) {
+          return object[k];
+        });
+        this.setState({ total: array.slice(-1)[0] });
+        array.pop();
+        console.log(array);
+        this.setState({ cards: array });
+      });
+    } else {
+      let m = window.location.href.substring(
+        window.location.href.lastIndexOf("/") + 1
+      );
+      let url = "https://api.debatev.com/api/v1/search?q=" + m + "&p=" + 0;
+      this.setState({ search: m });
+      this.setState({ amt: "20" });
+      this.getData(url).then((data) => {
+        let object = data;
+        console.log(data);
+        let array = Object.keys(object).map(function (k) {
+          return object[k];
+        });
+        this.setState({ total: array.slice(-1)[0] });
+        array.pop();
+        console.log(array);
+        this.setState({ cards: array });
+        this.setState({ isLoading: 0 });
+      });
+    }
+  };
+
   render() {
     return (
       <div className="searchcard">
@@ -311,7 +356,7 @@ class DisplayResults extends Component {
         >
           <div style={{ width: "9%", color: "#32a852" }} />
           {window.innerWidth >= 760 ? (
-            <Button
+            <DropdownButton
               id="dropdown-basic-button"
               style={{
                 borderWidth: 0,
@@ -319,15 +364,27 @@ class DisplayResults extends Component {
                 right: 15,
                 top: -50,
               }}
-            >
-              {"1" +
+              title={
+                "1" +
                 " - " +
                 (this.state.amt * this.state.page > this.state.total
                   ? this.state.total
                   : this.state.amt * this.state.page) +
                 " of " +
-                this.state.total}
-            </Button>
+                this.state.total
+              }
+            >
+              <Dropdown.Header>Sort By:</Dropdown.Header>
+              <Dropdown.Item
+                as="button"
+                onClick={() => this.orderBy("relevance")}
+              >
+                Relevance
+              </Dropdown.Item>
+              <Dropdown.Item as="button" onClick={() => this.orderBy("year")}>
+                Year
+              </Dropdown.Item>
+            </DropdownButton>
           ) : null}
           <div style={{ width: "5%", color: "#32a852" }} />
         </Card>{" "}
