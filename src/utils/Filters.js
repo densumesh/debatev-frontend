@@ -172,7 +172,14 @@ export default function Filters(props) {
   }
 
   return (
-    <>
+    <div
+      style={{
+        width: "50%",
+        height: "30%",
+        flex: 1,
+        flexShrink: 1,
+      }}
+    >
       {window.innerWidth >= 760 ? (
         <Multiselect
           className="advanced"
@@ -196,14 +203,6 @@ export default function Filters(props) {
           onRemove={onRemove}
           displayValue="name"
           groupBy="group"
-          style={{
-            multiselectContainer: {
-              width: "50%",
-              height: "30%",
-              flex: 1,
-            },
-            flexShrink: 1,
-          }}
           showCheckbox={true}
           placeholder={"Advanced Filters "}
           hidePlaceholder={
@@ -214,6 +213,6 @@ export default function Filters(props) {
           closeOnSelect={false}
         />
       ) : null}
-    </>
+    </div>
   );
 }

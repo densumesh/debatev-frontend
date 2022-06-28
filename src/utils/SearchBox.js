@@ -1,9 +1,12 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import Button from "react-bootstrap/Button";
 import FormControl from "react-bootstrap/FormControl";
 import InputGroup from "react-bootstrap/InputGroup";
 import React, { useState } from "react";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { Search as SearchIcon } from "react-bootstrap-icons";
+import { throttle, debounce } from "throttle-debounce";
+import { useEffect, useRef } from "react";
 
 export default function SearchBox(props) {
   let search = React.createRef();
@@ -14,8 +17,6 @@ export default function SearchBox(props) {
   );
 
   async function getText(text) {
-    setSearchTerm(text);
-
     let promise = await fetch(
       "https://api.debatev.com/api/v1/autocomplete?q=" + text + props.getUrl()
     )
@@ -24,17 +25,28 @@ export default function SearchBox(props) {
         return data;
       });
 
-    const localPromise = promise;
     const result = await promise;
 
-    if (promise === localPromise) {
-      let array = Object.keys(result).map(function (k) {
-        let str = result[k][1].toString();
-        return str.replace(/(<([^>]+)>)/gi, "");
-      });
-      setAutocomplete(array);
-    }
+    let array = Object.keys(result).map(function (k) {
+      let str = result[k][1].toString();
+      return str.replace(/(<([^>]+)>)/gi, "");
+    });
+    console.log(array);
+    setAutocomplete(array);
   }
+
+  let autocompleteSearchDebounced = useRef(debounce(500, getText)).current;
+  let autocompleteSearchThrottled = useRef(throttle(500, getText)).current;
+
+  useEffect(() => {
+    if (searchTerm.length < 5 || searchTerm.endsWith(" ")) {
+      autocompleteSearchThrottled(searchTerm);
+      console.log("throttle");
+    } else {
+      autocompleteSearchDebounced(searchTerm);
+      console.log("debounce");
+    }
+  }, [searchTerm]);
 
   return (
     <InputGroup className="mb-3" style={{ flex: 1, borderRadius: "30" }}>
@@ -72,8 +84,11 @@ export default function SearchBox(props) {
           }
         }}
         onInputChange={(_event, newValue) => {
-          if (newValue.length > 0) getText(newValue);
+          if (newValue.length > 0) {
+            setSearchTerm(newValue);
+          }
         }}
+        filterOptions={(x) => x}
       />
 
       <Button
