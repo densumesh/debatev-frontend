@@ -17,7 +17,7 @@ export default function SearchBox(props) {
   );
 
   async function getText(text) {
-    let promise = await fetch(
+    let result = await fetch(
       "https://api.debatev.com/api/v1/autocomplete?q=" + text + props.getUrl()
     )
       .then((response) => response.json())
@@ -25,23 +25,24 @@ export default function SearchBox(props) {
         return data;
       });
 
-    const result = await promise;
-
     let array = Object.keys(result).map(function (k) {
       let str = result[k][1].toString();
       return str.replace(/(<([^>]+)>)/gi, "");
     });
+    console.log(array);
     setAutocomplete(array);
   }
 
   let autocompleteSearchDebounced = useRef(debounce(500, getText)).current;
-  let autocompleteSearchThrottled = useRef(throttle(500, getText)).current;
+  let autocompleteSearchThrottled = useRef(throttle(250, getText)).current;
 
   useEffect(() => {
-    if (searchTerm.length < 5 || searchTerm.endsWith(" ")) {
+    if (searchTerm.length < 5) {
       autocompleteSearchThrottled(searchTerm);
+      console.log("throttle");
     } else {
       autocompleteSearchDebounced(searchTerm);
+      console.log("debounce");
     }
   }, [searchTerm]);
 
@@ -86,6 +87,11 @@ export default function SearchBox(props) {
           }
         }}
         filterOptions={(x) => x}
+        onChange={(_event, value, reason) => {
+          if (reason === "selectOption") {
+            window.location.href = "/search/" + value;
+          }
+        }}
       />
 
       <Button
