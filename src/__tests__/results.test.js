@@ -1,6 +1,6 @@
 import React from "react";
 import DisplayResults from "../components/DisplayResults.js";
-import { render, act } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import "jest-location-mock";
 
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";

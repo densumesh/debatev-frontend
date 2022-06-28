@@ -31,7 +31,6 @@ export default function SearchBox(props) {
       let str = result[k][1].toString();
       return str.replace(/(<([^>]+)>)/gi, "");
     });
-    console.log(array);
     setAutocomplete(array);
   }
 
@@ -41,10 +40,8 @@ export default function SearchBox(props) {
   useEffect(() => {
     if (searchTerm.length < 5 || searchTerm.endsWith(" ")) {
       autocompleteSearchThrottled(searchTerm);
-      console.log("throttle");
     } else {
       autocompleteSearchDebounced(searchTerm);
-      console.log("debounce");
     }
   }, [searchTerm]);
 
