@@ -428,6 +428,7 @@ class DisplayResults extends Component {
                       right: "50%",
                     }}
                     src="https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif"
+                    alt="Loading..."
                   ></img>
                 ) : (
                   <h4>No more cards to display.</h4>

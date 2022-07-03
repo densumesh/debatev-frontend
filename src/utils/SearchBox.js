@@ -12,11 +12,13 @@ export default function SearchBox(props) {
   let search = React.createRef();
   let [autocomplete, setAutocomplete] = useState([]);
   let [searchTerm, setSearchTerm] = useState("");
+  let [loading, setLoading] = useState(false);
   let ogSearch = window.location.href.substring(
     window.location.href.lastIndexOf("/") + 1
   );
 
   async function getText(text) {
+    setLoading(true);
     let result = await fetch(
       "https://api.debatev.com/api/v1/autocomplete?q=" + text + props.getUrl()
     )
@@ -31,6 +33,7 @@ export default function SearchBox(props) {
     });
     console.log(array);
     setAutocomplete(array);
+    setLoading(false);
   }
 
   let autocompleteSearchDebounced = useRef(debounce(500, getText)).current;
@@ -55,6 +58,8 @@ export default function SearchBox(props) {
         options={autocomplete}
         style={{ width: "100%", flex: 1 }}
         value={decodeURIComponent(ogSearch.split("&")[0])}
+        loading={loading}
+        loadingText="Loading..."
         renderInput={(params) => (
           <div ref={params.InputProps.ref}>
             <FormControl
@@ -88,7 +93,7 @@ export default function SearchBox(props) {
         }}
         filterOptions={(x) => x}
         onChange={(_event, value, reason) => {
-          if (reason === "selectOption") {
+          if (reason === "select-option") {
             window.location.href = "/search/" + value;
           }
         }}

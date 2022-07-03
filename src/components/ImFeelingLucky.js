@@ -142,7 +142,7 @@ class ImFeelingLucky extends Component {
                   marginRight: "auto",
                 }}
                 src="https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif"
-                alt={"loading"}
+                alt={"Loading..."}
               />
             ) : null}
           </Card>

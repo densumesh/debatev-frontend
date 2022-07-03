@@ -11,6 +11,7 @@
     "history": "^5.3.0",
     "inspector": "^0.5.0",
     "jest-location-mock": "^1.0.9",
+    "jest-mock-fetch": "^2.0.5",
     "multiselect-react-dropdown": "^2.0.4",
     "popper": "^1.0.1",
     "react": "^18.2.0",
