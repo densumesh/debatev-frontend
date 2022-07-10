@@ -2,7 +2,7 @@
 import React, { Component } from "react";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
-import CardPreview from "../utils/CardPreview";
+import CardPreview from "../components/CardPreview";
 import { XCircle, Download } from "react-bootstrap-icons";
 import debatevsquarefinal from "../Logo/debatevsquarefinal.svg";
 
@@ -17,7 +17,6 @@ class SavedCards extends Component {
 
   componentDidMount = () => {
     let m = localStorage.getItem("saved");
-    console.log(m);
     this.setState({ search: m });
     let url = "https://api.debatev.com/api/v1/saved?q=" + m;
 

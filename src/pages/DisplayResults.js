@@ -3,15 +3,15 @@ import React, { Component, lazy, Suspense } from "react";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import InfiniteScroll from "react-infinite-scroll-component";
-import Filters from "../utils/Filters";
-import CardPreview from "../utils/CardPreview";
-import SearchBox from "../utils/SearchBox";
+import Filters from "../components/Filters";
+import CardPreview from "../components/CardPreview";
+import SearchBox from "../components/SearchBox";
 import { Link } from "react-router-dom";
 import debatevsquarefinal from "../Logo/debatevsquarefinal.svg";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import Dropdown from "react-bootstrap/Dropdown";
 
-const ScrollToTop = lazy(() => import("../utils/scrollToTop"));
+const ScrollToTop = lazy(() => import("../components/scrollToTop"));
 
 if (JSON.parse(localStorage.getItem("isDark"))) {
   document.documentElement.classList.add("dark");
@@ -20,13 +20,10 @@ if (JSON.parse(localStorage.getItem("isDark"))) {
 }
 class DisplayResults extends Component {
   state = {
-    ref: "",
     page: 1,
     cards: [],
-    search: "",
-    isLoading: -1,
+    isLoading: true,
     amt: "20",
-    searchtext: "",
     total: 0,
     years: {
       a14: false,
@@ -45,10 +42,6 @@ class DisplayResults extends Component {
       college: false,
       openev: false,
     },
-    loading: true,
-    name: null,
-    bannerHtml: "<p></p>",
-    array: [],
   };
   setFilters = (year, dtype) => {
     this.setState({ years: year });
@@ -84,6 +77,7 @@ class DisplayResults extends Component {
     if (this.state.years.a22) {
       years = years + "2022,";
     }
+
     if (years.length > 0)
       url = url + "&year=" + years.substring(0, years.length - 1);
 
@@ -127,7 +121,6 @@ class DisplayResults extends Component {
       window.location.href
         .substring(window.location.href.lastIndexOf("/") + 1)
         ?.split("&")[2];
-    console.log(params);
     if (params) {
       let selectedValues = [];
       if (params.substring(1).split("&").find(years1)?.substring(5).split(","))
@@ -165,13 +158,9 @@ class DisplayResults extends Component {
     let m = decodeURIComponent(
       window.location.href.substring(window.location.href.lastIndexOf("/") + 1)
     );
-    console.log(m);
-    this.setState({ search: m });
-    this.setState({ amt: "20" });
     let url = "";
     if (m.match("[a-z0-9]{56,}")) {
       url = "https://api.debatev.com/api/v1/cards/" + m;
-      console.log(url);
     } else {
       url =
         "https://api.debatev.com/api/v1/search?q=" +
@@ -181,49 +170,53 @@ class DisplayResults extends Component {
     }
 
     this.getData(url).then((data) => {
-      let object = data;
-      console.log(data);
-      let array = Object.keys(object).map(function (k) {
-        return object[k];
+      this.setState({ total: data.total });
+      this.setState({
+        cards: data.cards,
       });
-      this.setState({ total: array.slice(-1)[0] });
-      array.pop();
-      console.log(array);
-      this.setState({ cards: array });
-      this.setState({ isLoading: 0 });
+      this.setState({ isLoading: false });
     });
   };
 
   fetchMoreData = () => {
+    this.setState({ isLoading: true });
     let m = window.location.href.substring(
       window.location.href.lastIndexOf("/") + 1
     );
-    this.setState({ search: m });
-    this.setState({ amt: "20" });
     let url =
       "https://api.debatev.com/api/v1/search?q=" + m + "&p=" + this.state.page;
 
+    this.setState({ total: this.getData(url).then((data) => data.total) });
     this.getData(url).then((data) => {
-      let object = data;
-      let array = Object.keys(object).map(function (k) {
-        return object[k];
+      this.setState({ total: data.total });
+      this.setState({
+        cards: this.state.cards.concat(data.cards),
       });
-      this.setState({ total: array.slice(-1)[0] });
-      array.pop();
-      console.log(this.state.cards.concat(array));
-      this.setState({ cards: this.state.cards.concat(array) });
+      this.setState({ isLoading: false });
     });
     this.setState({ page: this.state.page + 1 });
   };
 
   async getData(url) {
-    return fetch(url).then((response) => {
-      return response.json();
-    });
+    return fetch(url)
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        let cardArray = Object.keys(data).map(function (k) {
+          return data[k];
+        });
+        let total = cardArray.slice(-1)[0];
+        cardArray.pop();
+        return { total: total, cards: cardArray };
+      });
   }
 
   orderBy = (order) => {
     if (order === "year") {
+      this.setState({ isLoading: true });
+      this.setState({ cards: [] });
+      this.setState({ total: 0 });
       let m = window.location.href.substring(
         window.location.href.lastIndexOf("/") + 1
       );
@@ -234,33 +227,26 @@ class DisplayResults extends Component {
         0 +
         "&order=year";
       this.getData(url).then((data) => {
-        let object = data;
-        let array = Object.keys(object).map(function (k) {
-          return object[k];
+        this.setState({ total: data.total });
+        this.setState({
+          cards: data.cards,
         });
-        this.setState({ total: array.slice(-1)[0] });
-        array.pop();
-        console.log(array);
-        this.setState({ cards: array });
+        this.setState({ isLoading: false });
       });
     } else {
+      this.setState({ isLoading: true });
+      this.setState({ cards: [] });
+      this.setState({ total: 0 });
       let m = window.location.href.substring(
         window.location.href.lastIndexOf("/") + 1
       );
       let url = "https://api.debatev.com/api/v1/search?q=" + m + "&p=" + 0;
-      this.setState({ search: m });
-      this.setState({ amt: "20" });
       this.getData(url).then((data) => {
-        let object = data;
-        console.log(data);
-        let array = Object.keys(object).map(function (k) {
-          return object[k];
+        this.setState({ total: data.total });
+        this.setState({
+          cards: data.cards,
         });
-        this.setState({ total: array.slice(-1)[0] });
-        array.pop();
-        console.log(array);
-        this.setState({ cards: array });
-        this.setState({ isLoading: 0 });
+        this.setState({ isLoading: false });
       });
     }
   };
@@ -417,7 +403,7 @@ class DisplayResults extends Component {
               }
               loader={<h4>Loading...</h4>}
               endMessage={
-                this.state.isLoading === -1 ? (
+                this.state.isLoading ? (
                   <img
                     className="loadinggif"
                     style={{
@@ -435,12 +421,15 @@ class DisplayResults extends Component {
                 )
               }
             >
-              {this.state.cards.map((card) => (
-                <CardPreview key={card[0]} cardData={card} />
-              ))}
+              {this.state.cards.map((card) => {
+                if (card[1].tag.length < 700) {
+                  return <CardPreview key={card[0]} cardData={card} />;
+                }
+                return null;
+              })}
             </InfiniteScroll>
 
-            {this.state.cards.length === 0 && this.state.isLoading !== -1 ? (
+            {this.state.cards.length === 0 && !this.state.isLoading ? (
               <Card style={{ borderWidth: 0 }}>No Results have been found</Card>
             ) : null}
           </Card>

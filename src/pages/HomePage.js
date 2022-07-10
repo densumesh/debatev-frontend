@@ -3,9 +3,9 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
-import DarkToggle from "../utils/DarkModeToggle";
-import Filters from "../utils/Filters";
-import SearchBox from "../utils/SearchBox";
+import DarkToggle from "../components/DarkModeToggle";
+import Filters from "../components/Filters";
+import SearchBox from "../components/SearchBox";
 import debatevlargefinal from "../Logo/debatevlargefinal.svg";
 
 class HomePage extends Component {

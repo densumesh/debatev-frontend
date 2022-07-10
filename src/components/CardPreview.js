@@ -32,24 +32,34 @@ export default function CardPreview(props) {
   }
   useEffect(() => {
     let x = props.cardData[1].filepath;
-    x = x.substring(x.lastIndexOf("/") + 1);
-    x = x.replaceAll("%20", " ");
-    x = x.replaceAll("-", " ");
+    x = x
+      .substring(x.lastIndexOf("/") + 1)
+      .replaceAll("%20", " ")
+      .replaceAll("-", " ");
     x = x.substring(0, x.lastIndexOf("doc") - 1);
+
     setCardName(x);
     setSaved(
       localStorage.getItem("saved")?.split(",").includes(props.cardData[0])
     );
-    if (props.cardData[2].replace("dtype: ", "") === "college") {
-      setDtype("College Policy");
-    } else if (props.cardData[2].replace("dtype: ", "") === "ld") {
-      setDtype("High School LD");
-    } else if (props.cardData[2].replace("dtype: ", "") === "hspolicy") {
-      setDtype("High School Policy");
-    } else if (props.cardData[2].replace("dtype: ", "") === "openev") {
-      setDtype("OpenEv");
-    } else if (props.cardData[2].replace("dtype: ", "") === "pf") {
-      setDtype("PF");
+    switch (props.cardData[2].replace("dtype: ", "")) {
+      case "college":
+        setDtype("College Policy");
+        break;
+      case "ld":
+        setDtype("High School LD");
+        break;
+      case "hspolicy":
+        setDtype("High School Policy");
+        break;
+      case "openev":
+        setDtype("OpenEv");
+        break;
+      case "pf":
+        setDtype("PF");
+        break;
+      default:
+        break;
     }
   }, [props.cardData]);
 

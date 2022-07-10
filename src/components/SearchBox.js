@@ -21,17 +21,12 @@ export default function SearchBox(props) {
     setLoading(true);
     let result = await fetch(
       "https://api.debatev.com/api/v1/autocomplete?q=" + text + props.getUrl()
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        return data;
-      });
+    ).then((res) => res.json());
 
     let array = Object.keys(result).map(function (k) {
       let str = result[k][1].toString();
       return str.replace(/(<([^>]+)>)/gi, "");
     });
-    console.log(array);
     setAutocomplete(array);
     setLoading(false);
   }
@@ -42,10 +37,8 @@ export default function SearchBox(props) {
   useEffect(() => {
     if (searchTerm.length < 5) {
       autocompleteSearchThrottled(searchTerm);
-      console.log("throttle");
     } else {
       autocompleteSearchDebounced(searchTerm);
-      console.log("debounce");
     }
   }, [searchTerm]);
 

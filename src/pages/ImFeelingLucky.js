@@ -2,7 +2,7 @@
 import React, { Component } from "react";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
-import CardPreview from "../utils/CardPreview";
+import CardPreview from "../components/CardPreview";
 import debatevsquarefinal from "../Logo/debatevsquarefinal.svg";
 
 if (JSON.parse(localStorage.getItem("isDark"))) {
@@ -16,7 +16,6 @@ class ImFeelingLucky extends Component {
   componentDidMount = () => {
     let url = "https://api.debatev.com/api/v1/cards/imfeelinglucky";
     document.addEventListener("keydown", this.escFunction, false);
-    console.log(url);
     this.getData(url).then((data) => {
       let object = data;
       let array = Object.keys(object).map(function (k) {
@@ -33,7 +32,6 @@ class ImFeelingLucky extends Component {
 
     let url = "https://api.debatev.com/api/v1/cards/imfeelinglucky";
 
-    console.log(url);
     this.getData(url).then((data) => {
       let object = data;
       let array = Object.keys(object).map(function (k) {
