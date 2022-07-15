@@ -18,16 +18,20 @@ class SavedCards extends Component {
   componentDidMount = () => {
     let m = localStorage.getItem("saved");
     this.setState({ search: m });
-    let url = "https://api.debatev.com/api/v1/saved?q=" + m;
+    if (m) {
+      let url = "https://api.debatev.com/api/v1/saved?q=" + m;
 
-    this.getData(url).then((data) => {
-      let object = data;
-      let array = Object.keys(object).map(function (k) {
-        return object[k];
+      this.getData(url).then((data) => {
+        let object = data;
+        let array = Object.keys(object).map(function (k) {
+          return object[k];
+        });
+        this.setState({ cards: array });
+        this.setState({ isLoading: 0 });
       });
-      this.setState({ cards: array });
+    } else {
       this.setState({ isLoading: 0 });
-    });
+    }
   };
 
   async getData(url) {
