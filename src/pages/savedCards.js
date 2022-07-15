@@ -13,7 +13,7 @@ if (JSON.parse(localStorage.getItem("isDark"))) {
 }
 
 class SavedCards extends Component {
-  state = { ref: "", page: 1, cards: [], search: "", isLoading: -1 };
+  state = { ref: "", page: 1, cards: [], search: "", isLoading: -1, error: "" };
 
   componentDidMount = () => {
     let m = localStorage.getItem("saved");
@@ -31,9 +31,23 @@ class SavedCards extends Component {
   };
 
   async getData(url) {
-    return fetch(url).then((response) => {
-      return response.json();
-    });
+    return fetch(url)
+      .then(async (response) => {
+        const isJson = response.headers
+          .get("content-type")
+          ?.includes("application/json");
+        const data = isJson ? await response.json() : null;
+        // check for error response
+        if (!response.ok) {
+          // get error message from body or default to response status
+          const error = (data && data.detail[0].msg) || response.status;
+          return Promise.reject(error);
+        }
+        return data;
+      })
+      .catch((error) => {
+        this.setState({ error: "There was an error! " + error });
+      });
   }
 
   constructor(props) {
@@ -126,7 +140,7 @@ class SavedCards extends Component {
           <Card style={{ flex: 1, borderWidth: 0 }} />
           <Card style={{ flexDirection: "column", flex: 15, borderWidth: 0 }}>
             {this.state.cards.map((card) => (
-              <CardPreview cardData={card} />
+              <CardPreview key={card[0]} cardData={card} />
             ))}
             {this.state.cards.length !== 0 && this.state.isLoading === -1 ? (
               <img
@@ -141,10 +155,13 @@ class SavedCards extends Component {
                 alt={"loading"}
               />
             ) : null}
-            {this.state.cards.length === 0 && this.state.isLoading === -1 ? (
+            {this.state.cards.length === 0 && this.state.isLoading !== -1 ? (
               <Card style={{ borderWidth: 0 }}>
                 No Saved Cards. Go Save Some Cards!
               </Card>
+            ) : null}
+            {this.state.error ? (
+              <Card style={{ borderWidth: 0 }}>{this.state.error}</Card>
             ) : null}
           </Card>
 

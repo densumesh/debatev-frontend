@@ -42,6 +42,7 @@ class DisplayResults extends Component {
       college: false,
       openev: false,
     },
+    error: "",
   };
   setFilters = (year, dtype) => {
     this.setState({ years: year });
@@ -199,8 +200,18 @@ class DisplayResults extends Component {
 
   async getData(url) {
     return fetch(url)
-      .then((response) => {
-        return response.json();
+      .then(async (response) => {
+        const isJson = response.headers
+          .get("content-type")
+          ?.includes("application/json");
+        const data = isJson ? await response.json() : null;
+        // check for error response
+        if (!response.ok) {
+          // get error message from body or default to response status
+          const error = (data && data.detail[0].msg) || response.status;
+          return Promise.reject(error);
+        }
+        return data;
       })
       .then((data) => {
         let cardArray = Object.keys(data).map(function (k) {
@@ -209,6 +220,10 @@ class DisplayResults extends Component {
         let total = cardArray.slice(-1)[0];
         cardArray.pop();
         return { total: total, cards: cardArray };
+      })
+      .catch((error) => {
+        console.log(error);
+        this.setState({ error: "There was an error! " + error });
       });
   }
 
@@ -403,7 +418,7 @@ class DisplayResults extends Component {
               }
               loader={<h4>Loading...</h4>}
               endMessage={
-                this.state.isLoading ? (
+                this.state.isLoading && this.state.error === "" ? (
                   <img
                     className="loadinggif"
                     style={{
@@ -431,6 +446,9 @@ class DisplayResults extends Component {
 
             {this.state.cards.length === 0 && !this.state.isLoading ? (
               <Card style={{ borderWidth: 0 }}>No Results have been found</Card>
+            ) : null}
+            {this.state.error ? (
+              <Card style={{ borderWidth: 0 }}>{this.state.error}</Card>
             ) : null}
           </Card>
           <Card style={{ flex: 1, borderWidth: 0 }} />

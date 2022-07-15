@@ -12,7 +12,7 @@ if (JSON.parse(localStorage.getItem("isDark"))) {
 }
 
 class ImFeelingLucky extends Component {
-  state = { ref: "", page: 0, cards: [], search: "", isLoading: -1 };
+  state = { cards: [], isLoading: -1, error: "" };
   componentDidMount = () => {
     let url = "https://api.debatev.com/api/v1/cards/imfeelinglucky";
     document.addEventListener("keydown", this.escFunction, false);
@@ -50,9 +50,21 @@ class ImFeelingLucky extends Component {
 
   async getData(url) {
     return fetch(url)
-      .then((response) => response.json())
-      .then((data) => {
+      .then(async (response) => {
+        const isJson = response.headers
+          .get("content-type")
+          ?.includes("application/json");
+        const data = isJson ? await response.json() : null;
+        // check for error response
+        if (!response.ok) {
+          // get error message from body or default to response status
+          const error = (data && data.detail[0].msg) || response.status;
+          return Promise.reject(error);
+        }
         return data;
+      })
+      .catch((error) => {
+        this.setState({ error: "There was an error! " + error });
       });
   }
 
@@ -128,9 +140,9 @@ class ImFeelingLucky extends Component {
           <Card style={{ flex: 1, borderWidth: 0 }} />
           <Card style={{ flex: 15, borderWidth: 0, marginTop: 10 }}>
             {this.state.cards.map((card) => (
-              <CardPreview cardData={card} />
+              <CardPreview key={card[0]} cardData={card} />
             ))}
-            {this.state.isLoading === -1 ? (
+            {this.state.isLoading === -1 && !this.state.error ? (
               <img
                 className="loadinggif"
                 style={{
@@ -143,6 +155,7 @@ class ImFeelingLucky extends Component {
                 alt={"Loading..."}
               />
             ) : null}
+            {this.state.error ? <div>{this.state.error}</div> : null}
           </Card>
 
           <Card style={{ flex: 1, borderWidth: 0 }} />
