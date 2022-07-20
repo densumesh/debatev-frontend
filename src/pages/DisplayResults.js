@@ -156,6 +156,7 @@ class DisplayResults extends Component {
   }
 
   componentDidMount = () => {
+    console.log(this.props.analytics);
     let m = decodeURIComponent(
       window.location.href.substring(window.location.href.lastIndexOf("/") + 1)
     );
@@ -438,7 +439,13 @@ class DisplayResults extends Component {
             >
               {this.state.cards.map((card) => {
                 if (card[1].tag.length < 700) {
-                  return <CardPreview key={card[0]} cardData={card} />;
+                  return (
+                    <CardPreview
+                      key={card[0]}
+                      cardData={card}
+                      analytics={this.props.analytics}
+                    />
+                  );
                 }
                 return null;
               })}

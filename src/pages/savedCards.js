@@ -144,7 +144,11 @@ class SavedCards extends Component {
           <Card style={{ flex: 1, borderWidth: 0 }} />
           <Card style={{ flexDirection: "column", flex: 15, borderWidth: 0 }}>
             {this.state.cards.map((card) => (
-              <CardPreview key={card[0]} cardData={card} />
+              <CardPreview
+                key={card[0]}
+                cardData={card}
+                analytics={this.props.analytics}
+              />
             ))}
             {this.state.cards.length !== 0 && this.state.isLoading === -1 ? (
               <img

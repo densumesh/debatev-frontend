@@ -140,7 +140,11 @@ class ImFeelingLucky extends Component {
           <Card style={{ flex: 1, borderWidth: 0 }} />
           <Card style={{ flex: 15, borderWidth: 0, marginTop: 10 }}>
             {this.state.cards.map((card) => (
-              <CardPreview key={card[0]} cardData={card} />
+              <CardPreview
+                key={card[0]}
+                cardData={card}
+                analytics={this.props.analytics}
+              />
             ))}
             {this.state.isLoading === -1 && !this.state.error ? (
               <img

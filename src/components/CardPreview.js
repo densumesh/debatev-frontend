@@ -6,6 +6,7 @@ import DropdownButton from "react-bootstrap/DropdownButton";
 import Modal from "react-bootstrap/Modal";
 import { useNavigate } from "react-router-dom";
 import { Download, XCircleFill } from "react-bootstrap-icons";
+import { logEvent } from "firebase/analytics";
 
 export default function CardPreview(props) {
   const [visible, setVisible] = useState(false);
@@ -13,6 +14,7 @@ export default function CardPreview(props) {
   const [saved, setSaved] = useState(false);
   const [dtype, setDtype] = useState("");
   const [open, setOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
   let navigate = useNavigate();
 
   function openModal() {
@@ -20,10 +22,16 @@ export default function CardPreview(props) {
     let location = window.location.href.substring(
       window.location.href.lastIndexOf("/") + 1
     );
+
     let destination =
       location === "imfeelinglucky" || location === "saved"
         ? "/" + location
         : "/search/" + props.cardData[0];
+    setSearchTerm(window.location.href);
+    logEvent(props.analytics, "card_click", {
+      card_url: "https://www.debatev.com" + destination,
+      search_term: window.location.href,
+    });
     navigate(destination);
   }
   function closeModal() {
@@ -81,6 +89,10 @@ export default function CardPreview(props) {
   function saveCard(cardID) {
     setSaved(true);
     let saved = [];
+    logEvent(props.analytics, "card_save", {
+      card_url: window.location.href,
+      search_term: searchTerm,
+    });
     if (localStorage.getItem("saved")) {
       saved.push(localStorage.getItem("saved"));
       saved.push(cardID);
