@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
@@ -6,7 +7,9 @@ import DropdownButton from "react-bootstrap/DropdownButton";
 import Modal from "react-bootstrap/Modal";
 import { useNavigate } from "react-router-dom";
 import { Download, XCircleFill } from "react-bootstrap-icons";
-import { logEvent } from "firebase/analytics";
+import { logEvent, getAnalytics } from "firebase/analytics";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
 
 export default function CardPreview(props) {
   const [visible, setVisible] = useState(false);
@@ -15,7 +18,35 @@ export default function CardPreview(props) {
   const [dtype, setDtype] = useState("");
   const [open, setOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  const [savedCards, setSavedCards] = useState("");
+  const [user, setUser] = useState(null);
+  let analytics = getAnalytics(props.app);
   let navigate = useNavigate();
+  let auth = getAuth();
+  let db = getFirestore();
+
+  useEffect(() =>
+    onAuthStateChanged(auth, async (saver) => {
+      if (saver) {
+        setUser(saver);
+        const docRef = doc(db, "user-saved-cards", saver.uid);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          let m = "";
+          m = docSnap.data().saved;
+          if (
+            localStorage.getItem("saved") &&
+            !docSnap.data().saved?.includes(localStorage.getItem("saved"))
+          ) {
+            m = m + "," + localStorage.getItem("saved");
+          }
+          setSavedCards(m);
+        }
+      } else {
+        setSavedCards(localStorage.getItem("saved"));
+      }
+    })
+  );
 
   function openModal() {
     setVisible(true);
@@ -28,7 +59,7 @@ export default function CardPreview(props) {
         ? "/" + location
         : "/search/" + props.cardData[0];
     setSearchTerm(window.location.href);
-    logEvent(props.analytics, "card_click", {
+    logEvent(analytics, "card_click", {
       card_url: "https://www.debatev.com" + destination,
       search_term: window.location.href,
     });
@@ -47,9 +78,11 @@ export default function CardPreview(props) {
     x = x.substring(0, x.lastIndexOf("doc") - 1);
 
     setCardName(x);
-    setSaved(
-      localStorage.getItem("saved")?.split(",").includes(props.cardData[0])
-    );
+    if (window.location.href === window.location.origin + "/saved") {
+      setSaved(true);
+    } else {
+      setSaved(savedCards?.split(",").includes(props.cardData[0]));
+    }
     switch (props.cardData[2].replace("dtype: ", "")) {
       case "college":
         setDtype("College Policy");
@@ -69,35 +102,48 @@ export default function CardPreview(props) {
       default:
         break;
     }
-  }, [props.cardData]);
+  }, [props.cardData, saved]);
 
-  function unsaveCard(cardID) {
+  async function unsaveCard(cardID) {
+    //TODO: Work with Database
     setSaved(false);
     let saved = [];
-    if (localStorage.getItem("saved")) {
-      saved = localStorage.getItem("saved").split(",");
-      let foundIndex = saved.indexOf(cardID);
-      saved.splice(foundIndex, 1);
+    saved = savedCards.split(",");
+    let foundIndex = saved.indexOf(cardID);
+    saved.splice(foundIndex, 1);
+    setSavedCards(saved.join(","));
+    console.log(savedCards);
+    if (user) {
+      await setDoc(doc(db, "user-saved-cards", user.uid), {
+        saved: saved.join(","),
+      });
     }
-
+    localStorage.setItem("saved", saved);
     if (window.location.href === window.location.origin + "/saved") {
       window.location.reload();
     }
-    localStorage.setItem("saved", saved);
   }
 
-  function saveCard(cardID) {
+  async function saveCard(cardID) {
+    //FIX: repeated cardIDs in cloud firestore and for users not signed in
     setSaved(true);
     let saved = [];
-    logEvent(props.analytics, "card_save", {
+    logEvent(analytics, "card_save", {
       card_url: window.location.href,
       search_term: searchTerm,
     });
-    if (localStorage.getItem("saved")) {
-      saved.push(localStorage.getItem("saved"));
+
+    if (savedCards) {
+      saved.push(savedCards);
       saved.push(cardID);
     } else {
       saved.push(cardID);
+    }
+    setSavedCards(saved.join(","));
+    if (user) {
+      await setDoc(doc(db, "user-saved-cards", user.uid), {
+        saved: saved.join(","),
+      });
     }
 
     localStorage.setItem("saved", saved);

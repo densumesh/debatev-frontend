@@ -143,7 +143,7 @@ class ImFeelingLucky extends Component {
               <CardPreview
                 key={card[0]}
                 cardData={card}
-                analytics={this.props.analytics}
+                app={this.props.app}
               />
             ))}
             {this.state.isLoading === -1 && !this.state.error ? (

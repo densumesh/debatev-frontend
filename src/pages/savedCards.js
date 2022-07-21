@@ -1,10 +1,14 @@
 /* eslint-disable jsx-a11y/alt-text */
-import React, { Component } from "react";
+import React, { Component, lazy } from "react";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
-import CardPreview from "../components/CardPreview";
 import { XCircle, Download } from "react-bootstrap-icons";
 import debatevsquarefinal from "../Logo/debatevsquarefinal.svg";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
+
+const CardPreview = lazy(() => import("../components/CardPreview"));
+const LoginButton = lazy(() => import("../components/LoginButton"));
 
 if (JSON.parse(localStorage.getItem("isDark"))) {
   document.documentElement.classList.add("dark");
@@ -13,25 +17,97 @@ if (JSON.parse(localStorage.getItem("isDark"))) {
 }
 
 class SavedCards extends Component {
-  state = { ref: "", page: 1, cards: [], search: "", isLoading: -1, error: "" };
+  state = {
+    ref: "",
+    page: 1,
+    cards: [],
+    saved: "",
+    isLoading: -1,
+    error: "",
+    loggedIn: false,
+    userInfo: null,
+    db: null,
+  };
 
+  constructor(props) {
+    super(props);
+    this.search = React.createRef();
+  }
+  //TODO: change back to componentDidMount
   componentDidMount = () => {
-    let m = localStorage.getItem("saved");
-    this.setState({ search: m });
-    if (m) {
-      let url = "https://api.debatev.com/api/v1/saved?q=" + m;
+    let auth = getAuth();
+    let db = getFirestore();
 
-      this.getData(url).then((data) => {
-        let object = data;
-        let array = Object.keys(object).map(function (k) {
-          return object[k];
-        });
-        this.setState({ cards: array });
-        this.setState({ isLoading: 0 });
-      });
-    } else {
-      this.setState({ isLoading: 0 });
-    }
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        this.setState({ db: db });
+        const docRef = doc(db, "user-saved-cards", user.uid);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          this.setState({ loggedIn: true });
+          this.setState({ userInfo: user });
+          let m = "";
+          m = docSnap.data().saved;
+          if (
+            localStorage.getItem("saved") &&
+            !docSnap.data().saved?.includes(localStorage.getItem("saved"))
+          ) {
+            m = m + "," + localStorage.getItem("saved");
+            await setDoc(docRef, { saved: m });
+          }
+          let url = "https://api.debatev.com/api/v1/saved?q=" + m;
+
+          this.getData(url).then((data) => {
+            let object = data;
+            let array = Object.keys(object).map(function (k) {
+              return object[k];
+            });
+            this.setState({ cards: array });
+            this.setState({ isLoading: 0 });
+          });
+          this.setState({ saved: m });
+        } else {
+          this.setState({ isLoading: 0 });
+          let m = localStorage.getItem("saved");
+          this.setState({ saved: m });
+          if (m) {
+            await setDoc(doc(db, "user-saved-cards", user.uid), {
+              saved: m,
+            });
+            let url = "https://api.debatev.com/api/v1/saved?q=" + m;
+
+            this.getData(url).then((data) => {
+              let object = data;
+              let array = Object.keys(object).map(function (k) {
+                return object[k];
+              });
+              this.setState({ cards: array });
+              this.setState({ isLoading: 0 });
+            });
+          } else {
+            this.setState({ isLoading: 0 });
+          }
+        }
+      } else {
+        this.setState({ loggedIn: false });
+        let m = localStorage.getItem("saved");
+        this.setState({ saved: m });
+        if (m) {
+          let url = "https://api.debatev.com/api/v1/saved?q=" + m;
+
+          this.getData(url).then((data) => {
+            let object = data;
+            let array = Object.keys(object).map(function (k) {
+              return object[k];
+            });
+            this.setState({ cards: array });
+            this.setState({ isLoading: 0 });
+          });
+        } else {
+          this.setState({ isLoading: 0 });
+        }
+      }
+    });
   };
 
   async getData(url) {
@@ -52,11 +128,6 @@ class SavedCards extends Component {
       .catch((error) => {
         this.setState({ error: "There was an error! " + error });
       });
-  }
-
-  constructor(props) {
-    super(props);
-    this.search = React.createRef();
   }
 
   render() {
@@ -106,10 +177,12 @@ class SavedCards extends Component {
           }}
           onClick={() => {
             window.location.href =
-              "https://api.debatev.com/api/v1/download?q=" +
-              localStorage.getItem("saved");
+              "https://api.debatev.com/api/v1/download?q=" + this.state.saved;
           }}
-          disabled={localStorage.getItem("saved") === null}
+          disabled={
+            //TODO; Get downloads to download all cards even if not in LocalStorage
+            !this.state.saved
+          }
         >
           <Download /> Download
         </Button>
@@ -123,14 +196,36 @@ class SavedCards extends Component {
             right: 190,
             marginRight: 10,
           }}
-          onClick={() => {
+          onClick={async () => {
             localStorage.removeItem("saved");
+            if (this.state.loggedIn) {
+              await setDoc(
+                doc(this.state.db, "user-saved-cards", this.state.userInfo.uid),
+                {
+                  saved: "",
+                }
+              );
+            }
             window.location.reload();
           }}
-          disabled={localStorage.getItem("saved") === null}
+          disabled={
+            //TODO: Get clearing to delete all of the user document fields
+            !this.state.saved
+          }
         >
           <XCircle /> Clear
         </Button>
+        <LoginButton
+          style={{
+            backgroundColor: "#1C86EE",
+            color: "#FFF",
+            borderWidth: 0,
+            position: "absolute",
+            top: 15,
+            right: 290,
+            marginRight: 10,
+          }}
+        ></LoginButton>
         <Card
           style={{
             flex: 1,
@@ -144,11 +239,7 @@ class SavedCards extends Component {
           <Card style={{ flex: 1, borderWidth: 0 }} />
           <Card style={{ flexDirection: "column", flex: 15, borderWidth: 0 }}>
             {this.state.cards.map((card) => (
-              <CardPreview
-                key={card[0]}
-                cardData={card}
-                analytics={this.props.analytics}
-              />
+              <CardPreview key={card[0]} cardData={card} app={this.props.app} />
             ))}
             {this.state.cards.length !== 0 && this.state.isLoading === -1 ? (
               <img

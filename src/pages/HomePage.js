@@ -1,12 +1,14 @@
 /* eslint-disable jsx-a11y/alt-text */
-import React, { Component } from "react";
+import React, { Component, lazy } from "react";
 import { Link } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
-import DarkToggle from "../components/DarkModeToggle";
-import Filters from "../components/Filters";
-import SearchBox from "../components/SearchBox";
 import debatevlargefinal from "../Logo/debatevlargefinal.svg";
+
+const LoginButton = lazy(() => import("../components/LoginButton"));
+const DarkToggle = lazy(() => import("../components/DarkModeToggle"));
+const Filters = lazy(() => import("../components/Filters"));
+const SearchBox = lazy(() => import("../components/SearchBox"));
 
 class HomePage extends Component {
   state = {
@@ -142,6 +144,18 @@ class HomePage extends Component {
             </Button>
           </Link>
           <DarkToggle />
+          <LoginButton
+            style={{
+              backgroundColor: "#1C86EE",
+              marginTop: "5px",
+              color: "#FFF",
+              borderWidth: 0,
+              position: "absolute",
+              top: 5,
+              left: "1%",
+              marginRight: 10,
+            }}
+          ></LoginButton>
         </Card>
 
         <Card style={{ alignItems: "center" }}>

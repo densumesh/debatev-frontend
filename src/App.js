@@ -4,6 +4,8 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
+import { getFirestore } from "firebase/firestore";
+
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -22,7 +24,8 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+getAnalytics(app);
+getFirestore(app);
 
 const HomePage = lazy(() => import("./pages/HomePage"));
 const DisplayResults = lazy(() => import("./pages/DisplayResults"));
@@ -39,21 +42,12 @@ class App extends Component {
           <Routes>
             <Route
               path="/imfeelinglucky"
-              element={<ImFeelingLucky analytics={analytics} />}
+              element={<ImFeelingLucky app={app} />}
             />
-            <Route
-              path="/search/:id"
-              element={<DisplayResults analytics={analytics} />}
-            />
-            <Route
-              path="/search"
-              element={<DisplayResults analytics={analytics} />}
-            />
-            <Route
-              path="/saved"
-              element={<SavedCards analytics={analytics} />}
-            />
-            <Route path="/" element={<HomePage analytics={analytics} />} />
+            <Route path="/search/:id" element={<DisplayResults app={app} />} />
+            <Route path="/search" element={<DisplayResults app={app} />} />
+            <Route path="/saved" element={<SavedCards app={app} />} />
+            <Route path="/" element={<HomePage app={app} />} />
           </Routes>
         </Router>
       </Suspense>

@@ -3,15 +3,15 @@ import React, { Component, lazy, Suspense } from "react";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import InfiniteScroll from "react-infinite-scroll-component";
-import Filters from "../components/Filters";
-import CardPreview from "../components/CardPreview";
-import SearchBox from "../components/SearchBox";
 import { Link } from "react-router-dom";
 import debatevsquarefinal from "../Logo/debatevsquarefinal.svg";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import Dropdown from "react-bootstrap/Dropdown";
 
 const ScrollToTop = lazy(() => import("../components/scrollToTop"));
+const Filters = lazy(() => import("../components/Filters"));
+const CardPreview = lazy(() => import("../components/CardPreview"));
+const SearchBox = lazy(() => import("../components/SearchBox"));
 
 if (JSON.parse(localStorage.getItem("isDark"))) {
   document.documentElement.classList.add("dark");
@@ -156,7 +156,6 @@ class DisplayResults extends Component {
   }
 
   componentDidMount = () => {
-    console.log(this.props.analytics);
     let m = decodeURIComponent(
       window.location.href.substring(window.location.href.lastIndexOf("/") + 1)
     );
@@ -443,7 +442,7 @@ class DisplayResults extends Component {
                     <CardPreview
                       key={card[0]}
                       cardData={card}
-                      analytics={this.props.analytics}
+                      app={this.props.app}
                     />
                   );
                 }

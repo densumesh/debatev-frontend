@@ -6,3 +6,6 @@ node_modules
 .vscode
 build
 .idea
+.firebaserc
+firebase*
+firestore*
