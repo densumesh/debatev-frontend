@@ -5,7 +5,7 @@ import Card from "react-bootstrap/Card";
 import { XCircle, Download } from "react-bootstrap-icons";
 import debatevsquarefinal from "../Logo/debatevsquarefinal.svg";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
+import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore/lite";
 
 const CardPreview = lazy(() => import("../components/CardPreview"));
 const LoginButton = lazy(() => import("../components/LoginButton"));
