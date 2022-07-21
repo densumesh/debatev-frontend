@@ -8,6 +8,7 @@ import {
 } from "firebase/auth";
 import { Button, DropdownButton, Dropdown } from "react-bootstrap";
 import { useEffect } from "react";
+import Tooltip from "@material-ui/core/Tooltip";
 
 export default function LoginButton(props) {
   const auth = getAuth();
@@ -60,9 +61,11 @@ export default function LoginButton(props) {
   return (
     <>
       {!isLoggedIn ? (
-        <Button style={props.style} onClick={login}>
-          Login / Sign Up
-        </Button>
+        <Tooltip title="Create an account to sync your saved cards">
+          <Button style={props.style} onClick={login}>
+            Login / Sign Up
+          </Button>
+        </Tooltip>
       ) : (
         <DropdownButton title={buttonText} style={props.style}>
           <Dropdown.Item as="button" onClick={logout}>
