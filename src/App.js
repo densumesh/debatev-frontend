@@ -35,24 +35,54 @@ class App extends Component {
 
   render() {
     return (
-      <Suspense fallback={<div> </div>}>
-        <Router>
-          <Routes>
-            <Route
-              path="/imfeelinglucky"
-              element={<ImFeelingLucky app={app} />}
-            />
-            <Route path="/search/:id" element={<DisplayResults app={app} />} />
-            <Route path="/search" element={<DisplayResults app={app} />} />
-            <Route path="/saved" element={<SavedCards app={app} />} />
-            <Route path="/" element={<HomePage app={app} />} />
-            <Route
-              path="/privacyPolicy.html"
-              render={() => <Link push to={"../public/privacyPolicy.html"} />}
-            />
-          </Routes>
-        </Router>
-      </Suspense>
+      <Router>
+        <Routes>
+          <Route
+            path="/imfeelinglucky"
+            element={
+              <Suspense fallback={<div>Loading...</div>}>
+                <ImFeelingLucky app={app} />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/search/:id"
+            element={
+              <Suspense fallback={<div>Loading...</div>}>
+                <DisplayResults app={app} />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/search"
+            element={
+              <Suspense fallback={<div>Loading...</div>}>
+                <DisplayResults app={app} />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/saved"
+            element={
+              <Suspense fallback={<div>Loading...</div>}>
+                <SavedCards app={app} />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/"
+            element={
+              <Suspense fallback={<div>Loading...</div>}>
+                <HomePage app={app} />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/privacyPolicy.html"
+            render={() => <Link push to={"../public/privacyPolicy.html"} />}
+          />
+        </Routes>
+      </Router>
     );
   }
 }
