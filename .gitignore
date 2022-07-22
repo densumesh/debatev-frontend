@@ -9,3 +9,4 @@ build
 .firebaserc
 firebase*
 firestore*
+.env
