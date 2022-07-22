@@ -1,10 +1,9 @@
 import React, { Component, lazy, Suspense } from "react";
 import "./App.css";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Link, Route, Routes } from "react-router-dom";
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { getFirestore } from "firebase/firestore/lite";
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -25,7 +24,6 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 getAnalytics(app);
-getFirestore(app);
 
 const HomePage = lazy(() => import("./pages/HomePage"));
 const DisplayResults = lazy(() => import("./pages/DisplayResults"));
@@ -48,6 +46,10 @@ class App extends Component {
             <Route path="/search" element={<DisplayResults app={app} />} />
             <Route path="/saved" element={<SavedCards app={app} />} />
             <Route path="/" element={<HomePage app={app} />} />
+            <Route
+              path="/privacyPolicy.html"
+              render={() => <Link push to={"../public/privacyPolicy.html"} />}
+            />
           </Routes>
         </Router>
       </Suspense>

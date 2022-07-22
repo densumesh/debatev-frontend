@@ -1,5 +1,5 @@
 import React from "react";
-import DisplayResults from "../components/DisplayResults.js";
+import DisplayResults from "../pages/DisplayResults.js";
 import { render } from "@testing-library/react";
 import "jest-location-mock";
 
