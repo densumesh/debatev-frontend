@@ -442,7 +442,6 @@ class DisplayResults extends Component {
                     <CardPreview
                       key={card[0]}
                       cardData={card}
-                      app={this.props.app}
                     />
                   );
                 }

@@ -4,8 +4,9 @@ import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import { XCircle, Download } from "react-bootstrap-icons";
 import debatevsquarefinal from "../Logo/debatevsquarefinal.svg";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore/lite";
+import { onAuthStateChanged } from "firebase/auth";
+import { doc, getDoc, setDoc } from "firebase/firestore/lite";
+import { FirebaseContext } from "../App";
 
 const CardPreview = lazy(() => import("../components/CardPreview"));
 const LoginButton = lazy(() => import("../components/LoginButton"));
@@ -35,8 +36,10 @@ class SavedCards extends Component {
   }
   //TODO: change back to componentDidMount
   componentDidMount = () => {
-    let auth = getAuth();
-    let db = getFirestore();
+    let firebase = this.context;
+    console.log(firebase);
+    let auth = firebase.auth;
+    let db = firebase.db;
 
     onAuthStateChanged(auth, async (user) => {
       if (user) {
@@ -239,7 +242,7 @@ class SavedCards extends Component {
           <Card style={{ flex: 1, borderWidth: 0 }} />
           <Card style={{ flexDirection: "column", flex: 15, borderWidth: 0 }}>
             {this.state.cards.map((card) => (
-              <CardPreview key={card[0]} cardData={card} app={this.props.app} />
+              <CardPreview key={card[0]} cardData={card} />
             ))}
             {this.state.cards.length !== 0 && this.state.isLoading === -1 ? (
               <img
@@ -271,4 +274,5 @@ class SavedCards extends Component {
   }
 }
 
+SavedCards.contextType = FirebaseContext;
 export default SavedCards;

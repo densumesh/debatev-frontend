@@ -7,9 +7,11 @@ import DropdownButton from "react-bootstrap/DropdownButton";
 import Modal from "react-bootstrap/Modal";
 import { useNavigate } from "react-router-dom";
 import { Download, XCircleFill } from "react-bootstrap-icons";
-import { logEvent, getAnalytics } from "firebase/analytics";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
+import { logEvent } from "firebase/analytics";
+import { onAuthStateChanged } from "firebase/auth";
+import { doc, getDoc, setDoc } from "firebase/firestore/lite";
+import { useContext } from "react";
+import { FirebaseContext } from "../App";
 
 export default function CardPreview(props) {
   const [visible, setVisible] = useState(false);
@@ -20,10 +22,11 @@ export default function CardPreview(props) {
   const [searchTerm, setSearchTerm] = useState("");
   const [savedCards, setSavedCards] = useState("");
   const [user, setUser] = useState(null);
-  let analytics = getAnalytics(props.app);
+  const firebase = useContext(FirebaseContext);
+  let analytics = firebase.analytics;
   let navigate = useNavigate();
-  let auth = getAuth();
-  let db = getFirestore();
+  let auth = firebase.auth;
+  let db = firebase.db;
 
   useEffect(() =>
     onAuthStateChanged(auth, async (saver) => {

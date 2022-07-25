@@ -1,7 +1,6 @@
 import { React, useState } from "react";
 import {
   GoogleAuthProvider,
-  getAuth,
   signInWithPopup,
   signOut,
   onAuthStateChanged,
@@ -9,9 +8,12 @@ import {
 import { Button, DropdownButton, Dropdown } from "react-bootstrap";
 import { useEffect } from "react";
 import Tooltip from "@material-ui/core/Tooltip";
+import { useContext } from "react";
+import { FirebaseContext } from "../App";
 
 export default function LoginButton(props) {
-  const auth = getAuth();
+  const firebase = useContext(FirebaseContext);
+  const auth = firebase.auth;
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [buttonText, setButtonText] = useState("");
   useEffect(() => {
@@ -51,7 +53,6 @@ export default function LoginButton(props) {
   }
 
   function logout() {
-    const auth = getAuth();
     signOut(auth).then(() => {
       setIsLoggedIn(false);
       setButtonText("");
