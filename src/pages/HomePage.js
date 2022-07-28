@@ -129,21 +129,33 @@ class HomePage extends Component {
         >
           <Link to="/saved">
             <Button
-              style={{
-                backgroundColor: "#1C86EE",
-                marginTop: "5px",
-                color: "#FFF",
-                borderWidth: 0,
-                position: "absolute",
-                top: 5,
-                right: 130,
-                marginRight: 10,
-              }}
+              style={
+                window.innerWidth >= 760
+                  ? {
+                      backgroundColor: "#1C86EE",
+                      marginTop: "5px",
+                      color: "#FFF",
+                      borderWidth: 0,
+                      position: "absolute",
+                      top: 5,
+                      right: 130,
+                      marginRight: 10,
+                    }
+                  : {
+                      backgroundColor: "#1C86EE",
+                      marginTop: "5px",
+                      color: "#FFF",
+                      borderWidth: 0,
+                      position: "absolute",
+                      top: 5,
+                      marginRight: 10,
+                    }
+              }
             >
               Saved Cards
             </Button>
           </Link>
-          <DarkToggle />
+          {window.innerWidth >= 760 ? <DarkToggle /> : null}
           <LoginButton
             style={{
               backgroundColor: "#1C86EE",

@@ -4,7 +4,11 @@ import { BrowserRouter as Router, Link, Route, Routes } from "react-router-dom";
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { initializeAuth, indexedDBLocalPersistence } from "firebase/auth";
+import {
+  initializeAuth,
+  indexedDBLocalPersistence,
+  browserPopupRedirectResolver,
+} from "firebase/auth";
 import { getFirestore } from "firebase/firestore/lite";
 
 // TODO: Add SDKs for Firebase products that you want to use
@@ -34,6 +38,7 @@ const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const auth = initializeAuth(app, {
   persistence: indexedDBLocalPersistence,
+  popupRedirectResolver: browserPopupRedirectResolver,
 });
 const db = getFirestore(app);
 

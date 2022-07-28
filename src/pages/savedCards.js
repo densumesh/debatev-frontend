@@ -37,7 +37,6 @@ class SavedCards extends Component {
   //TODO: change back to componentDidMount
   componentDidMount = () => {
     let firebase = this.context;
-    console.log(firebase);
     let auth = firebase.auth;
     let db = firebase.db;
 
@@ -168,37 +167,51 @@ class SavedCards extends Component {
             />
           </a>
         </Card>{" "}
+        {window.innerWidth >= 760 ? (
+          <Button
+            style={{
+              backgroundColor: "#1C86EE",
+              color: "#FFF",
+              borderWidth: 0,
+              position: "absolute",
+              top: 15,
+              right: 60,
+              marginRight: 10,
+            }}
+            onClick={() => {
+              window.location.href =
+                "https://api.debatev.com/api/v1/download?q=" + this.state.saved;
+            }}
+            disabled={
+              //TODO; Get downloads to download all cards even if not in LocalStorage
+              !this.state.saved
+            }
+          >
+            <Download /> Download
+          </Button>
+        ) : null}
         <Button
-          style={{
-            backgroundColor: "#1C86EE",
-            color: "#FFF",
-            borderWidth: 0,
-            position: "absolute",
-            top: 15,
-            right: 60,
-            marginRight: 10,
-          }}
-          onClick={() => {
-            window.location.href =
-              "https://api.debatev.com/api/v1/download?q=" + this.state.saved;
-          }}
-          disabled={
-            //TODO; Get downloads to download all cards even if not in LocalStorage
-            !this.state.saved
+          style={
+            window.innerWidth >= 760
+              ? {
+                  backgroundColor: "#1C86EE",
+                  color: "#FFF",
+                  borderWidth: 0,
+                  position: "absolute",
+                  top: 15,
+                  right: 190,
+                  marginRight: 10,
+                }
+              : {
+                  backgroundColor: "#1C86EE",
+                  color: "#FFF",
+                  borderWidth: 0,
+                  position: "absolute",
+                  top: 15,
+                  right: 10,
+                  marginRight: 10,
+                }
           }
-        >
-          <Download /> Download
-        </Button>
-        <Button
-          style={{
-            backgroundColor: "#1C86EE",
-            color: "#FFF",
-            borderWidth: 0,
-            position: "absolute",
-            top: 15,
-            right: 190,
-            marginRight: 10,
-          }}
           onClick={async () => {
             localStorage.removeItem("saved");
             if (this.state.loggedIn) {
@@ -218,17 +231,19 @@ class SavedCards extends Component {
         >
           <XCircle /> Clear
         </Button>
-        <LoginButton
-          style={{
-            backgroundColor: "#1C86EE",
-            color: "#FFF",
-            borderWidth: 0,
-            position: "absolute",
-            top: 15,
-            right: 290,
-            marginRight: 10,
-          }}
-        ></LoginButton>
+        {window.innerWidth >= 760 ? (
+          <LoginButton
+            style={{
+              backgroundColor: "#1C86EE",
+              color: "#FFF",
+              borderWidth: 0,
+              position: "absolute",
+              top: 15,
+              right: 290,
+              marginRight: 10,
+            }}
+          />
+        ) : null}
         <Card
           style={{
             flex: 1,

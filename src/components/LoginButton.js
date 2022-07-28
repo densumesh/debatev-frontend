@@ -30,6 +30,7 @@ export default function LoginButton(props) {
 
   function login() {
     const provider = new GoogleAuthProvider();
+
     signInWithPopup(auth, provider)
       .then((result) => {
         // The signed-in user info.
