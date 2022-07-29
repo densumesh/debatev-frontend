@@ -156,6 +156,7 @@ class HomePage extends Component {
             </Button>
           </Link>
           {window.innerWidth >= 760 ? <DarkToggle /> : null}
+
           <LoginButton
             style={{
               backgroundColor: "#1C86EE",
@@ -259,8 +260,11 @@ class HomePage extends Component {
           <a href="https://github.com/densumesh/debatev-frontend">
             Debate Evidence
           </a>{" "}
-          | Dens Sumesh, Akaash Kolluri, Rohan Agrawal |{" "}
-          <a href="https://forms.gle/Vh6mBK2EKBmSQg3f8">Report a bug</a>
+          {window.innerWidth >= 760
+            ? "| Dens Sumesh, Akaash Kolluri, Rohan Agrawal | "
+            : " | "}
+          <a href="https://forms.gle/Vh6mBK2EKBmSQg3f8">Report a bug</a> |{" "}
+          <a href="https://www.buymeacoffee.com/debateV">Buy us a coffee!</a>
         </div>
       </div>
     );
