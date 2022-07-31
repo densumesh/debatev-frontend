@@ -264,7 +264,7 @@ class HomePage extends Component {
             ? "| Dens Sumesh, Akaash Kolluri, Rohan Agrawal | "
             : " | "}
           <a href="https://forms.gle/Vh6mBK2EKBmSQg3f8">Report a bug</a> |{" "}
-          <a href="https://www.buymeacoffee.com/debateV">Buy us a coffee!</a>
+          <a href="https://www.buymeacoffee.com/debateV">Support DebatEV</a>
         </div>
       </div>
     );
