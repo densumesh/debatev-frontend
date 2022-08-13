@@ -28,7 +28,7 @@ export default function CardPreview(props) {
   let auth = firebase.auth;
   let db = firebase.db;
 
-  useEffect(() =>
+  useEffect(() => {
     onAuthStateChanged(auth, async (saver) => {
       if (saver) {
         setUser(saver);
@@ -44,13 +44,61 @@ export default function CardPreview(props) {
             m = m + "," + localStorage.getItem("saved");
           }
           setSavedCards(m);
+          if (window.location.href === window.location.origin + "/saved") {
+            setSaved(true);
+          } else {
+            setSaved(m?.split(",").includes(props.cardData[0]));
+          }
         }
       } else {
         setSavedCards(localStorage.getItem("saved"));
+        if (window.location.href === window.location.origin + "/saved") {
+          setSaved(true);
+        } else {
+          setSaved(
+            localStorage
+              .getItem("saved")
+              ?.split(",")
+              .includes(props.cardData[0])
+          );
+        }
       }
-    })
-  );
+    });
+  });
 
+  function convertToNewUrl(url) {
+    let dtype = url.slice(8).split(".")[0];
+    if (dtype.slice(0, -2) === "opencaselist") {
+      dtype = "ndtceda" + dtype.slice(-2);
+    }
+    const school = url.split("/")[4].replace("%20", "");
+    let debater = url.split("/")[5];
+    if (debater.lastIndexOf("-") > 0) {
+      debater =
+        debater.slice(0, 2) +
+        debater.slice(
+          debater.lastIndexOf("-") + 1,
+          debater.lastIndexOf("-") + 3
+        );
+    } else if (dtype !== "openev") {
+      debater = debater.slice(0, 2);
+    }
+
+    let round = url.split("/")[6].split("?")[0];
+    if (dtype !== "openev") {
+      round = round.replaceAll("%20", "%2520");
+    }
+    return (
+      "https://api.opencaselist.com/v1/download?path=" +
+      dtype +
+      "%2F" +
+      school +
+      "%2F" +
+      debater +
+      "%2F" +
+      round
+    );
+  }
   function openModal() {
     setVisible(true);
     let location = window.location.href.substring(
@@ -81,11 +129,7 @@ export default function CardPreview(props) {
     x = x.substring(0, x.lastIndexOf("doc") - 1);
 
     setCardName(x);
-    if (window.location.href === window.location.origin + "/saved") {
-      setSaved(true);
-    } else {
-      setSaved(savedCards?.split(",").includes(props.cardData[0]));
-    }
+
     switch (props.cardData[2].replace("dtype: ", "")) {
       case "college":
         setDtype("College Policy");
@@ -115,7 +159,6 @@ export default function CardPreview(props) {
     let foundIndex = saved.indexOf(cardID);
     saved.splice(foundIndex, 1);
     setSavedCards(saved.join(","));
-    console.log(savedCards);
     if (user) {
       await setDoc(doc(db, "user-saved-cards", user.uid), {
         saved: saved.join(","),
@@ -189,7 +232,10 @@ export default function CardPreview(props) {
                 fontSize: 18,
               }}
               onClick={() => {
-                window.location.href = props.cardData[1].filepath;
+                console.log(props.cardData[1].filepath);
+                window.location.href = convertToNewUrl(
+                  props.cardData[1].filepath
+                );
               }}
             >
               {cardName}
@@ -205,7 +251,7 @@ export default function CardPreview(props) {
           >
             <Dropdown.Item>{"Year: " + props.cardData[1].year}</Dropdown.Item>
             <Dropdown.Item>{"From: " + dtype}</Dropdown.Item>
-            <Dropdown.Item href={props.cardData[1].filepath}>
+            <Dropdown.Item href={convertToNewUrl(props.cardData[1].filepath)}>
               Download Case
             </Dropdown.Item>
           </DropdownButton>
