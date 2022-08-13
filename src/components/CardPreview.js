@@ -68,8 +68,30 @@ export default function CardPreview(props) {
 
   function convertToNewUrl(url) {
     let dtype = url.slice(8).split(".")[0];
-    if (dtype.slice(0, -2) === "opencaselist") {
-      dtype = "ndtceda" + dtype.slice(-2);
+    if (props.cardData[1].year <= 2022 && props.cardData[1].year > 2019) {
+      if (dtype === "opencaselist") {
+        if (props.cardData[1].year == 2022) {
+          dtype = "ndtceda" + String(props.cardData[1].year - 1).slice(-2);
+        } else {
+          dtype = "ndtceda" + String(props.cardData[1].year).slice(-2);
+        }
+      } else {
+        if (props.cardData[1].year == 2022) {
+          dtype = dtype + String(props.cardData[1].year - 1).slice(-2);
+        } else {
+          dtype = dtype + String(props.cardData[1].year).slice(-2);
+        }
+      }
+    } else {
+      if (props.cardData[1].year !== 2022) {
+        if (dtype.slice(0, -2) === "opencaselist") {
+          dtype = "ndtceda" + dtype.slice(-2);
+        }
+      } else {
+        if (dtype === "opencaselist") {
+          dtype = "ndtceda";
+        }
+      }
     }
     const school = url.split("/")[4].replace("%20", "");
     let debater = url.split("/")[5];
