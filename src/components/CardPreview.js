@@ -12,6 +12,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc, setDoc } from "firebase/firestore/lite";
 import { useContext } from "react";
 import { FirebaseContext } from "../App";
+import Tooltip from "@material-ui/core/Tooltip";
 
 export default function CardPreview(props) {
   const [visible, setVisible] = useState(false);
@@ -246,26 +247,28 @@ export default function CardPreview(props) {
       >
         <Modal.Header>
           <Modal.Title id="example-modal-sizes-title-sm">
-            <Button
-              className="filename"
-              style={{
-                height: "30",
-                backgroundColor: "#FFF",
-                color: "#000",
-                borderWidth: 0,
-                position: "relative",
-                left: 0,
-                fontSize: 18,
-              }}
-              onClick={() => {
-                console.log(props.cardData[1].filepath);
-                window.location.href = convertToNewUrl(
-                  props.cardData[1].filepath
-                );
-              }}
-            >
-              {cardName}
-            </Button>
+            <Tooltip title="You have to be logged into the wiki to download cards">
+              <Button
+                className="filename"
+                style={{
+                  height: "30",
+                  backgroundColor: "#FFF",
+                  color: "#000",
+                  borderWidth: 0,
+                  position: "relative",
+                  left: 0,
+                  fontSize: 18,
+                }}
+                onClick={() => {
+                  console.log(props.cardData[1].filepath);
+                  window.location.href = convertToNewUrl(
+                    props.cardData[1].filepath
+                  );
+                }}
+              >
+                {cardName}
+              </Button>
+            </Tooltip>
             {""}
           </Modal.Title>
           <DropdownButton
@@ -277,9 +280,11 @@ export default function CardPreview(props) {
           >
             <Dropdown.Item>{"Year: " + props.cardData[1].year}</Dropdown.Item>
             <Dropdown.Item>{"From: " + dtype}</Dropdown.Item>
-            <Dropdown.Item href={convertToNewUrl(props.cardData[1].filepath)}>
-              Download Case
-            </Dropdown.Item>
+            <Tooltip title="You have to be logged into the wiki to download cards">
+              <Dropdown.Item href={convertToNewUrl(props.cardData[1].filepath)}>
+                Download Case
+              </Dropdown.Item>
+            </Tooltip>
           </DropdownButton>
         </Modal.Header>
         <Modal.Body>
