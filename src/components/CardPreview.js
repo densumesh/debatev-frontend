@@ -67,59 +67,63 @@ export default function CardPreview(props) {
   });
 
   function convertToNewUrl(url) {
-    let dtype = url.slice(8).split(".")[0];
-    if (props.cardData[1].year <= 2022 && props.cardData[1].year > 2019) {
-      if (dtype === "opencaselist") {
-        if (props.cardData[1].year == 2022) {
-          dtype = "ndtceda" + String(props.cardData[1].year - 1).slice(-2);
-        } else {
-          dtype = "ndtceda" + String(props.cardData[1].year).slice(-2);
-        }
-      } else {
-        if (props.cardData[1].year == 2022) {
-          dtype = dtype + String(props.cardData[1].year - 1).slice(-2);
-        } else {
-          dtype = dtype + String(props.cardData[1].year).slice(-2);
-        }
-      }
-    } else {
-      if (props.cardData[1].year !== 2022) {
-        if (dtype.slice(0, -2) === "opencaselist") {
-          dtype = "ndtceda" + dtype.slice(-2);
-        }
-      } else {
+    if (url.slice(8).split(".")[0] !== "api") {
+      let dtype = url.slice(8).split(".")[0];
+      if (props.cardData[1].year <= 2022 && props.cardData[1].year > 2019) {
         if (dtype === "opencaselist") {
-          dtype = "ndtceda";
+          if (parseInt(props.cardData[1].year) === 2022) {
+            dtype = "ndtceda" + String(props.cardData[1].year - 1).slice(-2);
+          } else {
+            dtype = "ndtceda" + props.cardData[1].year.slice(-2);
+          }
+        } else {
+          if (parseInt(props.cardData[1].year) === 2022) {
+            dtype = dtype + String(props.cardData[1].year - 1).slice(-2);
+          } else {
+            dtype = dtype + props.cardData[1].year.slice(-2);
+          }
+        }
+      } else {
+        if (parseInt(props.cardData[1].year) !== 2022) {
+          if (dtype.slice(0, -2) === "opencaselist") {
+            dtype = "ndtceda" + dtype.slice(-2);
+          }
+        } else {
+          if (dtype === "opencaselist") {
+            dtype = "ndtceda";
+          }
         }
       }
-    }
-    const school = url.split("/")[4].replace("%20", "");
-    let debater = url.split("/")[5];
-    if (debater.lastIndexOf("-") > 0) {
-      debater =
-        debater.slice(0, 2) +
-        debater.slice(
-          debater.lastIndexOf("-") + 1,
-          debater.lastIndexOf("-") + 3
-        );
-    } else if (dtype !== "openev") {
-      debater = debater.slice(0, 2);
-    }
+      const school = url.split("/")[4].replace("%20", "");
+      let debater = url.split("/")[5];
+      if (debater.lastIndexOf("-") > 0) {
+        debater =
+          debater.slice(0, 2) +
+          debater.slice(
+            debater.lastIndexOf("-") + 1,
+            debater.lastIndexOf("-") + 3
+          );
+      } else if (dtype !== "openev") {
+        debater = debater.slice(0, 2);
+      }
 
-    let round = url.split("/")[6].split("?")[0];
-    if (dtype !== "openev") {
-      round = round.replaceAll("%20", "%2520");
+      let round = url.split("/")[6].split("?")[0];
+      if (dtype !== "openev") {
+        round = round.replaceAll("%20", "%2520");
+      }
+      return (
+        "https://api.opencaselist.com/v1/download?path=" +
+        dtype +
+        "%2F" +
+        school +
+        "%2F" +
+        debater +
+        "%2F" +
+        round
+      );
+    } else {
+      return url;
     }
-    return (
-      "https://api.opencaselist.com/v1/download?path=" +
-      dtype +
-      "%2F" +
-      school +
-      "%2F" +
-      debater +
-      "%2F" +
-      round
-    );
   }
   function openModal() {
     setVisible(true);
