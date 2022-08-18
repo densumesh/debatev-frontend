@@ -7,12 +7,15 @@ import Autocomplete from "@material-ui/lab/Autocomplete";
 import { Search as SearchIcon } from "react-bootstrap-icons";
 import { throttle, debounce } from "throttle-debounce";
 import { useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function SearchBox(props) {
   let search = React.createRef();
   let [autocomplete, setAutocomplete] = useState([]);
   let [searchTerm, setSearchTerm] = useState("");
   let [loading, setLoading] = useState(false);
+  let navigate = useNavigate();
+
   let ogSearch = window.location.href.substring(
     window.location.href.lastIndexOf("/") + 1
   );
@@ -63,10 +66,11 @@ export default function SearchBox(props) {
               style={{ borderRightWidth: 0 }}
               onKeyPress={(e) => {
                 if (e.key === "Enter") {
-                  window.location.href =
+                  navigate(
                     "/search/" +
-                    encodeURIComponent(search.current?.value) +
-                    props.getUrl();
+                      encodeURIComponent(search.current?.value) +
+                      props.getUrl()
+                  );
                 }
               }}
               {...params.inputProps}
@@ -75,8 +79,9 @@ export default function SearchBox(props) {
         )}
         onKeyPress={(e) => {
           if (e.key === "Enter") {
-            window.location.href =
-              "/search/" + encodeURIComponent(searchTerm) + props.getUrl();
+            navigate(
+              "/search/" + encodeURIComponent(searchTerm) + props.getUrl()
+            );
           }
         }}
         onInputChange={(_event, newValue) => {
@@ -95,8 +100,9 @@ export default function SearchBox(props) {
       <Button
         variant="outline-primary"
         onClick={(_e) => {
-          window.location.href =
-            "/search/" + encodeURIComponent(searchTerm) + props.getUrl();
+          navigate(
+            "/search/" + encodeURIComponent(searchTerm) + props.getUrl()
+          );
         }}
       >
         <SearchIcon />

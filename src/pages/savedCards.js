@@ -4,7 +4,6 @@ import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import { XCircle, Download } from "react-bootstrap-icons";
 import debatevsquarefinal from "../Logo/debatevsquarefinal.svg";
-import { onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc, setDoc } from "firebase/firestore/lite";
 import { FirebaseContext } from "../App";
 
@@ -34,67 +33,47 @@ class SavedCards extends Component {
     super(props);
     this.search = React.createRef();
   }
-  //TODO: change back to componentDidMount
-  componentDidMount = () => {
+  componentDidMount = async () => {
     let firebase = this.context;
-    let auth = firebase.auth;
     let db = firebase.db;
+    let uid = firebase.uid;
+    this.setState({ setSaved: firebase.setSaved });
+    this.setState({ uid: uid });
 
-    onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        this.setState({ db: db });
-        const docRef = doc(db, "user-saved-cards", user.uid);
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-          this.setState({ loggedIn: true });
-          this.setState({ userInfo: user });
-          let m = "";
-          m = docSnap.data().saved;
-          if (
-            localStorage.getItem("saved") &&
-            !docSnap.data().saved?.includes(localStorage.getItem("saved"))
-          ) {
-            m = m + "," + localStorage.getItem("saved");
-            await setDoc(docRef, { saved: m });
-          }
-          let url = "https://api.debatev.com/api/v1/saved?q=" + m;
-
-          this.getData(url).then((data) => {
-            let object = data;
-            let array = Object.keys(object).map(function (k) {
-              return object[k];
-            });
-            this.setState({ cards: array });
-            this.setState({ isLoading: 0 });
-          });
-          this.setState({ saved: m });
-        } else {
-          this.setState({ isLoading: 0 });
-          let m = localStorage.getItem("saved");
-          this.setState({ saved: m });
-          if (m) {
-            await setDoc(doc(db, "user-saved-cards", user.uid), {
-              saved: m,
-            });
-            let url = "https://api.debatev.com/api/v1/saved?q=" + m;
-
-            this.getData(url).then((data) => {
-              let object = data;
-              let array = Object.keys(object).map(function (k) {
-                return object[k];
-              });
-              this.setState({ cards: array });
-              this.setState({ isLoading: 0 });
-            });
-          } else {
-            this.setState({ isLoading: 0 });
-          }
+    if (uid) {
+      this.setState({ db: db });
+      const docRef = doc(db, "user-saved-cards", uid);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        this.setState({ loggedIn: true });
+        let m = "";
+        m = docSnap.data().saved;
+        if (
+          localStorage.getItem("saved") &&
+          !docSnap.data().saved?.includes(localStorage.getItem("saved"))
+        ) {
+          m = m + "," + localStorage.getItem("saved");
+          await setDoc(docRef, { saved: m });
         }
+        let url = "https://api.debatev.com/api/v1/saved?q=" + m;
+
+        this.getData(url).then((data) => {
+          let object = data;
+          let array = Object.keys(object).map(function (k) {
+            return object[k];
+          });
+          this.setState({ cards: array });
+          this.setState({ isLoading: 0 });
+        });
+        this.setState({ saved: m });
       } else {
-        this.setState({ loggedIn: false });
+        this.setState({ isLoading: 0 });
         let m = localStorage.getItem("saved");
         this.setState({ saved: m });
         if (m) {
+          await setDoc(doc(db, "user-saved-cards", uid), {
+            saved: m,
+          });
           let url = "https://api.debatev.com/api/v1/saved?q=" + m;
 
           this.getData(url).then((data) => {
@@ -109,7 +88,25 @@ class SavedCards extends Component {
           this.setState({ isLoading: 0 });
         }
       }
-    });
+    } else {
+      this.setState({ loggedIn: false });
+      let m = localStorage.getItem("saved");
+      this.setState({ saved: m });
+      if (m) {
+        let url = "https://api.debatev.com/api/v1/saved?q=" + m;
+
+        this.getData(url).then((data) => {
+          let object = data;
+          let array = Object.keys(object).map(function (k) {
+            return object[k];
+          });
+          this.setState({ cards: array });
+          this.setState({ isLoading: 0 });
+        });
+      } else {
+        this.setState({ isLoading: 0 });
+      }
+    }
   };
 
   async getData(url) {
@@ -182,10 +179,7 @@ class SavedCards extends Component {
               window.location.href =
                 "https://api.debatev.com/api/v1/download?q=" + this.state.saved;
             }}
-            disabled={
-              //TODO; Get downloads to download all cards even if not in LocalStorage
-              !this.state.saved
-            }
+            disabled={!this.state.saved}
           >
             <Download /> Download
           </Button>
@@ -216,18 +210,16 @@ class SavedCards extends Component {
             localStorage.removeItem("saved");
             if (this.state.loggedIn) {
               await setDoc(
-                doc(this.state.db, "user-saved-cards", this.state.userInfo.uid),
+                doc(this.state.db, "user-saved-cards", this.state.uid),
                 {
                   saved: "",
                 }
               );
             }
+            this.state.setSaved("");
             window.location.reload();
           }}
-          disabled={
-            //TODO: Get clearing to delete all of the user document fields
-            !this.state.saved
-          }
+          disabled={!this.state.saved}
         >
           <XCircle /> Clear
         </Button>

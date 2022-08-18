@@ -8,8 +8,7 @@ import Modal from "react-bootstrap/Modal";
 import { useNavigate } from "react-router-dom";
 import { Download, XCircleFill } from "react-bootstrap-icons";
 import { logEvent } from "firebase/analytics";
-import { onAuthStateChanged } from "firebase/auth";
-import { doc, getDoc, setDoc } from "firebase/firestore/lite";
+import { doc, setDoc } from "firebase/firestore/lite";
 import { useContext } from "react";
 import { FirebaseContext } from "../App";
 import Tooltip from "@material-ui/core/Tooltip";
@@ -21,52 +20,41 @@ export default function CardPreview(props) {
   const [dtype, setDtype] = useState("");
   const [open, setOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-  const [savedCards, setSavedCards] = useState("");
-  const [user, setUser] = useState(null);
   const firebase = useContext(FirebaseContext);
+  let savedCards = firebase.savedCards;
+  let setSavedCards = firebase.setSaved;
   let analytics = firebase.analytics;
   let navigate = useNavigate();
-  let auth = firebase.auth;
   let db = firebase.db;
+  let uid = firebase.uid;
 
   useEffect(() => {
-    onAuthStateChanged(auth, async (saver) => {
-      if (saver) {
-        setUser(saver);
-        const docRef = doc(db, "user-saved-cards", saver.uid);
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-          let m = "";
-          m = docSnap.data().saved;
-          if (
-            localStorage.getItem("saved") &&
-            !docSnap.data().saved?.includes(localStorage.getItem("saved"))
-          ) {
-            m = m + "," + localStorage.getItem("saved");
-          }
-          setSavedCards(m);
-          if (window.location.href === window.location.origin + "/saved") {
-            setSaved(true);
-          } else {
-            setSaved(m?.split(",").includes(props.cardData[0]));
-          }
-        }
-      } else {
-        setSavedCards(localStorage.getItem("saved"));
-        if (window.location.href === window.location.origin + "/saved") {
-          setSaved(true);
-        } else {
-          setSaved(
-            localStorage
-              .getItem("saved")
-              ?.split(",")
-              .includes(props.cardData[0])
-          );
-        }
+    savedCards = firebase.savedCards;
+    if (savedCards) {
+      let m;
+      if (
+        localStorage.getItem("saved") &&
+        !savedCards?.includes(localStorage.getItem("saved"))
+      ) {
+        m = savedCards + "," + localStorage.getItem("saved");
       }
-    });
-  });
-
+      setSavedCards(m);
+      if (window.location.href === window.location.origin + "/saved") {
+        setSaved(true);
+      } else {
+        setSaved(savedCards?.split(",").includes(props.cardData[0]));
+      }
+    } else {
+      setSavedCards(localStorage.getItem("saved"));
+      if (window.location.href === window.location.origin + "/saved") {
+        setSaved(true);
+      } else {
+        setSaved(
+          localStorage.getItem("saved")?.split(",").includes(props.cardData[0])
+        );
+      }
+    }
+  }, []);
   function convertToNewUrl(url) {
     if (url.slice(8).split(".")[0] !== "api") {
       let dtype = url.slice(8).split(".")[0];
@@ -179,21 +167,22 @@ export default function CardPreview(props) {
   }, [props.cardData, saved]);
 
   async function unsaveCard(cardID) {
-    //TODO: Work with Database
+    //FIXME: make work on saved page
     setSaved(false);
     let saved = [];
     saved = savedCards.split(",");
     let foundIndex = saved.indexOf(cardID);
     saved.splice(foundIndex, 1);
+
     setSavedCards(saved.join(","));
-    if (user) {
-      await setDoc(doc(db, "user-saved-cards", user.uid), {
+    if (uid) {
+      await setDoc(doc(db, "user-saved-cards", uid), {
         saved: saved.join(","),
       });
     }
     localStorage.setItem("saved", saved);
     if (window.location.href === window.location.origin + "/saved") {
-      window.location.reload();
+      window.location.replace(window.location.origin + "/saved");
     }
   }
 
@@ -205,7 +194,7 @@ export default function CardPreview(props) {
       card_url: window.location.href,
       search_term: searchTerm,
     });
-
+    console.log(savedCards);
     if (savedCards) {
       saved.push(savedCards);
       saved.push(cardID);
@@ -213,8 +202,8 @@ export default function CardPreview(props) {
       saved.push(cardID);
     }
     setSavedCards(saved.join(","));
-    if (user) {
-      await setDoc(doc(db, "user-saved-cards", user.uid), {
+    if (uid) {
+      await setDoc(doc(db, "user-saved-cards", uid), {
         saved: saved.join(","),
       });
     }

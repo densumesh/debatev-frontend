@@ -1,10 +1,5 @@
 import { React, useState } from "react";
-import {
-  GoogleAuthProvider,
-  signInWithPopup,
-  signOut,
-  onAuthStateChanged,
-} from "firebase/auth";
+import { GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
 import { Button, DropdownButton, Dropdown } from "react-bootstrap";
 import { useEffect } from "react";
 import Tooltip from "@material-ui/core/Tooltip";
@@ -14,19 +9,18 @@ import { FirebaseContext } from "../App";
 export default function LoginButton(props) {
   const firebase = useContext(FirebaseContext);
   const auth = firebase.auth;
+  const user = firebase.user;
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [buttonText, setButtonText] = useState("");
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setIsLoggedIn(true);
-        setButtonText(user.displayName);
-      } else {
-        setIsLoggedIn(false);
-        setButtonText("");
-      }
-    });
-  });
+    if (user) {
+      setIsLoggedIn(true);
+      setButtonText(user.displayName);
+    } else {
+      setIsLoggedIn(false);
+      setButtonText("");
+    }
+  }, [user]);
 
   function login() {
     const provider = new GoogleAuthProvider();

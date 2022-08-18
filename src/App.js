@@ -8,14 +8,11 @@ import {
   initializeAuth,
   indexedDBLocalPersistence,
   browserPopupRedirectResolver,
+  onAuthStateChanged,
 } from "firebase/auth";
 import { getFirestore } from "firebase/firestore/lite";
+import { doc, getDoc } from "firebase/firestore/lite";
 
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_CONFIG,
   authDomain: "debatev-users.firebaseapp.com",
@@ -46,26 +43,60 @@ const HomePage = lazy(() => import("./pages/HomePage"));
 const DisplayResults = lazy(() => import("./pages/DisplayResults"));
 const ImFeelingLucky = lazy(() => import("./pages/ImFeelingLucky"));
 const SavedCards = lazy(() => import("./pages/savedCards"));
+let fallback = (
+  <img
+    className="loadinggif"
+    style={{
+      width: 150,
+      height: 150,
+      position: "absolute",
+      left: "40%",
+      right: "50%",
+    }}
+    src="https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif"
+    alt="Loading..."
+  ></img>
+);
 
 class App extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
       db: db,
       analytics: analytics,
       auth: auth,
+      savedCards: "",
+      setSaved: (saved) => {
+        this.state.savedCards = saved;
+      },
+      uid: null,
+      user: null,
     };
+  }
+  componentDidMount() {
+    onAuthStateChanged(auth, async (saver) => {
+      const docRef = doc(db, "user-saved-cards", saver.uid);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        this.setState({ savedCards: docSnap.data().saved });
+      }
+      this.setState({ uid: saver.uid });
+      this.setState({ user: saver });
+    });
   }
 
   render() {
-    return (
+    return this.state.uid === null && this.state.savedCards === null ? (
+      fallback
+    ) : (
       <FirebaseContext.Provider value={this.state}>
         <Router>
           <Routes>
             <Route
               path="/imfeelinglucky"
               element={
-                <Suspense fallback={<div>Loading...</div>}>
+                <Suspense fallback={fallback}>
                   <ImFeelingLucky />
                 </Suspense>
               }
@@ -73,7 +104,7 @@ class App extends Component {
             <Route
               path="/search/:id"
               element={
-                <Suspense fallback={<div>Loading...</div>}>
+                <Suspense fallback={fallback}>
                   <DisplayResults />
                 </Suspense>
               }
@@ -81,7 +112,7 @@ class App extends Component {
             <Route
               path="/search"
               element={
-                <Suspense fallback={<div>Loading...</div>}>
+                <Suspense fallback={fallback}>
                   <DisplayResults />
                 </Suspense>
               }
@@ -89,7 +120,7 @@ class App extends Component {
             <Route
               path="/saved"
               element={
-                <Suspense fallback={<div>Loading...</div>}>
+                <Suspense fallback={fallback}>
                   <SavedCards />
                 </Suspense>
               }
@@ -97,7 +128,7 @@ class App extends Component {
             <Route
               path="/"
               element={
-                <Suspense fallback={<div>Loading...</div>}>
+                <Suspense fallback={fallback}>
                   <HomePage />
                 </Suspense>
               }

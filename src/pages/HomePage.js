@@ -127,34 +127,33 @@ class HomePage extends Component {
           }}
           className="home-page-header"
         >
-          <Link to="/saved">
-            <Button
-              style={
-                window.innerWidth >= 760
-                  ? {
-                      backgroundColor: "#1C86EE",
-                      marginTop: "5px",
-                      color: "#FFF",
-                      borderWidth: 0,
-                      position: "absolute",
-                      top: 5,
-                      right: 130,
-                      marginRight: 10,
-                    }
-                  : {
-                      backgroundColor: "#1C86EE",
-                      marginTop: "5px",
-                      color: "#FFF",
-                      borderWidth: 0,
-                      position: "absolute",
-                      top: 5,
-                      marginRight: 10,
-                    }
-              }
-            >
-              Saved Cards
-            </Button>
-          </Link>
+          <Button
+            onClick={() => (window.location.href = "/saved")}
+            style={
+              window.innerWidth >= 760
+                ? {
+                    backgroundColor: "#1C86EE",
+                    marginTop: "5px",
+                    color: "#FFF",
+                    borderWidth: 0,
+                    position: "absolute",
+                    top: 5,
+                    right: 130,
+                    marginRight: 10,
+                  }
+                : {
+                    backgroundColor: "#1C86EE",
+                    marginTop: "5px",
+                    color: "#FFF",
+                    borderWidth: 0,
+                    position: "absolute",
+                    top: 5,
+                    marginRight: 10,
+                  }
+            }
+          >
+            Saved Cards
+          </Button>
           {window.innerWidth >= 760 ? <DarkToggle /> : null}
 
           <LoginButton
