@@ -20,6 +20,7 @@ export default function Filters(props) {
     hspolicy: false,
     ld: false,
     openev: false,
+    collegeld: false,
   });
 
   let [selectedValues] = useState(props.selectedValues);
@@ -96,7 +97,9 @@ export default function Filters(props) {
         setDtype({ ...dtype, openev: true });
 
         break;
-
+      case "NFA LD":
+        setDtype({ ...dtype, collegeld: true });
+        break;
       default:
         break;
     }
@@ -165,6 +168,10 @@ export default function Filters(props) {
         setDtype({ ...dtype, openev: false });
 
         break;
+      case "NFA LD":
+        setDtype({ ...dtype, collegeld: false });
+
+        break;
 
       default:
         break;
@@ -197,6 +204,7 @@ export default function Filters(props) {
             { name: "High School LD", id: 10, group: "Data Set" },
             { name: "High School Policy", id: 11, group: "Data Set" },
             { name: "OpenEv", id: 12, group: "Data Set" },
+            { name: "NFA LD", id: 13, group: "Data Set" },
           ]}
           selectedValues={selectedValues}
           onSelect={onSelect}

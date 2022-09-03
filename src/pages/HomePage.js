@@ -31,6 +31,7 @@ class HomePage extends Component {
       college: false,
       openev: false,
       pf: false,
+      collegeld:false
     },
   };
 
@@ -83,6 +84,9 @@ class HomePage extends Component {
     if (this.state.dtypes.openev === true) {
       dtypes = dtypes + "openev,";
     }
+        if (this.state.dtypes.collegeld === true) {
+          dtypes = dtypes + "collegeld,";
+        }
 
     if (dtypes.length > 0)
       url = url + "&dtype=" + dtypes.substring(0, dtypes.length - 1);

@@ -448,11 +448,11 @@ textarea {
   pointer-events: none;
 }
 .modal.fade .modal-dialog {
-  transition: -webkit-transform 0.3s ease-out;
-  transition: transform 0.3s ease-out;
-  transition: transform 0.3s ease-out, -webkit-transform 0.3s ease-out;
-  -webkit-transform: translateY(-50px);
-  transform: translateY(-50px);
+  transition: -webkit-transform 0.15s ease-out;
+  transition: transform 0.15s ease-out;
+  transition: transform 0.15s ease-out, -webkit-transform 0.15s ease-out;
+  -webkit-transform: translateY(-30px);
+  transform: translateY(-30px);
 }
 @media (prefers-reduced-motion: reduce) {
   .modal.fade .modal-dialog {

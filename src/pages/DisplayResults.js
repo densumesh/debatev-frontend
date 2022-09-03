@@ -41,6 +41,7 @@ class DisplayResults extends Component {
       ld: false,
       college: false,
       openev: false,
+      collegeld: false,
     },
     error: "",
   };
@@ -97,6 +98,9 @@ class DisplayResults extends Component {
     if (this.state.dtypes.openev) {
       dtypes = dtypes + "openev,";
     }
+    if (this.state.dtypes.collegeld) {
+      dtypes = dtypes + "collegeld,";
+    }
 
     if (dtypes.length > 0)
       url = url + "&dtype=" + dtypes.substring(0, dtypes.length - 1);
@@ -149,8 +153,11 @@ class DisplayResults extends Component {
             selectedValues.push({ name: "High School Policy" });
           } else if (dtype1 === "openev") {
             selectedValues.push({ name: "OpenEv" });
+          } else if (dtype1 === "collegeld") {
+            selectedValues.push({ name: "NFA LD" });
           }
         }
+      console.log(selectedValues);
       this.state.selectedValues = selectedValues;
     }
   }
@@ -438,12 +445,7 @@ class DisplayResults extends Component {
             >
               {this.state.cards.map((card) => {
                 if (card[1].tag.length < 700) {
-                  return (
-                    <CardPreview
-                      key={card[0]}
-                      cardData={card}
-                    />
-                  );
+                  return <CardPreview key={card[0]} cardData={card} />;
                 }
                 return null;
               })}

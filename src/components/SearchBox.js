@@ -66,11 +66,10 @@ export default function SearchBox(props) {
               style={{ borderRightWidth: 0 }}
               onKeyPress={(e) => {
                 if (e.key === "Enter") {
-                  navigate(
+                  window.location.href =
                     "/search/" +
-                      encodeURIComponent(search.current?.value) +
-                      props.getUrl()
-                  );
+                    encodeURIComponent(search.current?.value) +
+                    props.getUrl();
                 }
               }}
               {...params.inputProps}
@@ -79,9 +78,8 @@ export default function SearchBox(props) {
         )}
         onKeyPress={(e) => {
           if (e.key === "Enter") {
-            navigate(
-              "/search/" + encodeURIComponent(searchTerm) + props.getUrl()
-            );
+            window.location.href =
+              "/search/" + encodeURIComponent(searchTerm) + props.getUrl();
           }
         }}
         onInputChange={(_event, newValue) => {

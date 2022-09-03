@@ -140,6 +140,7 @@ export default function CardPreview(props) {
     x = x
       .substring(x.lastIndexOf("/") + 1)
       .replaceAll("%20", " ")
+      .replaceAll("%2520", " ")
       .replaceAll("-", " ");
     x = x.substring(0, x.lastIndexOf("doc") - 1);
 
@@ -160,6 +161,9 @@ export default function CardPreview(props) {
         break;
       case "pf":
         setDtype("PF");
+        break;
+      case "collegeld":
+        setDtype("NFA LD");
         break;
       default:
         break;
