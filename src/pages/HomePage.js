@@ -31,7 +31,7 @@ class HomePage extends Component {
       college: false,
       openev: false,
       pf: false,
-      collegeld:false
+      collegeld: false,
     },
   };
 
@@ -84,9 +84,9 @@ class HomePage extends Component {
     if (this.state.dtypes.openev === true) {
       dtypes = dtypes + "openev,";
     }
-        if (this.state.dtypes.collegeld === true) {
-          dtypes = dtypes + "collegeld,";
-        }
+    if (this.state.dtypes.collegeld === true) {
+      dtypes = dtypes + "collegeld,";
+    }
 
     if (dtypes.length > 0)
       url = url + "&dtype=" + dtypes.substring(0, dtypes.length - 1);
@@ -263,9 +263,7 @@ class HomePage extends Component {
           <a href="https://github.com/densumesh/debatev-frontend">
             Debate Evidence
           </a>{" "}
-          {window.innerWidth >= 760
-            ? "| Dens Sumesh, Akaash Kolluri, Rohan Agrawal | "
-            : " | "}
+          {window.innerWidth >= 760 ? "| Dens Sumesh | " : " | "}
           <a href="https://forms.gle/Vh6mBK2EKBmSQg3f8">Report a bug</a> |{" "}
           <a href="https://www.buymeacoffee.com/debateV">Support DebatEV</a>
         </div>
