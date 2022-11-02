@@ -263,7 +263,7 @@ class HomePage extends Component {
           <a href="https://github.com/densumesh/debatev-frontend">
             Debate Evidence
           </a>{" "}
-          {window.innerWidth >= 760 ? "| Dens Sumesh | " : " | "}
+          {window.innerWidth >= 760 ? "| Dens Sumesh, Akash Kolluri | " : " | "}
           <a href="https://forms.gle/Vh6mBK2EKBmSQg3f8">Report a bug</a> |{" "}
           <a href="https://www.buymeacoffee.com/debateV">Support DebatEV</a>
         </div>
