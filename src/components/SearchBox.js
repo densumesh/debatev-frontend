@@ -26,8 +26,8 @@ export default function SearchBox(props) {
       "https://api.debatev.com/api/v1/autocomplete?q=" + text + props.getUrl()
     ).then((res) => res.json());
 
-    let array = Object.keys(result).map(function (k) {
-      let str = result[k][1].toString();
+    let array = result.map((k) => {
+      let str = k["source"].toString();
       return str.replace(/(<([^>]+)>)/gi, "");
     });
     setAutocomplete(array);
@@ -64,7 +64,7 @@ export default function SearchBox(props) {
               value={decodeURIComponent(ogSearch.split("&")[0])}
               y="basic-addon2"
               style={{ borderRightWidth: 0 }}
-              onKeyPress={(e) => {
+              onKeyDown={(e) => {
                 if (e.key === "Enter") {
                   window.location.href =
                     "/search/" +
@@ -76,7 +76,7 @@ export default function SearchBox(props) {
             />
           </div>
         )}
-        onKeyPress={(e) => {
+        onKeyDown={(e) => {
           if (e.key === "Enter") {
             window.location.href =
               "/search/" + encodeURIComponent(searchTerm) + props.getUrl();
