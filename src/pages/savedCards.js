@@ -58,11 +58,8 @@ class SavedCards extends Component {
         let url = "https://api.debatev.com/api/v1/saved?q=" + m;
 
         this.getData(url).then((data) => {
-          let object = data;
-          let array = Object.keys(object).map(function (k) {
-            return object[k];
-          });
-          this.setState({ cards: array });
+
+          this.setState({ cards: data });
           this.setState({ isLoading: 0 });
         });
         this.setState({ saved: m });
@@ -77,11 +74,8 @@ class SavedCards extends Component {
           let url = "https://api.debatev.com/api/v1/saved?q=" + m;
 
           this.getData(url).then((data) => {
-            let object = data;
-            let array = Object.keys(object).map(function (k) {
-              return object[k];
-            });
-            this.setState({ cards: array });
+
+            this.setState({ cards: data });
             this.setState({ isLoading: 0 });
           });
         } else {
@@ -96,11 +90,8 @@ class SavedCards extends Component {
         let url = "https://api.debatev.com/api/v1/saved?q=" + m;
 
         this.getData(url).then((data) => {
-          let object = data;
-          let array = Object.keys(object).map(function (k) {
-            return object[k];
-          });
-          this.setState({ cards: array });
+
+          this.setState({ cards: data });
           this.setState({ isLoading: 0 });
         });
       } else {

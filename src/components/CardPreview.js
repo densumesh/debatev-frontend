@@ -42,7 +42,7 @@ export default function CardPreview(props) {
       if (window.location.href === window.location.origin + "/saved") {
         setSaved(true);
       } else {
-        setSaved(savedCards?.split(",").includes(props.cardData[0]));
+        setSaved(savedCards?.split(",").includes(props.cardData["id"]));
       }
     } else {
       setSavedCards(localStorage.getItem("saved"));
@@ -50,7 +50,10 @@ export default function CardPreview(props) {
         setSaved(true);
       } else {
         setSaved(
-          localStorage.getItem("saved")?.split(",").includes(props.cardData[0])
+          localStorage
+            .getItem("saved")
+            ?.split(",")
+            .includes(props.cardData["id"])
         );
       }
     }
@@ -58,22 +61,26 @@ export default function CardPreview(props) {
   function convertToNewUrl(url) {
     if (url.slice(8).split(".")[0] !== "api") {
       let dtype = url.slice(8).split(".")[0];
-      if (props.cardData[1].year <= 2022 && props.cardData[1].year > 2019) {
+      if (
+        props.cardData["source"].year <= 2022 &&
+        props.cardData["source"].year > 2019
+      ) {
         if (dtype === "opencaselist") {
-          if (parseInt(props.cardData[1].year) === 2022) {
-            dtype = "ndtceda" + String(props.cardData[1].year - 1).slice(-2);
+          if (parseInt(props.cardData["source"].year) === 2022) {
+            dtype =
+              "ndtceda" + String(props.cardData["source"].year - 1).slice(-2);
           } else {
-            dtype = "ndtceda" + props.cardData[1].year.slice(-2);
+            dtype = "ndtceda" + props.cardData["source"].year.slice(-2);
           }
         } else {
-          if (parseInt(props.cardData[1].year) === 2022) {
-            dtype = dtype + String(props.cardData[1].year - 1).slice(-2);
+          if (parseInt(props.cardData["source"].year) === 2022) {
+            dtype = dtype + String(props.cardData["source"].year - 1).slice(-2);
           } else {
-            dtype = dtype + props.cardData[1].year.slice(-2);
+            dtype = dtype + props.cardData["source"].year.slice(-2);
           }
         }
       } else {
-        if (parseInt(props.cardData[1].year) !== 2022) {
+        if (parseInt(props.cardData["source"].year) !== 2022) {
           if (dtype.slice(0, -2) === "opencaselist") {
             dtype = "ndtceda" + dtype.slice(-2);
           }
@@ -123,7 +130,7 @@ export default function CardPreview(props) {
     let destination =
       location === "imfeelinglucky" || location === "saved"
         ? "/" + location
-        : "/search/" + props.cardData[0];
+        : "/search/" + props.cardData["id"];
     setSearchTerm(window.location.href);
     logEvent(analytics, "card_click", {
       card_url: "https://www.debatev.com" + destination,
@@ -136,7 +143,7 @@ export default function CardPreview(props) {
     navigate(-1);
   }
   useEffect(() => {
-    let x = props.cardData[1].filepath;
+    let x = props.cardData["source"].filepath;
     x = x
       .substring(x.lastIndexOf("/") + 1)
       .replaceAll("%20", " ")
@@ -146,7 +153,7 @@ export default function CardPreview(props) {
 
     setCardName(x);
 
-    switch (props.cardData[2].replace("dtype: ", "")) {
+    switch (props.cardData["dtype"]) {
       case "college":
         setDtype("College Policy");
         break;
@@ -223,7 +230,7 @@ export default function CardPreview(props) {
             maxHeight: 297,
           }}
           dangerouslySetInnerHTML={{
-            __html: props.cardData[1].cardHtml,
+            __html: props.cardData["source"].cardHtml,
           }}
           onClick={() => openModal()}
         />
@@ -253,9 +260,9 @@ export default function CardPreview(props) {
                   fontSize: 18,
                 }}
                 onClick={() => {
-                  console.log(props.cardData[1].filepath);
+                  console.log(props.cardData["source"].filepath);
                   window.location.href = convertToNewUrl(
-                    props.cardData[1].filepath
+                    props.cardData["source"].filepath
                   );
                 }}
               >
@@ -271,10 +278,14 @@ export default function CardPreview(props) {
             onMouseLeave={() => setOpen(false)}
             show={open}
           >
-            <Dropdown.Item>{"Year: " + props.cardData[1].year}</Dropdown.Item>
+            <Dropdown.Item>
+              {"Year: " + props.cardData["source"].year}
+            </Dropdown.Item>
             <Dropdown.Item>{"From: " + dtype}</Dropdown.Item>
             <Tooltip title="You have to be logged into the wiki to download cards">
-              <Dropdown.Item href={convertToNewUrl(props.cardData[1].filepath)}>
+              <Dropdown.Item
+                href={convertToNewUrl(props.cardData["source"].filepath)}
+              >
                 Download Case
               </Dropdown.Item>
             </Tooltip>
@@ -283,7 +294,7 @@ export default function CardPreview(props) {
         <Modal.Body>
           <div
             dangerouslySetInnerHTML={{
-              __html: props.cardData[1].cardHtml,
+              __html: props.cardData["source"].cardHtml,
             }}
           />
         </Modal.Body>
@@ -300,7 +311,7 @@ export default function CardPreview(props) {
             onClick={() => {
               window.location.href =
                 "https://api.debatev.com/api/v1/download?q=" +
-                props.cardData[0];
+                props.cardData["id"];
             }}
           >
             <Download /> Download
@@ -313,7 +324,7 @@ export default function CardPreview(props) {
                 width: "100px",
               }}
               onClick={() => {
-                unsaveCard(props.cardData[0]);
+                unsaveCard(props.cardData["id"]);
               }}
             >
               Unsave
@@ -327,7 +338,7 @@ export default function CardPreview(props) {
                 width: "100px",
               }}
               onClick={() => {
-                saveCard(props.cardData[0]);
+                saveCard(props.cardData["id"]);
               }}
             >
               Save

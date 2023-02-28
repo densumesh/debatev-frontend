@@ -26,8 +26,8 @@ export default function SearchBox(props) {
       "https://api.debatev.com/api/v1/autocomplete?q=" + text + props.getUrl()
     ).then((res) => res.json());
 
-    let array = Object.keys(result).map(function (k) {
-      let str = result[k][1].toString();
+    let array = result.map((k) => {
+      let str = k["source"].toString();
       return str.replace(/(<([^>]+)>)/gi, "");
     });
     setAutocomplete(array);

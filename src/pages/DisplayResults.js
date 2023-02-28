@@ -221,9 +221,7 @@ class DisplayResults extends Component {
         return data;
       })
       .then((data) => {
-        let cardArray = Object.keys(data).map(function (k) {
-          return data[k];
-        });
+        let cardArray = data
         let total = cardArray.slice(-1)[0];
         cardArray.pop();
         return { total: total, cards: cardArray };

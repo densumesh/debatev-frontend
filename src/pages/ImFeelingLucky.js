@@ -17,12 +17,7 @@ class ImFeelingLucky extends Component {
     let url = "https://api.debatev.com/api/v1/cards/imfeelinglucky";
     document.addEventListener("keydown", this.escFunction, false);
     this.getData(url).then((data) => {
-      let object = data;
-      let array = Object.keys(object).map(function (k) {
-        return object[k];
-      });
-
-      this.setState({ cards: array });
+      this.setState({ cards: data });
       this.setState({ isLoading: 0 });
     });
   };
@@ -33,12 +28,7 @@ class ImFeelingLucky extends Component {
     let url = "https://api.debatev.com/api/v1/cards/imfeelinglucky";
 
     this.getData(url).then((data) => {
-      let object = data;
-      let array = Object.keys(object).map(function (k) {
-        return object[k];
-      });
-
-      this.setState({ cards: array });
+      this.setState({ cards: data });
     });
   };
 
