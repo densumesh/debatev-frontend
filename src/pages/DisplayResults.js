@@ -182,7 +182,6 @@ class DisplayResults extends Component {
       this.setState({
         cards: data.cards,
       });
-      console.log(data);
       this.setState({ isLoading: false });
     });
   };
@@ -222,7 +221,9 @@ class DisplayResults extends Component {
         return data;
       })
       .then((data) => {
-        let cardArray = data;
+        let cardArray = Object.keys(data).map(function (k) {
+          return data[k];
+        });
         let total = cardArray.slice(-1)[0];
         cardArray.pop();
         return { total: total, cards: cardArray };
@@ -443,7 +444,7 @@ class DisplayResults extends Component {
               }
             >
               {this.state.cards.map((card) => {
-                if (card["source"].tag.length < 700) {
+                if (card[1].tag.length < 700) {
                   return <CardPreview key={card[0]} cardData={card} />;
                 }
                 return null;
