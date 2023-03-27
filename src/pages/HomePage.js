@@ -24,6 +24,7 @@ class HomePage extends Component {
       a20: false,
       a21: false,
       a22: false,
+      a23: false,
     },
     dtypes: {
       hspolicy: false,
@@ -64,6 +65,9 @@ class HomePage extends Component {
     }
     if (this.state.years.a22 === true) {
       years = years + "2022,";
+    }
+    if (this.state.years.a23 === true) {
+      years = years + "2023,";
     }
 
     if (years.length > 0)

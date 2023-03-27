@@ -35,6 +35,7 @@ class DisplayResults extends Component {
       a20: false,
       a21: false,
       a22: false,
+      a23: false,
     },
     dtypes: {
       hspolicy: false,
@@ -78,6 +79,9 @@ class DisplayResults extends Component {
     }
     if (this.state.years.a22) {
       years = years + "2022,";
+    }
+    if (this.state.years.a23) {
+      years = years + "2023,";
     }
 
     if (years.length > 0)

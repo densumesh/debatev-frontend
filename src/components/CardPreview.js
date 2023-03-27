@@ -58,6 +58,108 @@ export default function CardPreview(props) {
       }
     }
   }, []);
+
+  function getWikiPage(url) {
+    if (url.slice(8).split(".")[0] !== "api") {
+      let dtype = url.slice(8).split(".")[0];
+      if (
+        props.cardData["source"].year <= 2022 &&
+        props.cardData["source"].year > 2019
+      ) {
+        if (dtype === "opencaselist") {
+          if (parseInt(props.cardData["source"].year) === 2022) {
+            dtype =
+              "ndtceda" + String(props.cardData["source"].year - 1).slice(-2);
+          } else {
+            dtype = "ndtceda" + props.cardData["source"].year.slice(-2);
+          }
+        } else {
+          if (parseInt(props.cardData["source"].year) === 2022) {
+            dtype = dtype + String(props.cardData["source"].year - 1).slice(-2);
+          } else {
+            dtype = dtype + props.cardData["source"].year.slice(-2);
+          }
+        }
+      } else {
+        if (parseInt(props.cardData["source"].year) !== 2022) {
+          if (dtype.slice(0, -2) === "opencaselist") {
+            dtype = "ndtceda" + dtype.slice(-2);
+          }
+        } else {
+          if (dtype === "opencaselist") {
+            dtype = "ndtceda";
+          }
+        }
+      }
+      const school = url.split("/")[4].replaceAll("%20", "");
+      let debater = url.split("/")[5];
+      if (debater.lastIndexOf("-") > 0) {
+        debater =
+          debater.slice(0, 2) +
+          debater.slice(
+            debater.lastIndexOf("-") + 1,
+            debater.lastIndexOf("-") + 3
+          );
+      } else {
+        debater = "";
+      }
+      debater = debater.replace("%", "");
+
+      let round = "";
+      if (dtype.includes("hsld") || dtype.includes("openev")) {
+        round = "";
+      } else {
+        round = url.split("/")[6].split("?")[0];
+        if (round.lastIndexOf("Aff") > 0) {
+          round = "Aff";
+        } else {
+          round = "Neg";
+        }
+      }
+
+      return (
+        "https://opencaselist.com/" +
+        dtype +
+        "/" +
+        school +
+        "/" +
+        debater +
+        "/" +
+        round
+      );
+    } else {
+      let baseURL = url.split("=")[1];
+      console.log(baseURL);
+      let dtype = baseURL.split("/")[0];
+      let school = baseURL.split("/")[1];
+      let debater = "";
+      if (dtype !== "openev") {
+        debater = baseURL.split("/")[2];
+      }
+      let round = "";
+      if (dtype.includes("hsld") || dtype.includes("openev")) {
+        round = "";
+      } else {
+        round = baseURL.split("/")[3];
+        if (round.lastIndexOf("Aff") > 0) {
+          round = "Aff";
+        } else {
+          round = "Neg";
+        }
+      }
+      return (
+        "https://opencaselist.com/" +
+        dtype +
+        "/" +
+        school +
+        "/" +
+        debater +
+        "/" +
+        round
+      );
+    }
+  }
+
   function convertToNewUrl(url) {
     if (url.slice(8).split(".")[0] !== "api") {
       let dtype = url.slice(8).split(".")[0];
@@ -90,7 +192,7 @@ export default function CardPreview(props) {
           }
         }
       }
-      const school = url.split("/")[4].replace("%20", "");
+      const school = url.split("/")[4].replaceAll("%20", "");
       let debater = url.split("/")[5];
       if (debater.lastIndexOf("-") > 0) {
         debater =
@@ -102,11 +204,13 @@ export default function CardPreview(props) {
       } else if (dtype !== "openev") {
         debater = debater.slice(0, 2);
       }
+      debater = debater.replace("%", "");
 
       let round = url.split("/")[6].split("?")[0];
       if (dtype !== "openev") {
         round = round.replaceAll("%20", "%2520");
       }
+
       return (
         "https://api.opencaselist.com/v1/download?path=" +
         dtype +
@@ -289,6 +393,11 @@ export default function CardPreview(props) {
                 Download Case
               </Dropdown.Item>
             </Tooltip>
+            <Dropdown.Item
+              href={getWikiPage(props.cardData["source"].filepath)}
+            >
+              Go to Wiki Page
+            </Dropdown.Item>
           </DropdownButton>
         </Modal.Header>
         <Modal.Body>

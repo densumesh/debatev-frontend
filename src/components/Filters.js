@@ -13,6 +13,7 @@ export default function Filters(props) {
     a20: false,
     a21: false,
     a22: false,
+    a23: false,
   });
 
   let [dtype, setDtype] = useState({
@@ -76,6 +77,10 @@ export default function Filters(props) {
         break;
       case "2022":
         setYears({ ...years, a22: true });
+
+        break;
+      case "2023":
+        setYears({ ...years, a23: true });
 
         break;
       case "College Policy":
@@ -149,6 +154,10 @@ export default function Filters(props) {
         setYears({ ...years, a22: false });
 
         break;
+      case "2023":
+        setYears({ ...years, a23: false });
+
+        break;
       case "College Policy":
         setDtype({ ...dtype, college: false });
 
@@ -200,6 +209,7 @@ export default function Filters(props) {
             { name: "2020", id: 7, group: "Year" },
             { name: "2021", id: 7, group: "Year" },
             { name: "2022", id: 8, group: "Year" },
+            { name: "2023", id: 8, group: "Year" },
             { name: "College Policy", id: 9, group: "Data Set" },
             { name: "High School LD", id: 10, group: "Data Set" },
             { name: "High School Policy", id: 11, group: "Data Set" },
