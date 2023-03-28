@@ -2,189 +2,152 @@
 import { Multiselect } from "multiselect-react-dropdown";
 import React, { useEffect, useState } from "react";
 
-export default function Filters(props) {
-  let [years, setYears] = useState({
-    a14: false,
-    a15: false,
-    a16: false,
-    a17: false,
-    a18: false,
-    a19: false,
-    a20: false,
-    a21: false,
-    a22: false,
-    a23: false,
-  });
+var selectedList = [];
 
-  let [dtype, setDtype] = useState({
-    college: false,
-    hspolicy: false,
-    ld: false,
-    openev: false,
-    collegeld: false,
-  });
-
-  let [selectedValues] = useState(props.selectedValues);
-
-  useEffect(() => props.stateChanger(years, dtype), [years, dtype]);
-
-  useEffect(() => {
-    if (props.selectedValues !== null) {
-      for (let i = 0; i < props.selectedValues?.length; i++) {
-        onSelect(props.selectedValues, props.selectedValues[i]);
-      }
-    }
-  }, []);
-
-  function onSelect(_selectedList, selectedItem) {
-    switch (selectedItem.name) {
+export function getUrl() {
+  var years = "";
+  var dtypes = "";
+  var url = "";
+  for (let item of selectedList) {
+    switch (item.name) {
       case "2014":
-        setYears({ ...years, a14: true });
+        years += "2014,";
         break;
 
       case "2015":
-        setYears({ ...years, a15: true });
+        years += "2015,";
 
         break;
 
       case "2016":
-        setYears({ ...years, a16: true });
+        years += "2016,";
         break;
 
       case "2017":
-        setYears({ ...years, a17: true });
+        years += "2017,";
 
         break;
 
       case "2018":
-        setYears({ ...years, a18: true });
+        years += "2018,";
 
         break;
 
       case "2019":
-        setYears({ ...years, a19: true });
+        years += "2019,";
 
         break;
 
       case "2020":
-        setYears({ ...years, a20: true });
+        years += "2020,";
 
         break;
 
       case "2021":
-        setYears({ ...years, a21: true });
+        years += "2021,";
 
         break;
       case "2022":
-        setYears({ ...years, a22: true });
+        years += "2022,";
 
         break;
       case "2023":
-        setYears({ ...years, a23: true });
+        years += "2023,";
 
         break;
       case "College Policy":
-        setDtype({ ...dtype, college: true });
+        dtypes += "college,";
 
         break;
 
       case "High School LD":
-        setDtype({ ...dtype, ld: true });
+        dtypes += "ld,";
 
         break;
 
       case "High School Policy":
-        setDtype({ ...dtype, hspolicy: true });
+        dtypes += "hspolicy,";
 
         break;
 
       case "OpenEv":
-        setDtype({ ...dtype, openev: true });
+        dtypes += "openev,";
 
         break;
       case "NFA LD":
-        setDtype({ ...dtype, collegeld: true });
+        dtypes += "collegeld,";
         break;
       default:
         break;
     }
   }
+  if (years.length > 0)
+    url = url + "&year=" + years.substring(0, years.length - 1);
+  if (dtypes.length > 0)
+    url = url + "&dtype=" + dtypes.substring(0, dtypes.length - 1);
+  return url;
+}
 
-  function onRemove(_selectedList, selectedItem) {
-    switch (selectedItem.name) {
-      case "2014":
-        setYears({ ...years, a14: false });
+export default function Filters(props) {
+  let [selectedValues, setSelectedValues] = useState([]);
 
-        break;
-
-      case "2015":
-        setYears({ ...years, a15: false });
-
-        break;
-
-      case "2016":
-        setYears({ ...years, a16: false });
-
-        break;
-
-      case "2017":
-        setYears({ ...years, a17: false });
-
-        break;
-
-      case "2018":
-        setYears({ ...years, a18: false });
-
-        break;
-
-      case "2019":
-        setYears({ ...years, a19: false });
-
-        break;
-
-      case "2020":
-        setYears({ ...years, a20: false });
-
-        break;
-      case "2021":
-        setYears({ ...years, a21: false });
-
-        break;
-      case "2022":
-        setYears({ ...years, a22: false });
-
-        break;
-      case "2023":
-        setYears({ ...years, a23: false });
-
-        break;
-      case "College Policy":
-        setDtype({ ...dtype, college: false });
-
-        break;
-
-      case "High School LD":
-        setDtype({ ...dtype, ld: false });
-
-        break;
-
-      case "High School Policy":
-        setDtype({ ...dtype, hspolicy: false });
-
-        break;
-
-      case "OpenEv":
-        setDtype({ ...dtype, openev: false });
-
-        break;
-      case "NFA LD":
-        setDtype({ ...dtype, collegeld: false });
-
-        break;
-
-      default:
-        break;
+  useEffect(() => {
+    function years1(currElm) {
+      return currElm.includes("year");
     }
+    function dtypes1(currElm) {
+      return currElm.includes("dtype");
+    }
+    let params =
+      "&" +
+      window.location.href
+        .substring(window.location.href.lastIndexOf("/") + 1)
+        ?.split("&")[1] +
+      "&" +
+      window.location.href
+        .substring(window.location.href.lastIndexOf("/") + 1)
+        ?.split("&")[2];
+    if (params) {
+      let selectedValues = [];
+      if (params.substring(1).split("&").find(years1)?.substring(5).split(","))
+        for (let year1 of params
+          .substring(1)
+          .split("&")
+          .find(years1)
+          ?.substring(5)
+          .split(",")) {
+          selectedValues.push({ name: year1 });
+        }
+
+      if (params.substring(1).split("&").find(dtypes1)?.substring(6).split(","))
+        for (let dtype1 of params
+          .substring(1)
+          .split("&")
+          .find(dtypes1)
+          ?.substring(6)
+          .split(",")) {
+          if (dtype1 === "college") {
+            selectedValues.push({ name: "College Policy" });
+          } else if (dtype1 === "ld") {
+            selectedValues.push({ name: "High School LD" });
+          } else if (dtype1 === "hspolicy") {
+            selectedValues.push({ name: "High School Policy" });
+          } else if (dtype1 === "openev") {
+            selectedValues.push({ name: "OpenEv" });
+          } else if (dtype1 === "collegeld") {
+            selectedValues.push({ name: "NFA LD" });
+          }
+        }
+      setSelectedValues(selectedValues);
+    }
+  }, []);
+
+  function onSelect(selectedLists, _selectedItem) {
+    selectedList = selectedLists;
+  }
+
+  function onRemove(selectedLists, _selectedItem) {
+    selectedList = selectedLists;
   }
 
   return (
@@ -223,11 +186,7 @@ export default function Filters(props) {
           groupBy="group"
           showCheckbox={true}
           placeholder={"Advanced Filters "}
-          hidePlaceholder={
-            (!Object.keys(years).every((k) => !years[k]) &&
-              !Object.keys(dtype).every((k) => !dtype[k])) ||
-            selectedValues?.length !== 0
-          }
+          hidePlaceholder={true}
           closeOnSelect={false}
         />
       ) : null}

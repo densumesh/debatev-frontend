@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import debatevlargefinal from "../Logo/debatevlargefinal.svg";
+import { getUrl } from "../components/Filters";
 
 const LoginButton = lazy(() => import("../components/LoginButton"));
 const DarkToggle = lazy(() => import("../components/DarkModeToggle"));
@@ -11,93 +12,6 @@ const Filters = lazy(() => import("../components/Filters"));
 const SearchBox = lazy(() => import("../components/SearchBox"));
 
 class HomePage extends Component {
-  state = {
-    selectedList: null,
-    selectedValues: [],
-    years: {
-      a14: false,
-      a15: false,
-      a16: false,
-      a17: false,
-      a18: false,
-      a19: false,
-      a20: false,
-      a21: false,
-      a22: false,
-      a23: false,
-    },
-    dtypes: {
-      hspolicy: false,
-      ld: false,
-      college: false,
-      openev: false,
-      pf: false,
-      collegeld: false,
-    },
-  };
-
-  getUrl = () => {
-    let years = "";
-    let url = "";
-    if (this.state.years.a14 === true) {
-      years = years + "2014,";
-    }
-    if (this.state.years.a15 === true) {
-      years = years + "2015,";
-    }
-    if (this.state.years.a16 === true) {
-      years = years + "2016,";
-    }
-    if (this.state.years.a17 === true) {
-      years = years + "2017,";
-    }
-    if (this.state.years.a18 === true) {
-      years = years + "2018,";
-    }
-    if (this.state.years.a19 === true) {
-      years = years + "2019,";
-    }
-    if (this.state.years.a20 === true) {
-      years = years + "2020,";
-    }
-    if (this.state.years.a21 === true) {
-      years = years + "2021,";
-    }
-    if (this.state.years.a22 === true) {
-      years = years + "2022,";
-    }
-    if (this.state.years.a23 === true) {
-      years = years + "2023,";
-    }
-
-    if (years.length > 0)
-      url = url + "&year=" + years.substring(0, years.length - 1);
-
-    let dtypes = "";
-    if (this.state.dtypes.ld === true) {
-      dtypes = dtypes + "ld,";
-    }
-
-    if (this.state.dtypes.hspolicy === true) {
-      dtypes = dtypes + "hspolicy,";
-    }
-
-    if (this.state.dtypes.college === true) {
-      dtypes = dtypes + "college,";
-    }
-    if (this.state.dtypes.openev === true) {
-      dtypes = dtypes + "openev,";
-    }
-    if (this.state.dtypes.collegeld === true) {
-      dtypes = dtypes + "collegeld,";
-    }
-
-    if (dtypes.length > 0)
-      url = url + "&dtype=" + dtypes.substring(0, dtypes.length - 1);
-
-    return url;
-  };
-
   constructor(props) {
     super(props);
     this.search = React.createRef();
@@ -117,11 +31,6 @@ class HomePage extends Component {
     } else {
       document.documentElement.classList.remove("dark");
     }
-  };
-
-  setFilters = (year, dtype) => {
-    this.setState({ years: year });
-    this.setState({ dtypes: dtype });
   };
 
   render() {
@@ -215,7 +124,7 @@ class HomePage extends Component {
               width: "50%",
             }}
           >
-            <SearchBox getUrl={this.getUrl} />
+            <SearchBox getUrl={getUrl} />
             <div style={{ width: "9%", color: "#32a852" }} />
             <Card
               style={{
@@ -228,10 +137,7 @@ class HomePage extends Component {
                 marginTop: -2,
               }}
             >
-              <Filters
-                stateChanger={this.setFilters}
-                selectedValues={this.state.selectedValues}
-              />
+              <Filters />
               <div style={{ width: "9%", color: "#32a852" }} />
               <Link to="/imfeelinglucky">
                 <Button

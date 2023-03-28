@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import debatevsquarefinal from "../Logo/debatevsquarefinal.svg";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import Dropdown from "react-bootstrap/Dropdown";
+import { getUrl } from "../components/Filters";
 
 const ScrollToTop = lazy(() => import("../components/scrollToTop"));
 const Filters = lazy(() => import("../components/Filters"));
@@ -25,145 +26,12 @@ class DisplayResults extends Component {
     isLoading: true,
     amt: "20",
     total: 0,
-    years: {
-      a14: false,
-      a15: false,
-      a16: false,
-      a17: false,
-      a18: false,
-      a19: false,
-      a20: false,
-      a21: false,
-      a22: false,
-      a23: false,
-    },
-    dtypes: {
-      hspolicy: false,
-      ld: false,
-      college: false,
-      openev: false,
-      collegeld: false,
-    },
     error: "",
-  };
-  setFilters = (year, dtype) => {
-    this.setState({ years: year });
-    this.setState({ dtypes: dtype });
-  };
-  getUrl = () => {
-    let years = "";
-    let url = "";
-    if (this.state.years.a14) {
-      years = years + "2014,";
-    }
-    if (this.state.years.a15) {
-      years = years + "2015,";
-    }
-    if (this.state.years.a16) {
-      years = years + "2016,";
-    }
-    if (this.state.years.a17) {
-      years = years + "2017,";
-    }
-    if (this.state.years.a18) {
-      years = years + "2018,";
-    }
-    if (this.state.years.a19) {
-      years = years + "2019,";
-    }
-    if (this.state.years.a20) {
-      years = years + "2020,";
-    }
-    if (this.state.years.a21) {
-      years = years + "2021,";
-    }
-    if (this.state.years.a22) {
-      years = years + "2022,";
-    }
-    if (this.state.years.a23) {
-      years = years + "2023,";
-    }
-
-    if (years.length > 0)
-      url = url + "&year=" + years.substring(0, years.length - 1);
-
-    let dtypes = "";
-    if (this.state.dtypes.ld) {
-      dtypes = dtypes + "ld,";
-    }
-
-    if (this.state.dtypes.hspolicy) {
-      dtypes = dtypes + "hspolicy,";
-    }
-
-    if (this.state.dtypes.college) {
-      dtypes = dtypes + "college,";
-    }
-    if (this.state.dtypes.openev) {
-      dtypes = dtypes + "openev,";
-    }
-    if (this.state.dtypes.collegeld) {
-      dtypes = dtypes + "collegeld,";
-    }
-
-    if (dtypes.length > 0)
-      url = url + "&dtype=" + dtypes.substring(0, dtypes.length - 1);
-
-    return url;
   };
 
   constructor(props) {
     super(props);
     this.search = React.createRef();
-    function years1(currElm) {
-      return currElm.includes("year");
-    }
-    function dtypes1(currElm) {
-      return currElm.includes("dtype");
-    }
-    let params =
-      "&" +
-      window.location.href
-        .substring(window.location.href.lastIndexOf("/") + 1)
-        ?.split("&")[1] +
-      "&" +
-      window.location.href
-        .substring(window.location.href.lastIndexOf("/") + 1)
-        ?.split("&")[2];
-    if (params) {
-      let selectedValues = [];
-      if (params.substring(1).split("&").find(years1)?.substring(5).split(","))
-        for (let year1 of params
-          .substring(1)
-          .split("&")
-          .find(years1)
-          ?.substring(5)
-          .split(",")) {
-          selectedValues.push({ name: year1 });
-        }
-
-      if (params.substring(1).split("&").find(dtypes1)?.substring(6).split(","))
-        for (let dtype1 of params
-          .substring(1)
-          .split("&")
-          .find(dtypes1)
-          ?.substring(6)
-          .split(",")) {
-          if (dtype1 === "college") {
-            selectedValues.push({ name: "College Policy" });
-          } else if (dtype1 === "ld") {
-            selectedValues.push({ name: "High School LD" });
-          } else if (dtype1 === "hspolicy") {
-            selectedValues.push({ name: "High School Policy" });
-          } else if (dtype1 === "openev") {
-            selectedValues.push({ name: "OpenEv" });
-          } else if (dtype1 === "collegeld") {
-            selectedValues.push({ name: "NFA LD" });
-          }
-        }
-      console.log(selectedValues);
-      this.state.selectedValues = selectedValues;
-    }
   }
 
   componentDidMount = () => {
@@ -316,7 +184,7 @@ class DisplayResults extends Component {
               marginLeft: 140,
             }}
           >
-            <SearchBox getUrl={this.getUrl} />
+            <SearchBox getUrl={getUrl} />
             <Card
               style={{
                 flex: 1,
@@ -329,11 +197,7 @@ class DisplayResults extends Component {
                 marginBottom: 5,
               }}
             >
-              <Filters
-                stateChanger={this.setFilters}
-                selectedValues={this.state.selectedValues}
-              />{" "}
-              <div style={{ width: "9%", color: "#32a852" }} />
+              <Filters /> <div style={{ width: "9%", color: "#32a852" }} />
               <Link to="/imfeelinglucky">
                 <Button
                   variant="outline-primary"
