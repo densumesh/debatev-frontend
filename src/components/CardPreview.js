@@ -394,7 +394,12 @@ export default function CardPreview(props) {
               </Dropdown.Item>
             </Tooltip>
             <Dropdown.Item
-              href={getWikiPage(props.cardData["source"].filepath)}
+              onClick={() => {
+                window.open(
+                  getWikiPage(props.cardData["source"].filepath),
+                  "_blank"
+                );
+              }}
             >
               Go to Wiki Page
             </Dropdown.Item>
