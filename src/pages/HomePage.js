@@ -3,9 +3,10 @@ import React, { Component, lazy } from "react";
 import { Link } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
+import InputGroup from "react-bootstrap/InputGroup";
 import debatevlargefinal from "../Logo/debatevlargefinal.svg";
 import { getUrl } from "../components/Filters";
-
+import { X } from "react-bootstrap-icons";
 const LoginButton = lazy(() => import("../components/LoginButton"));
 const DarkToggle = lazy(() => import("../components/DarkModeToggle"));
 const Filters = lazy(() => import("../components/Filters"));
@@ -21,6 +22,9 @@ class HomePage extends Component {
       sessionStorage.setItem("filters", "");
     }
   }
+  state = {
+    banner: true,
+  };
 
   componentDidMount = () => {
     if (JSON.parse(localStorage.getItem("isDark")) === undefined) {
@@ -42,8 +46,39 @@ class HomePage extends Component {
             borderWidth: 0,
             alignItems: "center",
           }}
-          className="home-page-header"
-        >
+          className="home-page-header">
+          {window.innerWidth >= 760 && this.state.banner ? (
+            <InputGroup
+              className="mb-3"
+              style={{ flex: 1, borderRadius: "30" }}>
+              <Card
+                style={{
+                  margin: 0,
+                  position: "relative",
+                  flexGrow: true,
+                  width: "100%",
+                  color: "blue",
+                  backgroundColor: "yellow",
+                  allignItems: "center",
+                  justifyContent: "center",
+                  textAlign: "center",
+                  fontSize: 20,
+                  flex: 1,
+                  backgroundImage:
+                    "linear-gradient(59deg, #A33EB5 0%, #00DDE7 100%)",
+                }}>
+                <div style={{ color: "white" }}>
+                  Check out{" "}
+                  <a
+                    style={{ color: "rgb(211,255,25)" }}
+                    href="https://vault.arguflow.ai">
+                    Vault
+                  </a>
+                  , Arguflow's new debate search platform{" "}
+                </div>
+              </Card>
+            </InputGroup>
+          ) : null}
           <Button
             onClick={() => (window.location.href = "/saved")}
             style={
@@ -54,9 +89,10 @@ class HomePage extends Component {
                     color: "#FFF",
                     borderWidth: 0,
                     position: "absolute",
-                    top: 5,
+                    top: 45,
                     right: 130,
                     marginRight: 10,
+                    zIndex: 100,
                   }
                 : {
                     backgroundColor: "#1C86EE",
@@ -64,11 +100,11 @@ class HomePage extends Component {
                     color: "#FFF",
                     borderWidth: 0,
                     position: "absolute",
-                    top: 5,
+                    top: 45,
                     marginRight: 10,
+                    zIndex: 100,
                   }
-            }
-          >
+            }>
             Saved Cards
           </Button>
           {window.innerWidth >= 760 ? <DarkToggle /> : null}
@@ -80,11 +116,11 @@ class HomePage extends Component {
               color: "#FFF",
               borderWidth: 0,
               position: "absolute",
-              top: 5,
+              top: 45,
               left: "1%",
               marginRight: 10,
-            }}
-          ></LoginButton>
+              zIndex: 100,
+            }}></LoginButton>
         </Card>
 
         <Card style={{ alignItems: "center" }}>
@@ -114,16 +150,14 @@ class HomePage extends Component {
             justifyContent: "center",
             flexGrow: true,
             borderWidth: 0,
-          }}
-        >
+          }}>
           <div style={{ width: "25%" }} />
           <div
             style={{
               alignItems: "center",
               justifyContent: "center",
               width: "50%",
-            }}
-          >
+            }}>
             <SearchBox getUrl={getUrl} />
             <div style={{ width: "9%", color: "#32a852" }} />
             <Card
@@ -135,8 +169,7 @@ class HomePage extends Component {
                 borderWidth: 0,
                 flexDirection: "row",
                 marginTop: -2,
-              }}
-            >
+              }}>
               <Filters />
               <div style={{ width: "9%", color: "#32a852" }} />
               <Link to="/imfeelinglucky">
@@ -148,8 +181,7 @@ class HomePage extends Component {
                     color: "#001040",
                     marginRight: "auto",
                     marginLeft: "20",
-                  }}
-                >
+                  }}>
                   {" "}
                   I'm Feeling Lucky{" "}
                 </Button>
@@ -168,11 +200,8 @@ class HomePage extends Component {
             verticalAlign: "middle",
             lineHeight: 3.5,
           }}
-          className="home-page-footer"
-        >
-          <a href="https://github.com/densumesh/debatev-frontend">
-            Debate Evidence
-          </a>{" "}
+          className="home-page-footer">
+          <a href="https://github.com/densumesh/debatev-frontend">Github</a>{" "}
           {window.innerWidth >= 760
             ? "| Dens Sumesh, Akaash Kolluri, Rohan Agrawal | "
             : " | "}

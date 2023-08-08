@@ -3,7 +3,7 @@ import React, { useState } from "react";
 
 export default function DarkToggle() {
   let [buttonText, setButtonText] = useState(
-    JSON.parse(localStorage.getItem("isDark")) ? "Light Theme" : "Dark Theme"
+    JSON.parse(localStorage.getItem("isDark")) ? "Light Theme" : "Dark Theme",
   );
   function DarkToggle(event) {
     const DARK_CLASS = "dark";
@@ -29,15 +29,15 @@ export default function DarkToggle() {
         color: "#FFF",
         borderWidth: 0,
         position: "absolute",
-        top: 5,
+        top: 45,
         right: "1%",
         marginTop: "5px",
+        zIndex: 100,
       }}
       onClick={(_e) => {
         DarkToggle(!JSON.parse(localStorage.getItem("isDark")));
         ButtonTextChange();
-      }}
-    >
+      }}>
       {buttonText}
     </Button>
   );
