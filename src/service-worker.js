@@ -15,7 +15,6 @@ import { StaleWhileRevalidate } from "workbox-strategies";
 import { unregister } from "./serviceWorkerRegistration";
 
 clientsClaim();
-unregister();
 registerRoute(
   // Add in any other file extensions or routing criteria as needed.
   ({ url }) =>
